@@ -22,7 +22,7 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 	private void createFrame (JFrame main_frame){ // method to create the actual window with the specified dimensions
 		main_frame.setResizable(false); // disables the ability to maximize or change the dimensions of the window
 		main_frame.setLocation(screen_width/4, screen_height/6); // sets the location to 1/4 the width of the screen and 1/6 the height to center the window
-		main_frame.setSize (screen_width/2 , (int) (screen_height/1.5)); // sets the size of the window
+		main_frame.setSize (800 , 700); // sets the size of the window
 	}
 	
 	public static void main(String [] args){ // calls all methods to create the JFrame
