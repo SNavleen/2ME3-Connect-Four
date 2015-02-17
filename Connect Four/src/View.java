@@ -1,13 +1,15 @@
 // COMP SCI 2ME3 
 // Assignment 1
+// Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Navleen Signh ()
 // Katrine Ratchitsky ()
 // Hassaan Malik ()
 // Trevor Rae ()
 
 import java.awt.CardLayout; // jave imports for creating panels in a JFrame
 import java.awt.Color;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -24,20 +26,27 @@ public class View extends Model{ // View class to create everything the user see
 			end_panel = new JPanel(); // finish screen panel for once the game is over // TODO (Navleen, do we need this? Could we just display this via the game panel saying something like "You Won!" or w/e)
 	
 	void mainView (JFrame main_frame){ // main function to call all the panels in the correct order
-		//View view_call = new View(); // TODO
-		//Control control_call = new Control(); // TODO
+		//View view_call = new View(); 
+		//Control control_call = new Control(); 
 		
 		deck_panel.setLayout(card_layout = new CardLayout()); // sets the layout style of our window to Java's "Card Layout"
 		contentpane_panel = (JPanel) main_frame.getContentPane(); // shows the first card (pane)
 		titleScreen(); // call the title screen panel to display // TODO (is this temporary just for testing? or are we going to call the title screen then go from there)
+		
 		//control_call.mainControl(); // TODO
+		
+		
 		card_layout.show (deck_panel,"Deck Panel"); // shows the first panel 
 	}
+	
 	private void titleScreen (){ // panel for the title screen
-		JButton exit = new JButton("Test"); // TODO
-		title_panel.add(exit);
+		JButton exit_button = new JButton("Exit");
+		exit_button.addActionListener(new Control());
+		title_panel.add(exit_button);		
+		
 		//Control control_call = new Control();
 		//control_call.mainControl();
+		
 		title_panel.setBackground(Color.red); // sets the background colour to red
 		deck_panel.add(title_panel, "Title Panel"); // adds the panel to the deck of panels
 	}

@@ -1,7 +1,7 @@
 // COMP SCI 2ME3 
 // Assignment 1
+// Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Navleen Signh ()
 // Katrine Ratchitsky ()
 // Hassaan Malik ()
 // Trevor Rae ()

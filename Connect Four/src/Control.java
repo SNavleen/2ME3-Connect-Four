@@ -1,7 +1,7 @@
 // COMP SCI 2ME3 
 // Assignment 1
+// Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Navleen Signh ()
 // Katrine Ratchitsky ()
 // Hassaan Malik ()
 // Trevor Rae ()
@@ -12,13 +12,13 @@ import javax.swing.JButton;
 
 public class Control extends View implements ActionListener{ // the control class determines what happens when clicks a button in one of the JPanels
 
-	JButton info_button, play_button, exit_button; // creating JButtons
+/*	JButton info_button, play_button, exit_button; // creating JButtons
 	
 	void mainControl(){	
 		titleButtons();
 	}
 	
-	private void titleButtons(){
+	void titleButtons(){
 		exit_button = new JButton("Exit");
 		exit_button.addActionListener(this);
 		//exit_button.setLocation(50, 50);
@@ -29,12 +29,12 @@ public class Control extends View implements ActionListener{ // the control clas
 		
 		title_panel.add(exit_button);
 		//title_panel.validate();
-	}
+	}*/
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == "Exit"){
+		if (e.getActionCommand().equals("Exit")){
 			System.exit(0);
 		}
 	}
