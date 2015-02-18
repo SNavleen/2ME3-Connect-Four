@@ -9,11 +9,14 @@
 import java.awt.CardLayout; // jave imports for creating panels in a JFrame
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
@@ -42,8 +45,9 @@ public class View extends Model{ // View class to create everything the user see
 		gameScreen();
 		endScreen();
 		
-		titleButtons();
-		//card_layout.show (deck_panel,"Deck Panel"); // shows the first panel 
+		panelPick();
+		
+		card_layout.show (deck_panel,"Deck Panel"); // shows the first panel 
 	}
 	
 	/*public void changeFrame(String frame){
@@ -62,24 +66,36 @@ public class View extends Model{ // View class to create everything the user see
 		if (frame == "game"){}
 	}*/
 	
-	public void titleScreen () throws IOException{ // panel for the title screen
+	void panelPick(){
+		titleButtons();
+	}
+	
+	private void titleScreen () throws IOException{ // panel for the title screen
+		final BufferedImage title_backimage = ImageIO.read(new File("Images/TitleBackground.jpg"));        
+		title_panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(title_backimage, 0, 0, null);
+            }
+        };
 		title_panel.setLayout(null);
 		deck_panel.add(title_panel, "Title Panel"); // adds the panel to the deck of panels
 	}
-	public void infoScreen (){ // info panel
+	private void infoScreen (){ // info panel
 		JButton back = new JButton("Back to Main Menu");
 		info_panel.setBackground(Color.yellow); // colour is changed to yellow
 		deck_panel.add(info_panel, "Info Panel"); // adds to deck of panels
 	}
-	public void gameScreen (){ // panel for the actual game
+	private void gameScreen (){ // panel for the actual game
 		game_panel.setBackground(Color.blue);
 		deck_panel.add(game_panel, "Game Panel");
 	}
-	public void endScreen (){ // TODO see declaration
+	private void endScreen (){ // TODO see declaration
 		end_panel.setBackground(Color.green);
 		deck_panel.add(end_panel, "End Panel");
 	}
-	public void titleButtons(){
+	void titleButtons(){
 		
 		JButton start_game = new JButton("Start Game"), 
 				instructions = new JButton("Instructions"), 
