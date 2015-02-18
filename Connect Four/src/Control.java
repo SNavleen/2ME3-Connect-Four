@@ -34,9 +34,16 @@ public class Control extends View implements ActionListener{ // the control clas
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Exit")){
-			System.exit(0);
+		if (e.getActionCommand().equals("Start Game")){  } // TODO
+		if (e.getActionCommand().equals("Instructions")){ 
+			card_layout.show (info_panel,"Info Panel");
+			}
+		if (e.getActionCommand().equals("Exit")){ System.exit(0); }
+		if (e.getActionCommand().equals("Back to Main Menu")){ 
+			//titleScreen();
+			//card_layout.show (deck_panel,"Deck Panel");
 		}
+		
 	}
 	
 }
