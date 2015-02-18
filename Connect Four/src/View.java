@@ -78,12 +78,12 @@ public class View extends Model{ // View class to create everything the user see
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
 	void gameScreen () throws IOException{ // panel for the actual game
-		final BufferedImage image = ImageIO.read(new File("Images/Board.png"));        
+		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));        
 		JPanel game_panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth() - 200, getHeight(), null);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             }
         };
 		game_panel.setLayout(null);

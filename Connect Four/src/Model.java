@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Model extends Disk { // Model class that sets up the JFrame as a window to play connect four in
@@ -23,6 +24,8 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 	
 	static CardLayout card_layout  = new CardLayout(); // creates a new type CardLayout to determine how the panels are shown
 	static JPanel deck_panel = new JPanel();//,  // main panel in which all other panels are displayed
+	
+	final static JFrame main_frame = new JFrame("Connect Four"); // makes a new JFrame type named "Connect Four" (This will be the name of the window)
 	
 	private int screen_width = screen.width, screen_height = screen.height; // creates ints for the width and the height
 	//int [][] coordinates = new int [7][6];
@@ -34,8 +37,7 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 	}
 	
 	public static void main(String [] args) throws IOException{ // calls all methods to create the JFrame
-		JFrame main_frame = new JFrame("Connect Four"); // makes a new JFrame type named "Connect Four" (This will be the name of the window)
-		
+
 		Model model_call = new Model(); // allows model to be called in main (static function) without being static
 		View view_call = new View(); // same as above 
 		//Control control_call = new Control(); // same
@@ -56,7 +58,7 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 		main_frame.setVisible(true); // shows the screen to the user		
 		main_frame.addWindowListener(new WindowAdapter(){ // checks to see if the window controls (top right) are clicked
 			public void windowClosing (WindowEvent WE){  // checks if the "X" button is pressed
-		        System.exit (0); // if so the window closes
+				System.exit (0);// if so the window closes
 		      }
 			});		
 	}
