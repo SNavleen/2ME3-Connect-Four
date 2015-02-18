@@ -6,6 +6,7 @@
 // Hassaan Malik ()
 // Trevor Rae ()
 
+import java.awt.CardLayout;
 import java.awt.Dimension; // imports for creating a JFrame
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -13,11 +14,15 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 public class Model extends Disk { // Model class that sets up the JFrame as a window to play connect four in
 	
 	private Dimension screen = Toolkit.getDefaultToolkit ().getScreenSize (); // used for finding the dimensions of the users screen
-	int width = 700, height = 600; 
+	int width = 900, height = 600; 
+	
+	static CardLayout card_layout  = new CardLayout(); // creates a new type CardLayout to determine how the panels are shown
+	static JPanel deck_panel = new JPanel();//,  // main panel in which all other panels are displayed
 	
 	private int screen_width = screen.width, screen_height = screen.height; // creates ints for the width and the height
 	//int [][] coordinates = new int [7][6];
@@ -36,9 +41,17 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 		//Control control_call = new Control(); // same
 
 		model_call.createFrame(main_frame); // creates a JFrame of the dimensions specified in createFrame
-		view_call.mainView(main_frame);	// TODO
 		
-		view_call.contentpane_panel.add(view_call.deck_panel); // TODO
+		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
+
+		view_call.endScreen();
+		view_call.gameScreen();
+		view_call.infoScreen();
+		view_call.titleScreen(); // call the title screen panel to display 
+		
+		card_layout.show (deck_panel,"TitlePanel"); // shows the first panel 
+		
+		main_frame.add(view_call.deck_panel);
 		
 		main_frame.setVisible(true); // shows the screen to the user		
 		main_frame.addWindowListener(new WindowAdapter(){ // checks to see if the window controls (top right) are clicked
