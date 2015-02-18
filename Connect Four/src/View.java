@@ -44,12 +44,12 @@ public class View extends Model{ // View class to create everything the user see
 	}*/
 	
 	void titleScreen () throws IOException{ // panel for the title screen
-		final BufferedImage title_backimage = ImageIO.read(new File("Images/TitleBackground.jpg"));        
+		final BufferedImage image = ImageIO.read(new File("Images/StartScreen.png"));        
 		JPanel title_panel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(title_backimage, 0, 0, getWidth(), getHeight(), null);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             }
         };
 		title_panel.setLayout(null);
@@ -77,9 +77,17 @@ public class View extends Model{ // View class to create everything the user see
 		info_panel.setBackground(Color.yellow); // colour is changed to yellow
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
-	void gameScreen (){ // panel for the actual game
-		JPanel game_panel = new JPanel();
-		game_panel.setBackground(Color.blue);
+	void gameScreen () throws IOException{ // panel for the actual game
+		final BufferedImage image = ImageIO.read(new File("Images/Board.png"));        
+		JPanel game_panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, getWidth() - 200, getHeight(), null);
+            }
+        };
+		game_panel.setLayout(null);
+		
 		deck_panel.add(game_panel, "GamePanel");
 	}
 	void endScreen (){ // TODO see declaration
