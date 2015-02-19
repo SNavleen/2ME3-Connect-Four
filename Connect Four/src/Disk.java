@@ -2,8 +2,8 @@
 // Assignment 1
 // Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Katrine Rachitsky ()
-// Hassaan Malik ()
+// Katrine Rachitsky (1306314)
+// Hassaan Malik (1224997)
 // Trevor Rae ()
 
 public class Disk { // ADT for each disk in the connect four board

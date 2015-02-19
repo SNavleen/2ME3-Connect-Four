@@ -1,9 +1,10 @@
 // COMP SCI 2ME3 
+
 // Assignment 1
 // Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Katrine Rachitsky ()
-// Hassaan Malik ()
+// Katrine Rachitsky (1306314)
+// Hassaan Malik (1224997)
 // Trevor Rae ()
 
 import java.awt.event.ActionEvent; // imports for user actions
@@ -18,22 +19,23 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getActionCommand().equals("Start Game")){ 
+		if (e.getActionCommand().equals("Start Game")){  // if start game is clicked, go to gamepanel
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
-		else if (e.getActionCommand().equals("Instructions")){
+		else if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
 			card_layout.show(deck_panel, "InfoPanel");
 		}
 		else if (e.getActionCommand().equals("Exit")){ 
 			int exit = JOptionPane.showConfirmDialog(main_frame, "Are you sure you want to close?", "", 0); // checks to see if the user really wants to close the window
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
-		else if (e.getActionCommand().equals("Back to Main Menu")){ 
+		else if (e.getActionCommand().equals("Main Menu")){ 
 			card_layout.show(deck_panel, "TitlePanel");
 		}	
 		else if (e.getActionCommand().equals("Resume Game")){
 
 		}
+		
 	}
 
 	@Override

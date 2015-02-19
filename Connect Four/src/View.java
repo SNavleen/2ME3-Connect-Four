@@ -1,9 +1,10 @@
 // COMP SCI 2ME3 
+
 // Assignment 1
 // Navleen Signh (1302228) // mother fucker you put your name above mine!
 // Paul Warnick (1300963)
-// Katrine Rachitsky (No)
-// Hassaan Malik ()
+// Katrine Rachitsky (1306314)
+// Hassaan Malik (1224997)
 // Trevor Rae ()
 
 /*
@@ -40,7 +41,7 @@ public class View extends Model{ // View class to create everything the user see
         };
 		title_panel.setLayout(null);
 		
-		JButton start_game = new JButton("Start Game"), 
+		JButton start_game = new JButton("Start Game"), // buttons for title screen
 				instructions_title = new JButton("Instructions"), 
 				exit_title = new JButton("Exit");
 		
@@ -48,13 +49,13 @@ public class View extends Model{ // View class to create everything the user see
 		instructions_title.addActionListener(new Control());
 		exit_title.addActionListener(new Control());
 		
-		start_game.setBounds(250, 500, 125, 40);
+		start_game.setBounds(250, 500, 125, 40); // sets where the button goes as well as the height and width
 		instructions_title.setBounds(385, 500, 125, 40);
 		exit_title.setBounds(520, 500, 125, 40);
 		
-		title_panel.add(start_game);	
+		title_panel.add(start_game);	// puts the button on the screen
 		title_panel.add(instructions_title);	
-		title_panel.add(exit_title);	
+		title_panel.add(exit_title);
 		
 		deck_panel.add(title_panel, "TitlePanel"); // adds the panel to the deck of panels
 	}
@@ -66,9 +67,9 @@ public class View extends Model{ // View class to create everything the user see
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             }
         };
-		info_panel.setLayout(null);
+		info_panel.setLayout(null); // sets up the buttons in the information panel
 		
-		JButton back_menu = new JButton("Back to Main Menu");
+		JButton back_menu = new JButton("Main Menu");
 		JButton game_resume = new JButton("Resume Game");
 		
 		back_menu.addActionListener(new Control());
@@ -82,7 +83,7 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
-	void gameScreen () throws IOException{ // panel for the actual game
+	void gameScreen () throws IOException{ // panel for the actual game screen
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
 		final BufferedImage blueimage = ImageIO.read(new File("Images/Bluedisk.png"));   
 		
@@ -94,21 +95,30 @@ public class View extends Model{ // View class to create everything the user see
         };
 		game_panel.setLayout(null);
 		
-		JButton new_game = new JButton ("New Game"),
-				exit_game = new JButton ("Exit"),
-				instructions_game = new JButton ("Instructions");
+		JButton new_game = new JButton ("New Game"), // buttons for game board
+				back_menu = new JButton("Main Menu"),
+				instructions_game = new JButton ("Instructions"),
+				player_one = new JButton("Player 1"),
+				player_two = new JButton("Player 2");
 		
 		new_game.addActionListener(new Control());
-		exit_game.addActionListener(new Control());
+		back_menu.addActionListener(new Control());
 		instructions_game.addActionListener(new Control());
-
-		new_game.setBounds(250, 500, 125, 40);
-		exit_game.setBounds(520, 500, 125, 40);
-		instructions_game.setBounds(385, 500, 125, 40);
+		//player_one.addActionListener(new Control()); add action later
+		//player_two.addActionListener(new Control());
+		
+		new_game.setBounds(740, 400, 125, 40);
+		back_menu.setBounds(740, 520, 125, 40);
+		instructions_game.setBounds(740, 460, 125, 40);
+		player_one.setBounds(740, 280, 125, 40);
+		player_two.setBounds(740, 340, 125, 40); 
+		// change it to main menu for both
 		
 		game_panel.add(new_game);
-		game_panel.add(exit_game);
+		game_panel.add(back_menu);
 		game_panel.add(instructions_game);
+		game_panel.add(player_one);
+		game_panel.add(player_two);
 		
 		game_panel.addMouseListener(new Control());
 		
