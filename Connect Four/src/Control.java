@@ -22,12 +22,10 @@ public class Control extends View implements ActionListener{ // the control clas
 			card_layout.show(deck_panel, "InfoPanel");
 		}
 		else if (e.getActionCommand().equals("Exit")){ 
-			int exit = JOptionPane.showConfirmDialog(main_frame, "Are you sure you want to close?");
+			int exit = JOptionPane.showConfirmDialog(main_frame, "Are you sure you want to close?", "", 0); // checks to see if the user really wants to close the window
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
 		else if (e.getActionCommand().equals("Back to Main Menu")){ 
-		}
-		
-	}
-	
+		}		
+	}	
 }

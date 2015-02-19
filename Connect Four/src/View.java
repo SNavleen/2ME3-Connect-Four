@@ -6,6 +6,15 @@
 // Hassaan Malik ()
 // Trevor Rae ()
 
+/*
+ * Things to Do!
+ * 
+ * 1) Kat and Trevor implement buttons for game screen (have players chose names before playing, mute button, highlight names depending on which players turn it is, exit game, main menu, instructions)
+ * 2) Implement sounds in the game (pieces dropping, ingame sound)
+ * 3) Check when there is a draw // Pop up when a player can no longer win (other player wins by default) / draw
+ * 4) 
+*/
+
 import java.awt.CardLayout; // jave imports for creating panels in a JFrame
 import java.awt.Color;
 import java.awt.FlowLayout;
