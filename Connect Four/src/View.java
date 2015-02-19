@@ -56,10 +56,25 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(title_panel, "TitlePanel"); // adds the panel to the deck of panels
 	}
-	void infoScreen (){ // info panel
-		JPanel info_panel = new JPanel();
+	void infoScreen () throws IOException{ // info panel
+		final BufferedImage image = ImageIO.read(new File("Images/Instructions.png"));        
+		JPanel info_panel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            }
+        };
+		info_panel.setLayout(null);
+		
 		JButton back = new JButton("Back to Main Menu");
-		info_panel.setBackground(Color.yellow); // colour is changed to yellow
+		
+		back.addActionListener(new Control());
+		
+		back.setBounds(900-175 , 25, 150, 40);
+		
+		info_panel.add(back);
+		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
 	void gameScreen () throws IOException{ // panel for the actual game

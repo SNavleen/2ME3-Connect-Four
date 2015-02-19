@@ -26,6 +26,7 @@ public class Control extends View implements ActionListener{ // the control clas
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
 		else if (e.getActionCommand().equals("Back to Main Menu")){ 
+			card_layout.show(deck_panel, "TitlePanel");
 		}		
 	}	
 }
