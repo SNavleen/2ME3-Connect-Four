@@ -13,6 +13,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
@@ -35,7 +37,7 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		else if (e.getActionCommand().equals("Resume Game")){
 
 		}
-		
+
 	}
 
 	@Override
@@ -64,36 +66,62 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		for (int x = 0; x <= 600;){ // runs through each column
-			for (int y = 0; y <= 500;){ // runs through each row
-				// the below if statements check to see if the location for the click is between a certain bound, if the click is in the first row or first column the bounds are slightly different ((0,0) = 100 x 96, (0,1) = 99 x 96, etc.)
-				if (y == 0){ // if the click was in the first row
-					if (x == 0){ // if the click was in the first column
-						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // checks if the click was in the first (0,0) coordinate
-							System.out.println(x/100 + " " + y/96); 
+/*		View view_call = new View();
+		//System.out.println(e.getX() + " " + e.getY());
+		try{
+			for (int x = 0; x <= 600;){ // runs through each column
+				for (int y = 0; y <= 500;){ // runs through each row
+					if (y == 0){ // if the click was in the first row
+						if (x == 0){ // if the click was in the first column
+							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
+								System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, view_call.disk);
+								main_frame.repaint();
+								main_frame.validate();
+							}
+						}
+						else{
+							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
+								System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, view_call.disk);
+								main_frame.repaint();
+								main_frame.validate();
+							}
 						}
 					}
 					else{
-						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){ // checks if the click was in the first row (x,0)
-							System.out.println(x/100 + " " + y/96);
+						if (x == 0){
+							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+								System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, view_call.disk);
+								main_frame.repaint();
+								main_frame.validate();
+							}
+						}
+						else{
+							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+								System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, view_call.disk);
+								main_frame.repaint();
+								main_frame.validate();
+							}
 						}
 					}
+					y += 96;
 				}
-				else{
-					if (x == 0){
-						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){ // checks if the click was in the first column (0,x)
-							System.out.println(x/100 + " " + y/96);
-						}
-					}
-					else{
-						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){ // checks if the click was anywhere else on the board (x!0,y!0)
-							System.out.println(x/100 + " " + y/96);
-						}
-					}
-				}
-				y += 96;
+				x += 100;
 			}
-			x += 100;
-		}
+		}catch(Exception error){
+		}	*/
+		
 	}	
+	private void blueDisk(int x, int y, JLabel [] disk) throws IOException{
+		//gameScreen();
+		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
+		disk[x].setIcon(blueimage);
+		//JLabel blueDisk = new JLabel(blueimage);
+		//blueDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
+		//game_panel.add(blueDisk);	
+		//card_layout.show(deck_panel, "GamePanel");
+	}
 }

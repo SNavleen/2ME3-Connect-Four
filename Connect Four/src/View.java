@@ -30,7 +30,8 @@ import javax.swing.JPanel;
 public class View extends Model{ // View class to create everything the user sees by using panels
 	
 	JPanel game_panel;
-	
+	JLabel [] disk = new JLabel[7];
+
 	void titleScreen () throws IOException{ // panel for the title screen
 		final BufferedImage image = ImageIO.read(new File("Images/StartScreen.png"));        
 		JPanel title_panel = new JPanel() {
@@ -83,6 +84,9 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
+	void testGame(){
+		
+	}
 	void gameScreen () throws IOException{ // panel for the actual game screen
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
 		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
@@ -91,14 +95,20 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                //g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             }
         };
 		game_panel.setLayout(null);
 		
-		JLabel blueDisk = new JLabel(blueimage);
-		blueDisk.setBounds(5, 2, 93, 93);
-		game_panel.add(blueDisk);
+		for(int i = 0; i < 7; i++){
+			disk[i] = new JLabel();
+			disk[i].setBounds(6+(100*i), 2, 93, 93);
+			game_panel.add(disk[i]);
+		}
+		
+		/*JLabel blueDisk = new JLabel(blueimage);
+		blueDisk.setBounds(6, 2, 93, 93);
+		game_panel.add(blueDisk);*/
 		
 		JButton new_game = new JButton ("New Game"), // buttons for game board
 				back_menu = new JButton("Main Menu"),
@@ -128,4 +138,11 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(game_panel, "GamePanel");
 	}
+	
+
+	/*void endScreen (){ // TODO see declaration
+		JPanel end_panel = new JPanel();
+		end_panel.setBackground(Color.green);
+		deck_panel.add(end_panel, "EndPanel");
+	}*/
 }
