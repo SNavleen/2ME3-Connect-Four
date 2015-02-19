@@ -2,7 +2,7 @@
 // Assignment 1
 // Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Katrine Ratchitsky ()
+// Katrine Rachitsky ()
 // Hassaan Malik ()
 // Trevor Rae ()
 
