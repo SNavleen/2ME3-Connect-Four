@@ -2,7 +2,7 @@
 // Assignment 1
 // Navleen Signh (1302228) // mother fucker you put your name above mine!
 // Paul Warnick (1300963)
-// Katrine Rachitsky (TEST)
+// Katrine Rachitsky (No)
 // Hassaan Malik ()
 // Trevor Rae ()
 
