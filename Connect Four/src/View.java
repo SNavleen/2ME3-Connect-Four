@@ -128,9 +128,4 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(game_panel, "GamePanel");
 	}
-	/*void endScreen (){ // TODO see declaration
-		JPanel end_panel = new JPanel();
-		end_panel.setBackground(Color.green);
-		deck_panel.add(end_panel, "EndPanel");
-	}*/
 }

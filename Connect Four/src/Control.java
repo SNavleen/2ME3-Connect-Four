@@ -64,29 +64,29 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		//System.out.println(e.getX() + " " + e.getY());
 		for (int x = 0; x <= 600;){ // runs through each column
 			for (int y = 0; y <= 500;){ // runs through each row
+				// the below if statements check to see if the location for the click is between a certain bound, if the click is in the first row or first column the bounds are slightly different ((0,0) = 100 x 96, (0,1) = 99 x 96, etc.)
 				if (y == 0){ // if the click was in the first row
 					if (x == 0){ // if the click was in the first column
-						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
-							System.out.println(x/100 + " " + y/96);
+						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // checks if the click was in the first (0,0) coordinate
+							System.out.println(x/100 + " " + y/96); 
 						}
 					}
 					else{
-						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
+						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){ // checks if the click was in the first row (x,0)
 							System.out.println(x/100 + " " + y/96);
 						}
 					}
 				}
 				else{
 					if (x == 0){
-						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){ // checks if the click was in the first column (0,x)
 							System.out.println(x/100 + " " + y/96);
 						}
 					}
 					else{
-						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){ // checks if the click was anywhere else on the board (x!0,y!0)
 							System.out.println(x/100 + " " + y/96);
 						}
 					}
