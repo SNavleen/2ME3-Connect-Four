@@ -85,7 +85,8 @@ public class View extends Model{ // View class to create everything the user see
 	}
 	void gameScreen () throws IOException{ // panel for the actual game screen
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
-		final BufferedImage blueimage = ImageIO.read(new File("Images/Bluedisk.png"));   
+		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
+		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
 		
 		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
@@ -94,6 +95,10 @@ public class View extends Model{ // View class to create everything the user see
             }
         };
 		game_panel.setLayout(null);
+		
+		JLabel blueDisk = new JLabel(blueimage);
+		blueDisk.setBounds(5, 2, 93, 93);
+		game_panel.add(blueDisk);
 		
 		JButton new_game = new JButton ("New Game"), // buttons for game board
 				back_menu = new JButton("Main Menu"),
@@ -112,7 +117,6 @@ public class View extends Model{ // View class to create everything the user see
 		instructions_game.setBounds(740, 460, 125, 40);
 		player_one.setBounds(740, 280, 125, 40);
 		player_two.setBounds(740, 340, 125, 40); 
-		// change it to main menu for both
 		
 		game_panel.add(new_game);
 		game_panel.add(back_menu);
@@ -123,13 +127,6 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.addMouseListener(new Control());
 		
 		deck_panel.add(game_panel, "GamePanel");
-	}
-	void bluePlay(int x, int y){
-		JLabel blue = new JLabel();
-		ImageIcon icon = new ImageIcon("Images/Bluepeice.png");
-		blue.setIcon(icon);
-		blue.setBounds(x, y, 100, 100);
-		game_panel.add(blue);	
 	}
 	/*void endScreen (){ // TODO see declaration
 		JPanel end_panel = new JPanel();

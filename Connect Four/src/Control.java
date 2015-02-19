@@ -64,6 +64,36 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		bluePlay(e.getX(), e.getY());
+		//System.out.println(e.getX() + " " + e.getY());
+		for (int x = 0; x <= 600;){ // runs through each column
+			for (int y = 0; y <= 500;){ // runs through each row
+				if (y == 0){ // if the click was in the first row
+					if (x == 0){ // if the click was in the first column
+						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
+							System.out.println(x/100 + " " + y/96);
+						}
+					}
+					else{
+						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
+							System.out.println(x/100 + " " + y/96);
+						}
+					}
+				}
+				else{
+					if (x == 0){
+						if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+							System.out.println(x/100 + " " + y/96);
+						}
+					}
+					else{
+						if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+							System.out.println(x/100 + " " + y/96);
+						}
+					}
+				}
+				y += 96;
+			}
+			x += 100;
+		}
 	}	
 }
