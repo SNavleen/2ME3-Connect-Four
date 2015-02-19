@@ -84,7 +84,7 @@ public class View extends Model{ // View class to create everything the user see
 	}
 	void gameScreen () throws IOException{ // panel for the actual game
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
-		final BufferedImage blueimage = ImageIO.read(new File("Images/Bluepeice.png"));   
+		final BufferedImage blueimage = ImageIO.read(new File("Images/Bluedisk.png"));   
 		
 		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
