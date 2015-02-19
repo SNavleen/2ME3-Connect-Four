@@ -1,8 +1,8 @@
 // COMP SCI 2ME3 
 // Assignment 1
-// Navleen Signh (1302228)
+// Navleen Signh (1302228) // mother fucker you put your name above mine!
 // Paul Warnick (1300963)
-// Katrine Rachitsky ()
+// Katrine Rachitsky (TEST)
 // Hassaan Malik ()
 // Trevor Rae ()
 
