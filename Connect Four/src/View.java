@@ -15,22 +15,24 @@
  * 4) 
 */
 
-// jave imports for creating panels in a JFrame
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.Graphics; // jave imports for creating panels in a JFrame
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class View extends Model{ // View class to create everything the user sees by using panels
 	
+	JPanel game_panel;
+	
 	void titleScreen () throws IOException{ // panel for the title screen
 		final BufferedImage image = ImageIO.read(new File("Images/StartScreen.png"));        
 		JPanel title_panel = new JPanel() {
-            @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -59,7 +61,6 @@ public class View extends Model{ // View class to create everything the user see
 	void infoScreen () throws IOException{ // info panel
 		final BufferedImage image = ImageIO.read(new File("Images/Instructions.png"));        
 		JPanel info_panel = new JPanel() {
-            @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -67,20 +68,25 @@ public class View extends Model{ // View class to create everything the user see
         };
 		info_panel.setLayout(null);
 		
-		JButton back = new JButton("Back to Main Menu");
+		JButton back_menu = new JButton("Back to Main Menu");
+		JButton game_resume = new JButton("Resume Game");
 		
-		back.addActionListener(new Control());
+		back_menu.addActionListener(new Control());
+		game_resume.addActionListener(new Control());
 		
-		back.setBounds(900-175 , 25, 150, 40);
-		
-		info_panel.add(back);
+		back_menu.setBounds(900-175 , 25, 150, 40);		
+		game_resume.setBounds(25 , 25, 150, 40);
+
+		info_panel.add(back_menu);
+		info_panel.add(game_resume);
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
 	void gameScreen () throws IOException{ // panel for the actual game
-		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));        
-		JPanel game_panel = new JPanel() {
-            @Override
+		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
+		final BufferedImage blueimage = ImageIO.read(new File("Images/Bluepeice.png"));   
+		
+		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
                 g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
@@ -104,11 +110,20 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.add(exit_game);
 		game_panel.add(instructions_game);
 		
+		game_panel.addMouseListener(new Control());
+		
 		deck_panel.add(game_panel, "GamePanel");
 	}
-	void endScreen (){ // TODO see declaration
+	void bluePlay(int x, int y){
+		JLabel blue = new JLabel();
+		ImageIcon icon = new ImageIcon("Images/Bluepeice.png");
+		blue.setIcon(icon);
+		blue.setBounds(x, y, 100, 100);
+		game_panel.add(blue);	
+	}
+	/*void endScreen (){ // TODO see declaration
 		JPanel end_panel = new JPanel();
 		end_panel.setBackground(Color.green);
 		deck_panel.add(end_panel, "EndPanel");
-	}
+	}*/
 }

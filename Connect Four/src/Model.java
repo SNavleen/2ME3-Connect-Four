@@ -14,7 +14,6 @@ import java.awt.event.WindowEvent;
 import java.io.IOException;
 
 import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Model extends Disk { // Model class that sets up the JFrame as a window to play connect four in
@@ -46,14 +45,14 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 		
 		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
 
-		view_call.endScreen();
+		//view_call.endScreen();
 		view_call.gameScreen();
 		view_call.infoScreen();
 		view_call.titleScreen(); // call the title screen panel to display 
 		
 		card_layout.show (deck_panel,"TitlePanel"); // shows the first panel 
 		
-		main_frame.add(view_call.deck_panel);
+		main_frame.add(deck_panel);
 		
 		main_frame.setVisible(true); // shows the screen to the user		
 		main_frame.addWindowListener(new WindowAdapter(){ // checks to see if the window controls (top right) are clicked

@@ -8,16 +8,19 @@
 
 import java.awt.event.ActionEvent; // imports for user actions
 import java.awt.event.ActionListener;
-import javax.swing.JButton;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.IOException;
+
 import javax.swing.JOptionPane;
 
-public class Control extends View implements ActionListener{ // the control class determines what happens when clicks a button in one of the JPanels
-	
+public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start Game")){ 
 			card_layout.show(deck_panel, "GamePanel"); 
-		} // TODO
+		}
 		else if (e.getActionCommand().equals("Instructions")){
 			card_layout.show(deck_panel, "InfoPanel");
 		}
@@ -27,6 +30,38 @@ public class Control extends View implements ActionListener{ // the control clas
 		}
 		else if (e.getActionCommand().equals("Back to Main Menu")){ 
 			card_layout.show(deck_panel, "TitlePanel");
-		}		
+		}	
+		else if (e.getActionCommand().equals("Resume Game")){
+
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		bluePlay(e.getX(), e.getY());
 	}	
 }
