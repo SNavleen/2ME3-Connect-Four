@@ -19,16 +19,37 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
-	private JPanel gamepanel;
-	Control(JPanel game_panel){
-		this.gamepanel = game_panel;
-	}
+	
+	private JPanel panel;
+	private int mouseClick = 0;
+
 	Control(){
 	}
-
+	
+	Control(JPanel game_panel){
+		this.panel = game_panel;
+	}
+	
+	private void blueDisk(int x, int y, JPanel panel) throws IOException{
+		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
+		JLabel blueDisk = new JLabel(blueimage);
+		blueDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
+		panel.add(blueDisk);	
+		card_layout.show(deck_panel, "GamePanel");
+	}
+	
+	private void redDisk(int x, int y, JPanel panel) throws IOException{
+		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		JLabel redDisk = new JLabel(redimage);
+		redDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
+		panel.add(redDisk);	
+		card_layout.show(deck_panel, "GamePanel");
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand().equals("Start Game")){  // if start game is clicked, go to gamepanel
+			//game_started = true;
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
 		else if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
@@ -39,13 +60,99 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
 		else if (e.getActionCommand().equals("Main Menu")){ 
+			//game_started = false;
 			card_layout.show(deck_panel, "TitlePanel");
 		}	
 		else if (e.getActionCommand().equals("Resume Game")){
 
 		}
-
+		//panel.add(game_resume);
 	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		try{
+			for (int x = 0; x <= 600;){ // runs through each column
+				for (int y = 0; y <= 500;){ // runs through each row
+					if (y == 0){ // if the click was in the first row
+						if (x == 0){ // if the click was in the first column
+							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
+								else{
+									redDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
+							}
+						}
+						else{
+							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
+								else{
+									redDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
+							}
+						}
+					}
+					else{
+						if (x == 0){
+							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
+								else{
+									redDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
+							}
+						}
+						else{
+							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
+								else{
+									redDisk(x/100, y/96, panel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
+							}
+						}
+					}
+					y += 96;
+				}
+				x += 100;
+			}
+		}catch(Exception error){
+		}
+	}	
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -70,132 +177,4 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		// TODO Auto-generated method stub
 
 	}
-	
-	public int mouseClick = 0;
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		//System.out.println(e.getSource());
-		View view_call = new View();
-		//System.out.println(e.getX() + " " + e.getY());
-		try{
-			for (int x = 0; x <= 600;){ // runs through each column
-				for (int y = 0; y <= 500;){ // runs through each row
-					if (y == 0){ // if the click was in the first row
-						if (x == 0){ // if the click was in the first column
-							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
-								//System.out.println(x/100 + " " + y/96);
-								if(mouseClick%2==0){
-									blueDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-								}
-								else{
-									redDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-								}
-							}
-						}
-						else{
-							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
-								//System.out.println(x/100 + " " + y/96);
-								if(mouseClick%2==0){
-									blueDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-								}
-								else{
-									redDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-								}
-							}
-						}
-					}
-					else{
-						if (x == 0){
-							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
-								//System.out.println(x/100 + " " + y/96);
-								if(mouseClick%2==0){
-									blueDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-									System.out.println(mouseClick);
-								}
-								else{
-									redDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-									System.out.println(mouseClick);
-								}
-							}
-						}
-						else{
-							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
-								//System.out.println(x/100 + " " + y/96);
-								if(mouseClick%2==0){
-									blueDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-									System.out.println(mouseClick);
-								}
-								else{
-									redDisk(x/100, y/96, gamepanel);
-									main_frame.repaint();
-									main_frame.validate();
-									mouseClick++;
-									System.out.println(mouseClick);
-								}
-							}
-						}
-					}
-					y += 96;
-				}
-				x += 100;
-			}
-		}catch(Exception error){
-		}
-	}	
-	private void blueDisk(int x, int y, JPanel gamepanel) throws IOException{
-		//gameScreen();
-		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
-		//disk[x].setIcon(blueimage);
-		JLabel blueDisk = new JLabel(blueimage);
-		blueDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
-		gamepanel.add(blueDisk);	
-		card_layout.show(deck_panel, "GamePanel");
-	}
-	
-	private void redDisk(int x, int y, JPanel gamepanel) throws IOException{
-		//gameScreen();
-		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
-		//disk[x].setIcon(redimage);
-		JLabel redDisk = new JLabel(redimage);
-		redDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
-		gamepanel.add(redDisk);	
-		card_layout.show(deck_panel, "GamePanel");
-	}
-	
-	/*private void turns(int x, int y) throws IOException{
-		if(mouseClick%2==0){
-			blueDisk(x/100, y/96, gamepanel);
-			main_frame.repaint();
-			main_frame.validate();
-			mouseClick++;
-		}
-		else{
-			redDisk(x/100, y/96, gamepanel);
-			main_frame.repaint();
-			main_frame.validate();
-			mouseClick++;
-		}
-	}*/
 }

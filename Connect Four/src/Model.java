@@ -20,7 +20,6 @@ import javax.swing.JPanel;
 public class Model extends Disk { // Model class that sets up the JFrame as a window to play connect four in
 	
 	private Dimension screen = Toolkit.getDefaultToolkit ().getScreenSize (); // used for finding the dimensions of the users screen
-	int width = 900, height = 600; 
 	
 	static CardLayout card_layout  = new CardLayout(); // creates a new type CardLayout to determine how the panels are shown
 	static JPanel deck_panel = new JPanel();//,  // main panel in which all other panels are displayed
@@ -28,25 +27,22 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 	final static JFrame main_frame = new JFrame("Connect Four"); // makes a new JFrame type named "Connect Four" (This will be the name of the window)
 	
 	private int screen_width = screen.width, screen_height = screen.height; // creates ints for the width and the height
-	//int [][] coordinates = new int [7][6];
 
 	private void createFrame (JFrame main_frame){ // method to create the actual window with the specified dimensions
 		main_frame.setResizable(false); // disables the ability to maximize or change the dimensions of the window
-		main_frame.setLocation(screen_width/4, screen_height/6); // sets the location to 1/4 the width of the screen and 1/6 the height to center the window
-		main_frame.setSize (width , height); // sets the size of the window
+		main_frame.setLocation((screen_width/2) - (900/2), (screen_height/2) - (600/2)); // sets the location to 1/4 the width of the screen and 1/6 the height to center the window
+		main_frame.setSize (900 , 600); // sets the size of the window
 	}
 	
 	public static void main(String [] args) throws IOException{ // calls all methods to create the JFrame
 
 		Model model_call = new Model(); // allows model to be called in main (static function) without being static
 		View view_call = new View(); // same as above 
-		//Control control_call = new Control(); // same
 
 		model_call.createFrame(main_frame); // creates a JFrame of the dimensions specified in createFrame
 		
 		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
 
-		//view_call.endScreen();
 		view_call.gameScreen();
 		view_call.infoScreen();
 		view_call.titleScreen(); // call the title screen panel to display 

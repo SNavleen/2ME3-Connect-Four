@@ -30,7 +30,8 @@ import javax.swing.JPanel;
 public class View extends Model{ // View class to create everything the user sees by using panels
 	
 	JPanel game_panel;
-	JLabel [] disk = new JLabel[7];
+	//boolean game_started = false;
+	JButton game_resume = new JButton("Resume Game");
 
 	void titleScreen () throws IOException{ // panel for the title screen
 		final BufferedImage image = ImageIO.read(new File("Images/StartScreen.png"));        
@@ -71,10 +72,11 @@ public class View extends Model{ // View class to create everything the user see
 		info_panel.setLayout(null); // sets up the buttons in the information panel
 		
 		JButton back_menu = new JButton("Main Menu");
-		JButton game_resume = new JButton("Resume Game");
 		
 		back_menu.addActionListener(new Control());
-		game_resume.addActionListener(new Control());
+		//if (game_started == true){ 
+		game_resume.addActionListener(new Control(info_panel)); 
+		//}
 		
 		back_menu.setBounds(900-175 , 25, 150, 40);		
 		game_resume.setBounds(25 , 25, 150, 40);
@@ -88,9 +90,7 @@ public class View extends Model{ // View class to create everything the user see
 		
 	}
 	void gameScreen () throws IOException{ // panel for the actual game screen
-		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
-		//final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
-		//final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); 
 		
 		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
@@ -99,16 +99,6 @@ public class View extends Model{ // View class to create everything the user see
             }
         };
 		game_panel.setLayout(null);
-		
-		for(int i = 0; i < 7; i++){
-			disk[i] = new JLabel();
-			disk[i].setBounds(6+(100*i), 2, 93, 93);
-			game_panel.add(disk[i]);
-		}
-		
-		/*JLabel blueDisk = new JLabel(blueimage);
-		blueDisk.setBounds(6, 2, 93, 93);
-		game_panel.add(blueDisk);*/
 		
 		JButton new_game = new JButton ("New Game"), // buttons for game board
 				back_menu = new JButton("Main Menu"),
@@ -138,11 +128,4 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(game_panel, "GamePanel");
 	}
-	
-
-	/*void endScreen (){ // TODO see declaration
-		JPanel end_panel = new JPanel();
-		end_panel.setBackground(Color.green);
-		deck_panel.add(end_panel, "EndPanel");
-	}*/
 }
