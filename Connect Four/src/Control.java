@@ -70,6 +70,8 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		// TODO Auto-generated method stub
 
 	}
+	
+	public int mouseClick = 0;
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
@@ -83,17 +85,35 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 						if (x == 0){ // if the click was in the first column
 							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
 								//System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, gamepanel);
-								main_frame.repaint();
-								main_frame.validate();
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
+								else{
+									redDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
 							}
 						}
 						else{
 							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
 								//System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, gamepanel);
-								main_frame.repaint();
-								main_frame.validate();
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
+								else{
+									redDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+								}
 							}
 						}
 					}
@@ -101,17 +121,39 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 						if (x == 0){
 							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
 								//System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, gamepanel);
-								main_frame.repaint();
-								main_frame.validate();
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
+								else{
+									redDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
 							}
 						}
 						else{
 							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
 								//System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, gamepanel);
-								main_frame.repaint();
-								main_frame.validate();
+								if(mouseClick%2==0){
+									blueDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
+								else{
+									redDisk(x/100, y/96, gamepanel);
+									main_frame.repaint();
+									main_frame.validate();
+									mouseClick++;
+									System.out.println(mouseClick);
+								}
 							}
 						}
 					}
@@ -131,4 +173,29 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		gamepanel.add(blueDisk);	
 		card_layout.show(deck_panel, "GamePanel");
 	}
+	
+	private void redDisk(int x, int y, JPanel gamepanel) throws IOException{
+		//gameScreen();
+		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		//disk[x].setIcon(redimage);
+		JLabel redDisk = new JLabel(redimage);
+		redDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
+		gamepanel.add(redDisk);	
+		card_layout.show(deck_panel, "GamePanel");
+	}
+	
+	/*private void turns(int x, int y) throws IOException{
+		if(mouseClick%2==0){
+			blueDisk(x/100, y/96, gamepanel);
+			main_frame.repaint();
+			main_frame.validate();
+			mouseClick++;
+		}
+		else{
+			redDisk(x/100, y/96, gamepanel);
+			main_frame.repaint();
+			main_frame.validate();
+			mouseClick++;
+		}
+	}*/
 }
