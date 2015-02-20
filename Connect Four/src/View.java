@@ -89,13 +89,13 @@ public class View extends Model{ // View class to create everything the user see
 	}
 	void gameScreen () throws IOException{ // panel for the actual game screen
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png"));  
-		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
-		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		//final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
+		//final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
 		
 		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                //g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
             }
         };
 		game_panel.setLayout(null);
@@ -131,10 +131,10 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.add(new_game);
 		game_panel.add(back_menu);
 		game_panel.add(instructions_game);
-		game_panel.add(player_one);
-		game_panel.add(player_two);
+		//game_panel.add(player_one);
+		//game_panel.add(player_two);
 		
-		game_panel.addMouseListener(new Control());
+		game_panel.addMouseListener(new Control(game_panel));
 		
 		deck_panel.add(game_panel, "GamePanel");
 	}

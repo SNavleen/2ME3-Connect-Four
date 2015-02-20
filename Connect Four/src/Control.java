@@ -16,8 +16,15 @@ import java.io.IOException;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
+	private JPanel gamepanel;
+	Control(JPanel game_panel){
+		this.gamepanel = game_panel;
+	}
+	Control(){
+	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -66,7 +73,8 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-/*		View view_call = new View();
+		//System.out.println(e.getSource());
+		View view_call = new View();
 		//System.out.println(e.getX() + " " + e.getY());
 		try{
 			for (int x = 0; x <= 600;){ // runs through each column
@@ -74,16 +82,16 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 					if (y == 0){ // if the click was in the first row
 						if (x == 0){ // if the click was in the first column
 							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= y) && (e.getY() <= (y + 96)))){ // 
-								System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, view_call.disk);
+								//System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, gamepanel);
 								main_frame.repaint();
 								main_frame.validate();
 							}
 						}
 						else{
 							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y)) && (e.getY() <= (y + 96)))){
-								System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, view_call.disk);
+								//System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, gamepanel);
 								main_frame.repaint();
 								main_frame.validate();
 							}
@@ -92,16 +100,16 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 					else{
 						if (x == 0){
 							if (((e.getX() >= x) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
-								System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, view_call.disk);
+								//System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, gamepanel);
 								main_frame.repaint();
 								main_frame.validate();
 							}
 						}
 						else{
 							if (((e.getX() >= (x + 1)) && (e.getX() <= (x + 100))) && ((e.getY() >= (y + 1)) && (e.getY() <= (y + 96)))){
-								System.out.println(x/100 + " " + y/96);
-								blueDisk(x/100, y/96, view_call.disk);
+								//System.out.println(x/100 + " " + y/96);
+								blueDisk(x/100, y/96, gamepanel);
 								main_frame.repaint();
 								main_frame.validate();
 							}
@@ -112,16 +120,15 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 				x += 100;
 			}
 		}catch(Exception error){
-		}	*/
-		
+		}
 	}	
-	private void blueDisk(int x, int y, JLabel [] disk) throws IOException{
+	private void blueDisk(int x, int y, JPanel gamepanel) throws IOException{
 		//gameScreen();
 		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
-		disk[x].setIcon(blueimage);
-		//JLabel blueDisk = new JLabel(blueimage);
-		//blueDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
-		//game_panel.add(blueDisk);	
-		//card_layout.show(deck_panel, "GamePanel");
+		//disk[x].setIcon(blueimage);
+		JLabel blueDisk = new JLabel(blueimage);
+		blueDisk.setBounds(6+(100*x), 2+(96*y), 93, 93);
+		gamepanel.add(blueDisk);	
+		card_layout.show(deck_panel, "GamePanel");
 	}
 }
