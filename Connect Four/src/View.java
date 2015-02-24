@@ -29,7 +29,7 @@ public class View extends Model{ // View class to create everything the user see
 	JPanel game_panel;
 	//boolean game_started = false;
 	JButton game_resume = new JButton("Resume Game");
-	
+
 	boolean developer_mode = false;
 
 	void titleScreen () throws IOException{ // panel for the title screen
@@ -89,7 +89,9 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
-	
+	void testGame(){
+		
+	}
 	void gameScreen () throws IOException{ // panel for the actual game screen
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); 
 		
@@ -120,32 +122,5 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.addMouseListener(new Control(game_panel, developer_mode));
 		
 		deck_panel.add(game_panel, "GamePanel");
-	}
-	void developerScreen () throws IOException{
-		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); 
-		
-		JPanel dev_panel = new JPanel() {
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
-            }
-        };
-		dev_panel.setLayout(null);
-		
-		JButton redbutton = new JButton ("Red Button"),
-				bluebutton = new JButton ("Blue Button");
-		
-		redbutton.addActionListener(new Control());
-		bluebutton.addActionListener(new Control());
-		
-		redbutton.setBounds(740, 400, 125, 40);
-		bluebutton.setBounds(740, 460, 125, 40);
-		
-		dev_panel.add(redbutton);
-		dev_panel.add(bluebutton);
-
-		developer_mode = true;
-		dev_panel.addMouseListener(new Control(dev_panel, developer_mode));
-		deck_panel.add(dev_panel, "DeveloperPanel");
 	}
 }

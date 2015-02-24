@@ -24,10 +24,10 @@ import javax.swing.JPanel;
 public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
 	
 	private JPanel panel;
-	private static Random rand = new Random ();
-	private static int mouseClick = rand.nextInt(2);
-	private String player1, player2;
 	private boolean dev_mode;
+	private Random rand = new Random ();
+	private int mouseClick = rand.nextInt(2);
+	private String player1, player2;
 
 	Control(){
 	}
@@ -40,14 +40,9 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 	private void blueDisk(int x, int y, JPanel panel) throws IOException{
 		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
 		JLabel blueDisk = new JLabel(blueimage);
-		blueDisk.setBounds(5+(x), 2+(y), 93, 93);
+		blueDisk.setBounds(102+(x), 2+(y), 93, 93);
 		panel.add(blueDisk);	
-		if (dev_mode == false){
-			card_layout.show(deck_panel, "GamePanel");
-		}
-		else{
-			card_layout.show(deck_panel, "DeveloperPanel");
-		}
+		card_layout.show(deck_panel, "GamePanel");
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -55,14 +50,9 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 	private void redDisk(int x, int y, JPanel panel) throws IOException{
 		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
 		JLabel redDisk = new JLabel(redimage);
-		redDisk.setBounds(5+(x), 2+(y), 93, 93);
+		redDisk.setBounds(102+(x), 2+(y), 93, 93);
 		panel.add(redDisk);	
-		if (dev_mode == false){
-			card_layout.show(deck_panel, "GamePanel");
-		}
-		else{
-			card_layout.show(deck_panel, "DeveloperPanel");
-		}
+		card_layout.show(deck_panel, "GamePanel");
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -144,20 +134,15 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			} catch (IOException e1) {
 			}
 		}
-		
 		else if (e.getActionCommand().equals("Developer Mode")){
 			try {
 				dev_mode = true;
 				developer_mode = dev_mode;
-				card_layout.show(deck_panel, "DeveloperPanel");
-			} catch (Exception e1) {
+				//playerNameSet(panel);
+				gameScreen();
+				card_layout.show(deck_panel, "GamePanel"); 
+			} catch (IOException e1) {
 			}
-		}
-		else if (e.getActionCommand().equals("Blue Button")){
-			Control.mouseClick = 0;
-		}
-		else if (e.getActionCommand().equals("Red Button")){
-			Control.mouseClick = 1;
 		}
 	}
 
@@ -166,19 +151,19 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		try{
 			int pointX = e.getX(), pointY = e.getY();
 			
-			if (pointX <= 99  && pointX >= 0)
+			if (pointX <= 199  && pointX >= 100)
 				setX(0);
-			else if (pointX <= 199  && pointX >= 100)
-				setX(1);
 			else if (pointX <= 299  && pointX >= 200)
-				setX(2);
+				setX(1);
 			else if (pointX <= 399  && pointX >= 300)
-				setX(3);
+				setX(2);
 			else if (pointX <= 499  && pointX >= 400)
-				setX(4);
+				setX(3);
 			else if (pointX <= 599  && pointX >= 500)
-				setX(5);
+				setX(4);
 			else if (pointX <= 699  && pointX >= 600)
+				setX(5);
+			else if (pointX <= 799  && pointX >= 700)
 				setX(6);
 
 			if (pointY <= 99  && pointY >= 0)
@@ -218,16 +203,16 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 					}
 				}
-				mouseClick++;
 			}
 			else{
-				if(mouseClick == 0){
+				if(mouseClick%2==0){
 					blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
-				else if (mouseClick == 1){
+				else{
 					redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
 			}
+			mouseClick++;
 		}catch(Exception error){
 		}
 	}	
