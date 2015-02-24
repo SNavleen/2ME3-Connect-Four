@@ -17,14 +17,11 @@
 */
 
 import java.awt.Graphics; // jave imports for creating panels in a JFrame
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class View extends Model{ // View class to create everything the user sees by using panels
@@ -32,6 +29,8 @@ public class View extends Model{ // View class to create everything the user see
 	JPanel game_panel;
 	//boolean game_started = false;
 	JButton game_resume = new JButton("Resume Game");
+
+	boolean developer_mode = false;
 
 	void titleScreen () throws IOException{ // panel for the title screen
 		final BufferedImage image = ImageIO.read(new File("Images/StartScreen.png"));        
@@ -45,18 +44,22 @@ public class View extends Model{ // View class to create everything the user see
 		
 		JButton start_game = new JButton("Start Game"), // buttons for title screen
 				instructions_title = new JButton("Instructions"), 
-				exit_title = new JButton("Exit");
+				exit_title = new JButton("Exit"),
+				developer = new JButton ("Developer Mode");
 		
-		start_game.addActionListener(new Control());
+		start_game.addActionListener(new Control(game_panel, developer_mode));
 		instructions_title.addActionListener(new Control());
+		developer.addActionListener(new Control(game_panel, developer_mode));
 		exit_title.addActionListener(new Control());
 		
-		start_game.setBounds(250, 500, 125, 40); // sets where the button goes as well as the height and width
-		instructions_title.setBounds(385, 500, 125, 40);
-		exit_title.setBounds(520, 500, 125, 40);
+		start_game.setBounds(183, 500, 125, 40); // sets where the button goes as well as the height and width
+		instructions_title.setBounds(318, 500, 125, 40);
+		developer.setBounds(453, 500, 125, 40);
+		exit_title.setBounds(588, 500, 125, 40);
 		
 		title_panel.add(start_game);	// puts the button on the screen
 		title_panel.add(instructions_title);	
+		title_panel.add(developer);
 		title_panel.add(exit_title);
 		
 		deck_panel.add(title_panel, "TitlePanel"); // adds the panel to the deck of panels
@@ -73,16 +76,16 @@ public class View extends Model{ // View class to create everything the user see
 		
 		JButton back_menu = new JButton("Main Menu");
 		
-		back_menu.addActionListener(new Control());
-		//if (game_started == true){ 
-		game_resume.addActionListener(new Control(info_panel)); 
-		//}
+		back_menu.addActionListener(new Control());		
+		game_resume.addActionListener(new Control(info_panel, developer_mode)); 
 		
 		back_menu.setBounds(900-175 , 25, 150, 40);		
 		game_resume.setBounds(25 , 25, 150, 40);
 
 		info_panel.add(back_menu);
 		info_panel.add(game_resume);
+
+		//game_resume.setVisible(game_started);
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
@@ -101,30 +104,22 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.setLayout(null);
 		
 		JButton new_game = new JButton ("New Game"), // buttons for game board
-				back_menu = new JButton("Main Menu"),
-				instructions_game = new JButton ("Instructions"),
-				player_one = new JButton("Player 1"),
-				player_two = new JButton("Player 2");
+				exit = new JButton("Exit"),
+				instructions_game = new JButton ("Instructions");
 		
 		new_game.addActionListener(new Control());
-		back_menu.addActionListener(new Control());
 		instructions_game.addActionListener(new Control());
-		//player_one.addActionListener(new Control()); add action later
-		//player_two.addActionListener(new Control());
+		exit.addActionListener(new Control());
 		
 		new_game.setBounds(740, 400, 125, 40);
-		back_menu.setBounds(740, 520, 125, 40);
 		instructions_game.setBounds(740, 460, 125, 40);
-		player_one.setBounds(740, 280, 125, 40);
-		player_two.setBounds(740, 340, 125, 40); 
+		exit.setBounds(740, 520, 125, 40);
 		
 		game_panel.add(new_game);
-		game_panel.add(back_menu);
 		game_panel.add(instructions_game);
-		//game_panel.add(player_one);
-		//game_panel.add(player_two);
+		game_panel.add(exit);
 		
-		game_panel.addMouseListener(new Control(game_panel));
+		game_panel.addMouseListener(new Control(game_panel, developer_mode));
 		
 		deck_panel.add(game_panel, "GamePanel");
 	}

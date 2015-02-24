@@ -8,8 +8,8 @@
 
 public class Disk { // ADT for each disk in the connect four board
 	
-	private static int x; // x coordinate
-	private static int y; // y coordinate
+	static int x; // x coordinate
+	static int y; // y coordinate
 
 	public Disk (){ } // default constructor if no arguments are entered // TODO do we need this? wouldn't it just error if no args are entered?
 	
