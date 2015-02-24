@@ -40,7 +40,7 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 	private void blueDisk(int x, int y, JPanel panel) throws IOException{
 		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
 		JLabel blueDisk = new JLabel(blueimage);
-		blueDisk.setBounds(6+(x), 2+(y), 93, 93);
+		blueDisk.setBounds(5+(x), 2+(y), 93, 93);
 		panel.add(blueDisk);	
 		card_layout.show(deck_panel, "GamePanel");
 		main_frame.repaint();
@@ -50,7 +50,7 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 	private void redDisk(int x, int y, JPanel panel) throws IOException{
 		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
 		JLabel redDisk = new JLabel(redimage);
-		redDisk.setBounds(6+(x), 2+(y), 93, 93);
+		redDisk.setBounds(5+(x), 2+(y), 93, 93);
 		panel.add(redDisk);	
 		card_layout.show(deck_panel, "GamePanel");
 		main_frame.repaint();
@@ -197,19 +197,19 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 						}
 					}
 					if(mouseClick%2==0){
-						blueDisk((Disk.getX())*100, (Disk.getY())*96, panel);
+						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 					}
 					else{
-						redDisk((Disk.getX())*100, (Disk.getY())*96, panel);
+						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 					}
 				}
 			}
 			else{
 				if(mouseClick%2==0){
-					blueDisk((Disk.getX())*100, (Disk.getY())*96, panel);
+					blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
 				else{
-					redDisk((Disk.getX())*100, (Disk.getY())*96, panel);
+					redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
 			}
 			mouseClick++;
