@@ -44,6 +44,7 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
 
 		view_call.gameScreen();
+		view_call.developerScreen();
 		view_call.infoScreen();
 		view_call.titleScreen(); // call the title screen panel to display 
 		

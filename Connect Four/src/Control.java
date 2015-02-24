@@ -24,10 +24,10 @@ import javax.swing.JPanel;
 public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
 	
 	private JPanel panel;
-	private boolean dev_mode;
-	private Random rand = new Random ();
-	private int mouseClick = rand.nextInt(2);
+	private static Random rand = new Random ();
+	private static int mouseClick = rand.nextInt(2);
 	private String player1, player2;
+	private boolean dev_mode;
 
 	Control(){
 	}
@@ -42,7 +42,12 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		JLabel blueDisk = new JLabel(blueimage);
 		blueDisk.setBounds(5+(x), 2+(y), 93, 93);
 		panel.add(blueDisk);	
-		card_layout.show(deck_panel, "GamePanel");
+		if (dev_mode == false){
+			card_layout.show(deck_panel, "GamePanel");
+		}
+		else{
+			card_layout.show(deck_panel, "DeveloperPanel");
+		}
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -52,7 +57,12 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		JLabel redDisk = new JLabel(redimage);
 		redDisk.setBounds(5+(x), 2+(y), 93, 93);
 		panel.add(redDisk);	
-		card_layout.show(deck_panel, "GamePanel");
+		if (dev_mode == false){
+			card_layout.show(deck_panel, "GamePanel");
+		}
+		else{
+			card_layout.show(deck_panel, "DeveloperPanel");
+		}
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -134,15 +144,20 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			} catch (IOException e1) {
 			}
 		}
+		
 		else if (e.getActionCommand().equals("Developer Mode")){
 			try {
 				dev_mode = true;
 				developer_mode = dev_mode;
-				//playerNameSet(panel);
-				gameScreen();
-				card_layout.show(deck_panel, "GamePanel"); 
-			} catch (IOException e1) {
+				card_layout.show(deck_panel, "DeveloperPanel");
+			} catch (Exception e1) {
 			}
+		}
+		else if (e.getActionCommand().equals("Blue Button")){
+			Control.mouseClick = 0;
+		}
+		else if (e.getActionCommand().equals("Red Button")){
+			Control.mouseClick = 1;
 		}
 	}
 
@@ -203,16 +218,16 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 					}
 				}
+				mouseClick++;
 			}
 			else{
-				if(mouseClick%2==0){
+				if(mouseClick == 0){
 					blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
-				else{
+				else if (mouseClick == 1){
 					redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
 			}
-			mouseClick++;
 		}catch(Exception error){
 		}
 	}	
