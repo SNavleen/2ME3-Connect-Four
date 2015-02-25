@@ -109,6 +109,53 @@ public class Control extends View{ // the control class determines what happens 
 		main_frame.validate();
 	}
 	
+	private boolean pieceAir (){
+		for (int x = 0; x < 7; x++){
+			for (int y = 0; y < 5; y++){
+				if (Control.coordinates[x][y] == 1 || Control.coordinates[x][y] == -1){
+					if ( Control.coordinates[x][y+1] == 0){
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean win (){
+		int x_counter = 0,
+			y_counter = 0;
+		
+		while(x_counter != 7){
+			while(y_counter != 6){
+				int total_pieces = 0;
+				if (x_counter <= 3){
+					for(int i = 0; i < 3; i++){
+						//int piece = Control.coordinates[x_counter+i][y_counter];
+						if(1 == Control.coordinates[x_counter+1+i][y_counter] || 
+						   -1 == Control.coordinates[x_counter+1+i][y_counter])total_pieces++;
+						else break;
+					}
+				}
+				if (y_counter <= 2){
+					for(int i = 0; i < 3; i++){
+						//int piece = Control.coordinates[x_counter+i][y_counter];
+						if(1 == Control.coordinates[x_counter][y_counter+1+i] || 
+						   -1 == Control.coordinates[x_counter][y_counter+1+i])total_pieces++;
+						else break;
+					}
+				}
+				if (total_pieces == 3) {
+					return true;
+				}
+				y_counter++;
+			}
+			y_counter = 0;
+			x_counter++;
+		}
+		return false;
+	}
+	
 	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode){
 		//View call_view = new View();
 		if (e.getActionCommand().equals("Start Game")){  // if start game is clicked, go to gamepanel
@@ -164,32 +211,29 @@ public class Control extends View{ // the control class determines what happens 
 		}
 		else if (e.getActionCommand().equals("Start")){
 			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
-			boolean piece_air = false;
-			if (piece_diff > 1){
+/*			if (piece_diff > 1){
 				JOptionPane.showMessageDialog(main_frame,
 					    "Too many of one color",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			for (int x = 0; x < 7; x++){
-				for (int y = 0; y < 5; y++){
-					if (Control.coordinates[x][y] == 1 || Control.coordinates[x][y] == -1){
-						if ( Control.coordinates[x][y+1] == 0){
-							piece_air = true;
-							break;
-						}
-					}
-				}
-			}
-			if(piece_air == true){
+
+			else if(pieceAir() == true){
 				JOptionPane.showMessageDialog(main_frame,
 					    "A piece is in the air",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
+			
+			else*/ if (win() == true){
+				JOptionPane.showMessageDialog(main_frame,
+					    "One of the players has a Connect 4",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
 		}
 	}
-
+	
 	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){
 		try{
 			int pointX = e.getX(), pointY = e.getY();
