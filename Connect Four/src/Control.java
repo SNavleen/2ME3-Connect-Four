@@ -10,9 +10,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent; // imports for user actions
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.Random;
 
@@ -21,28 +19,36 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-public class Control extends View implements ActionListener, MouseListener{ // the control class determines what happens when clicks a button in one of the JPanels
+public class Control extends View{ // the control class determines what happens when clicks a button in one of the JPanels
 	
-	private JPanel panel;
-	private boolean dev_mode;
-	private Random rand = new Random ();
-	private int mouseClick = rand.nextInt(2);
+	private static Random rand = new Random ();
+	private static int mouseClick = rand.nextInt(2),
+					   coordinates [][] = new int [7][6],
+					   bluecount = 0,
+					   redcount = 0;
 	private String player1, player2;
 
-	Control(){
+/*	Control(){
 	}
 	
 	Control(JPanel game_panel, boolean developermode){
 		this.panel = game_panel;
-		this.dev_mode = developermode;
-	}
+		Control.dev_mode = developermode;
+	}*/
 	
 	private void blueDisk(int x, int y, JPanel panel) throws IOException{
 		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
 		JLabel blueDisk = new JLabel(blueimage);
 		blueDisk.setBounds(102+(x), 2+(y), 93, 93);
 		panel.add(blueDisk);	
-		card_layout.show(deck_panel, "GamePanel");
+		if (Model.dev_mode == false){
+			card_layout.show(deck_panel, "GamePanel");
+		}
+		else{
+			card_layout.show(deck_panel, "DeveloperPanel");
+		}
+		Control.coordinates[x/99][y/95] = 1;
+		Control.bluecount++;
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -52,7 +58,14 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		JLabel redDisk = new JLabel(redimage);
 		redDisk.setBounds(102+(x), 2+(y), 93, 93);
 		panel.add(redDisk);	
-		card_layout.show(deck_panel, "GamePanel");
+		if (Control.dev_mode == false){
+			card_layout.show(deck_panel, "GamePanel");
+		}
+		else{
+			card_layout.show(deck_panel, "DeveloperPanel");
+		}
+		Control.coordinates[x/99][y/95] = -1;
+		Control.redcount++;
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -62,8 +75,8 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		JLabel p1 = new JLabel();
 		JLabel p2 = new JLabel();
 		
-		p1.setFont(new Font("Serif", Font.BOLD, 34));
-		p2.setFont(new Font("Serif", Font.BOLD, 34));
+		p1.setFont(new Font("Serif", Font.BOLD, 25));
+		p2.setFont(new Font("Serif", Font.BOLD, 25));
 		
 		if(mouseClick % 2 == 0){
 			player1 = JOptionPane.showInputDialog("Player "+ ((mouseClick % 2) + 1)+" Name: ");
@@ -71,8 +84,8 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			p1.setText(player1);
 			p2.setText(player2);
 			
-			p2.setBounds(740, 340, 125, 40);
-			p1.setBounds(740, 280, 125, 40);
+			p1.setBounds(5, 105, 120, 40);
+			p2.setBounds(795, 105, 1250, 40);
 			p1.setForeground(Color.blue);
 			p2.setForeground(Color.red);
 		}
@@ -81,9 +94,9 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			player2 = JOptionPane.showInputDialog("Player "+ ((mouseClick % 2) + 1)+" Name: ");
 			p1.setText(player1);
 			p2.setText(player2);
-			
-			p2.setBounds(740, 280, 125, 40);
-			p1.setBounds(740, 340, 125, 40);
+
+			p1.setBounds(795, 105, 120, 40);
+			p2.setBounds(5, 105, 120, 40);
 			p1.setForeground(Color.red);
 			p2.setForeground(Color.blue);
 		}
@@ -96,10 +109,10 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 		main_frame.validate();
 	}
 	
-	@Override
-	public void actionPerformed(ActionEvent e) {
+	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode){
 		//View call_view = new View();
 		if (e.getActionCommand().equals("Start Game")){  // if start game is clicked, go to gamepanel
+			System.out.println("start game");
 			playerNameSet(panel);
 			//call_view.game_started = true;
 			//call_view.game_resume.setVisible(game_started);
@@ -107,20 +120,25 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
 		else if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
+			System.out.println("info");
 			card_layout.show(deck_panel, "InfoPanel");
 		}
 		else if (e.getActionCommand().equals("Exit")){ 
+			System.out.println("exit");
 			int exit = JOptionPane.showConfirmDialog(main_frame, "Are you sure you want to close?", "", 0); // checks to see if the user really wants to close the window
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
 		else if (e.getActionCommand().equals("Main Menu")){ 
+			System.out.println("main");
 			//call_view.game_started = false;
 			card_layout.show(deck_panel, "TitlePanel");
 		}	
 		else if (e.getActionCommand().equals("Resume Game")){
+			System.out.println("resume game");
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
 		else if (e.getActionCommand().equals("New Game")){
+			System.out.println("new game");
 			try {
 				gameScreen();
 				panel = game_panel;
@@ -134,20 +152,55 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 			} catch (IOException e1) {
 			}
 		}
+		
 		else if (e.getActionCommand().equals("Developer Mode")){
+			System.out.println("dev");
 			try {
+				developerScreen();
 				dev_mode = true;
 				developer_mode = dev_mode;
-				//playerNameSet(panel);
-				gameScreen();
-				card_layout.show(deck_panel, "GamePanel"); 
-			} catch (IOException e1) {
+				card_layout.show(deck_panel, "DeveloperPanel");
+			} catch (Exception e1) {
+			}
+		}
+		else if (e.getActionCommand().equals("Blue Button")){
+			System.out.println("blue");
+			Control.mouseClick = 0;
+		}
+		else if (e.getActionCommand().equals("Red Button")){
+			System.out.println("red");
+			Control.mouseClick = 1;
+		}
+		else if (e.getActionCommand().equals("Start")){
+			System.out.println("start");
+			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
+			boolean piece_air = false;
+			if (piece_diff > 1){
+				JOptionPane.showMessageDialog(main_frame,
+					    "Too many of one color",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+			for (int x = 0; x < 7; x++){
+				for (int y = 0; y < 5; y++){
+					if (Control.coordinates[x][y] == 1 || Control.coordinates[x][y] == -1){
+						if ( Control.coordinates[x][y+1] == 0){
+							piece_air = true;
+							break;
+						}
+					}
+				}
+			}
+			if(piece_air == true){
+				JOptionPane.showMessageDialog(main_frame,
+					    "A piece is in the air",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
 			}
 		}
 	}
 
-	@Override
-	public void mouseReleased(MouseEvent e) {
+	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){
 		try{
 			int pointX = e.getX(), pointY = e.getY();
 			
@@ -165,6 +218,8 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 				setX(5);
 			else if (pointX <= 799  && pointX >= 700)
 				setX(6);
+			else
+				setX(-5);
 
 			if (pointY <= 99  && pointY >= 0)
 				setY(0);
@@ -178,6 +233,9 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 				setY(4);
 			else if (pointY <= 599  && pointY >= 500)
 				setY(5);
+			else
+				setY(-5);
+			
 			if (dev_mode == false){
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
 					if(mouseClick%2==0){
@@ -203,41 +261,17 @@ public class Control extends View implements ActionListener, MouseListener{ // t
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 					}
 				}
+				mouseClick++;
 			}
 			else{
-				if(mouseClick%2==0){
+				if(mouseClick == 0){
 					blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
-				else{
+				else if (mouseClick == 1){
 					redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 				}
 			}
-			mouseClick++;
 		}catch(Exception error){
 		}
-	}	
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 }

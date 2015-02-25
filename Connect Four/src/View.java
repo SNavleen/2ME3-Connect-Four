@@ -21,7 +21,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class View extends Model{ // View class to create everything the user sees by using panels
@@ -29,7 +31,6 @@ public class View extends Model{ // View class to create everything the user see
 	JPanel game_panel;
 	//boolean game_started = false;
 	JButton game_resume = new JButton("Resume Game");
-
 	boolean developer_mode = false;
 
 	void titleScreen () throws IOException{ // panel for the title screen
@@ -47,10 +48,10 @@ public class View extends Model{ // View class to create everything the user see
 				exit_title = new JButton("Exit"),
 				developer = new JButton ("Developer Mode");
 		
-		start_game.addActionListener(new Control(game_panel, developer_mode));
+		start_game.addActionListener(new Model(game_panel, developer_mode));
 		instructions_title.addActionListener(new Control());
-		developer.addActionListener(new Control(game_panel, developer_mode));
-		exit_title.addActionListener(new Control());
+		developer.addActionListener(new Model(game_panel, developer_mode));
+		exit_title.addActionListener(new Model());
 		
 		start_game.setBounds(183, 500, 125, 40); // sets where the button goes as well as the height and width
 		instructions_title.setBounds(318, 500, 125, 40);
@@ -76,8 +77,8 @@ public class View extends Model{ // View class to create everything the user see
 		
 		JButton back_menu = new JButton("Main Menu");
 		
-		back_menu.addActionListener(new Control());		
-		game_resume.addActionListener(new Control(info_panel, developer_mode)); 
+		back_menu.addActionListener(new Model());		
+		game_resume.addActionListener(new Model(info_panel, developer_mode)); 
 		
 		back_menu.setBounds(900-175 , 25, 150, 40);		
 		game_resume.setBounds(25 , 25, 150, 40);
@@ -89,11 +90,11 @@ public class View extends Model{ // View class to create everything the user see
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
 	}
-	void testGame(){
-		
-	}
+	
 	void gameScreen () throws IOException{ // panel for the actual game screen
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); 
+		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
+		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
 		
 		game_panel = new JPanel() {
             protected void paintComponent(Graphics g) {
@@ -106,21 +107,68 @@ public class View extends Model{ // View class to create everything the user see
 		JButton new_game = new JButton ("New Game"), // buttons for game board
 				exit = new JButton("Exit"),
 				instructions_game = new JButton ("Instructions");
+
+		JLabel blueDisk = new JLabel(blueimage),
+			   redDisk = new JLabel (redimage);
 		
-		new_game.addActionListener(new Control());
-		instructions_game.addActionListener(new Control());
-		exit.addActionListener(new Control());
+		new_game.addActionListener(new Model());
+		instructions_game.addActionListener(new Model());
+		exit.addActionListener(new Model());
 		
-		new_game.setBounds(740, 400, 125, 40);
-		instructions_game.setBounds(740, 460, 125, 40);
-		exit.setBounds(740, 520, 125, 40);
+		new_game.setBounds(798, 400, 120, 40);
+		instructions_game.setBounds(798, 460, 120, 40);
+		exit.setBounds(798, 520, 120, 40);
+		blueDisk.setBounds(0, 0, 95, 99);
+		redDisk.setBounds(798, 0, 95, 99);
 		
 		game_panel.add(new_game);
 		game_panel.add(instructions_game);
 		game_panel.add(exit);
+		game_panel.add(blueDisk);
+		game_panel.add(redDisk);
 		
-		game_panel.addMouseListener(new Control(game_panel, developer_mode));
+		game_panel.addMouseListener(new Model(game_panel, developer_mode));
 		
 		deck_panel.add(game_panel, "GamePanel");
+	}
+	void developerScreen () throws IOException{
+		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); 
+		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
+		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		
+		JPanel dev_panel = new JPanel() {
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+            }
+        };
+		dev_panel.setLayout(null);
+		
+		JButton redbutton = new JButton ("Red Button"),
+				bluebutton = new JButton ("Blue Button"),
+				startbutton = new JButton ("Start");
+
+		JLabel blueDisk = new JLabel(blueimage),
+			   redDisk = new JLabel (redimage);
+		
+		redbutton.addActionListener(new Model());
+		bluebutton.addActionListener(new Model());
+		startbutton.addActionListener(new Model());
+		
+		redbutton.setBounds(798, 460, 120, 40);
+		bluebutton.setBounds(798, 520, 120, 40);
+		startbutton.setBounds(798, 400, 120, 40);
+		blueDisk.setBounds(0, 0, 95, 99);
+		redDisk.setBounds(798, 0, 95, 99);
+		
+		dev_panel.add(redbutton);
+		dev_panel.add(bluebutton);
+		dev_panel.add(startbutton);
+		dev_panel.add(blueDisk);
+		dev_panel.add(redDisk);
+		
+		//dev_mode = true;
+		dev_panel.addMouseListener(new Model(dev_panel, developer_mode));
+		deck_panel.add(dev_panel, "DeveloperPanel");
 	}
 }

@@ -10,6 +10,10 @@
 import java.awt.CardLayout;
 import java.awt.Dimension; // imports for creating a JFrame
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
@@ -17,16 +21,27 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class Model extends Disk { // Model class that sets up the JFrame as a window to play connect four in
+public class Model extends Disk implements ActionListener, MouseListener { // Model class that sets up the JFrame as a window to play connect four in
 	
 	private Dimension screen = Toolkit.getDefaultToolkit ().getScreenSize (); // used for finding the dimensions of the users screen
 	private int screen_width = screen.width, screen_height = screen.height; // creates ints for the width and the height
+
+	private JPanel panel;
+	static boolean dev_mode;
 	
 	static CardLayout card_layout  = new CardLayout(); // creates a new type CardLayout to determine how the panels are shown
 	static JPanel deck_panel = new JPanel();//,  // main panel in which all other panels are displayed
 	final static JFrame main_frame = new JFrame("Connect Four"); // makes a new JFrame type named "Connect Four" (This will be the name of the window)
 
 	static boolean [][] check_disk = new boolean [7][6];
+	
+	Model(){
+	}
+	
+	Model(JPanel game_panel, boolean developermode){
+		this.panel = game_panel;
+		Model.dev_mode = developermode;
+	}
 	
 	private void createFrame (JFrame main_frame){ // method to create the actual window with the specified dimensions
 		main_frame.setResizable(false); // disables the ability to maximize or change the dimensions of the window
@@ -44,6 +59,7 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
 
 		view_call.gameScreen();
+		//view_call.developerScreen();
 		view_call.infoScreen();
 		view_call.titleScreen(); // call the title screen panel to display 
 		
@@ -57,5 +73,41 @@ public class Model extends Disk { // Model class that sets up the JFrame as a wi
 				System.exit (0);// if so the window closes
 		      }
 			});		
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		Control call_control = new Control();
+		call_control.mouseFunction(e, panel, dev_mode);		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		Control call_control = new Control();
+		call_control.buttonFunction(e, panel, dev_mode);
 	}
 }
