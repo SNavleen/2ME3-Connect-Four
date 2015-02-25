@@ -27,14 +27,7 @@ public class Control extends View{ // the control class determines what happens 
 					   bluecount = 0,
 					   redcount = 0;
 	private String player1, player2;
-
-/*	Control(){
-	}
-	
-	Control(JPanel game_panel, boolean developermode){
-		this.panel = game_panel;
-		Control.dev_mode = developermode;
-	}*/
+	String winner;
 	
 	private void blueDisk(int x, int y, JPanel panel) throws IOException{
 		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
@@ -48,7 +41,6 @@ public class Control extends View{ // the control class determines what happens 
 			card_layout.show(deck_panel, "DeveloperPanel");
 		}
 		Control.coordinates[x/99][y/95] = 1;
-		Control.bluecount++;
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -65,7 +57,6 @@ public class Control extends View{ // the control class determines what happens 
 			card_layout.show(deck_panel, "DeveloperPanel");
 		}
 		Control.coordinates[x/99][y/95] = -1;
-		Control.redcount++;
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -128,24 +119,47 @@ public class Control extends View{ // the control class determines what happens 
 		
 		while(x_counter != 7){
 			while(y_counter != 6){
-				int total_pieces = 0;
-				if (x_counter <= 3){
-					for(int i = 0; i < 3; i++){
-						//int piece = Control.coordinates[x_counter+i][y_counter];
-						if(1 == Control.coordinates[x_counter+1+i][y_counter] || 
-						   -1 == Control.coordinates[x_counter+1+i][y_counter])total_pieces++;
-						else break;
+				int total_pieces = 0,
+					piece = Control.coordinates[x_counter][y_counter];
+				if (piece == 1 || piece == -1){
+					if (x_counter <= 3){
+						for(int i = 0; i < 4; i++){
+							if(piece == Control.coordinates[x_counter+i][y_counter]) total_pieces++;
+							else break;
+						}
+					}
+					if (total_pieces == 4) {
+						return true;
+					}
+					total_pieces = 0;
+					if (y_counter <= 2){
+						for(int i = 0; i < 4; i++){
+							if(piece == Control.coordinates[x_counter][y_counter+i])total_pieces++;
+							else break;
+						}
+					}
+					if (total_pieces == 4) {
+						return true;
+					}
+					total_pieces = 0;
+					if (y_counter <= 2 && x_counter >= 3){
+						for(int i = 0; i < 4; i++){
+							if(piece == Control.coordinates[x_counter-i][y_counter+i])total_pieces++;
+							else break;
+						}
+					}
+					if (total_pieces == 4) {
+						return true;
+					}
+					total_pieces = 0;
+					if (y_counter <= 2 && x_counter <= 3){
+						for(int i = 0; i < 4; i++){
+							if(piece == Control.coordinates[x_counter+i][y_counter+i])total_pieces++;
+							else break;
+						}
 					}
 				}
-				if (y_counter <= 2){
-					for(int i = 0; i < 3; i++){
-						//int piece = Control.coordinates[x_counter+i][y_counter];
-						if(1 == Control.coordinates[x_counter][y_counter+1+i] || 
-						   -1 == Control.coordinates[x_counter][y_counter+1+i])total_pieces++;
-						else break;
-					}
-				}
-				if (total_pieces == 3) {
+				if (total_pieces == 4) {
 					return true;
 				}
 				y_counter++;
@@ -156,16 +170,9 @@ public class Control extends View{ // the control class determines what happens 
 		return false;
 	}
 	
-	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode){
-		//View call_view = new View();
-		if (e.getActionCommand().equals("Start Game")){  // if start game is clicked, go to gamepanel
-			playerNameSet(panel);
-			//call_view.game_started = true;
-			//call_view.game_resume.setVisible(game_started);
-			//System.out.println();
-			card_layout.show(deck_panel, "GamePanel"); 
-		}
-		else if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
+	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{
+		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
+			infoScreen();
 			card_layout.show(deck_panel, "InfoPanel");
 		}
 		else if (e.getActionCommand().equals("Exit")){ 
@@ -179,8 +186,8 @@ public class Control extends View{ // the control class determines what happens 
 		else if (e.getActionCommand().equals("Resume Game")){
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
-		else if (e.getActionCommand().equals("New Game")){
-			try {
+		else if (e.getActionCommand().equals("Start Game")||
+				 e.getActionCommand().equals("New Game")){
 				gameScreen();
 				panel = game_panel;
 				playerNameSet(panel);
@@ -188,20 +195,22 @@ public class Control extends View{ // the control class determines what happens 
 				for (int ix = 0; ix < 7; ix++){
 					for (int iy = 0; iy < 6; iy++){
 						check_disk[ix][iy] = false;
+						Control.coordinates[ix][iy] = 0;
 					}
 				}
-			} catch (IOException e1) {
-			}
 		}
 		
-		else if (e.getActionCommand().equals("Developer Mode")){
-			try {
+		else if (e.getActionCommand().equals("Developer Mode") || 
+				 e.getActionCommand().equals("Reset")){
 				developerScreen();
 				Model.dev_mode = true;
-				//developer_mode = dev_mode;
 				card_layout.show(deck_panel, "DeveloperPanel");
-			} catch (Exception e1) {
-			}
+				for (int x = 0; x < 7; x++){
+					for (int y = 0; y < 6; y++){
+						Control.coordinates[x][y] = 0;
+						check_disk[x][y] = false;
+					}
+				}
 		}
 		else if (e.getActionCommand().equals("Blue Button")){
 			Control.mouseClick = 0;
@@ -210,26 +219,48 @@ public class Control extends View{ // the control class determines what happens 
 			Control.mouseClick = 1;
 		}
 		else if (e.getActionCommand().equals("Start")){
+			boolean piece_air = pieceAir();
+			boolean win_check = win();
 			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
-/*			if (piece_diff > 1){
+			if (piece_diff > 1){
 				JOptionPane.showMessageDialog(main_frame,
 					    "Too many of one color",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
 
-			else if(pieceAir() == true){
+			else if(piece_air == true){
 				JOptionPane.showMessageDialog(main_frame,
 					    "A piece is in the air",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
 			
-			else*/ if (win() == true){
+			else if (win_check == true){
 				JOptionPane.showMessageDialog(main_frame,
 					    "One of the players has a Connect 4",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
+			}
+			else if (piece_diff == 1 ||piece_diff == 0 || piece_air == false ||	win_check == false) {
+				gameScreen();
+				panel = game_panel;
+				playerNameSet(panel);
+				card_layout.show(deck_panel, "GamePanel"); 
+				for (int ix = 0; ix < 7; ix++){
+					for (int iy = 0; iy < 6; iy++){
+						if (Control.coordinates[ix][iy] == 1){
+							//Model.check_disk[ix][iy] = true;
+							blueDisk((ix)*99, (iy)*95, panel);
+						}
+						else if (Control.coordinates[ix][iy] == -1){
+							//Model.check_disk[ix][iy] = true;
+							redDisk((ix)*99, (iy)*95, panel);
+						}
+						//else
+						//Model.check_disk[ix][iy] = false;
+					}
+				}
 			}
 		}
 	}
@@ -269,14 +300,13 @@ public class Control extends View{ // the control class determines what happens 
 				setY(5);
 			else
 				setY(-5);
+			
+			//System.out.println(Model.check_disk[Disk.getX()][Disk.getY()]);
+			
 			if (Model.dev_mode == false){
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
-					if(mouseClick%2==0){
-						Model.check_disk[Disk.getX()][Disk.getY()] = true;
-					}
-					else{
-						Model.check_disk[Disk.getX()][Disk.getY()] = true;
-					}
+					Model.check_disk[Disk.getX()][Disk.getY()] = true;
+
 					for(int i = Disk.getY()+1; i < 6; i++){
 						if (Model.check_disk[Disk.getX()][i] == false){
 							Model.check_disk[Disk.getX()][Disk.getY()] = false;
@@ -289,19 +319,31 @@ public class Control extends View{ // the control class determines what happens 
 					}
 					if(mouseClick%2==0){
 						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						winner = "Blue Player";
 					}
 					else{
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						winner = "Red Player";
 					}
+					mouseClick++;
 				}
-				mouseClick++;
+				if (win() == true){
+					JOptionPane.showMessageDialog(main_frame, winner);
+					card_layout.show(deck_panel, "InfoPanel");
+				}
 			}
-			else{
-				if(mouseClick == 0){
-					blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
-				}
-				else if (mouseClick == 1){
-					redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+			else{	
+				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
+					Model.check_disk[Disk.getX()][Disk.getY()] = true;
+						
+					if(mouseClick == 0){
+						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						Control.bluecount++;
+					}
+					else if (mouseClick == 1){
+						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						Control.redcount++;
+					}
 				}
 			}
 		}catch(Exception error){

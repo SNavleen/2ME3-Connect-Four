@@ -146,7 +146,8 @@ public class View extends Model{ // View class to create everything the user see
 		
 		JButton redbutton = new JButton ("Red Button"),
 				bluebutton = new JButton ("Blue Button"),
-				startbutton = new JButton ("Start");
+				startbutton = new JButton ("Start"),
+				reset = new JButton ("Reset");
 
 		JLabel blueDisk = new JLabel(blueimage),
 			   redDisk = new JLabel (redimage);
@@ -154,16 +155,19 @@ public class View extends Model{ // View class to create everything the user see
 		redbutton.addActionListener(new Model());
 		bluebutton.addActionListener(new Model());
 		startbutton.addActionListener(new Model());
+		reset.addActionListener(new Model());
 		
 		redbutton.setBounds(798, 460, 120, 40);
 		bluebutton.setBounds(798, 520, 120, 40);
 		startbutton.setBounds(798, 400, 120, 40);
+		reset.setBounds(798, 340, 120, 40);
 		blueDisk.setBounds(0, 0, 95, 99);
 		redDisk.setBounds(798, 0, 95, 99);
 		
 		dev_panel.add(redbutton);
 		dev_panel.add(bluebutton);
 		dev_panel.add(startbutton);
+		dev_panel.add(reset);
 		dev_panel.add(blueDisk);
 		dev_panel.add(redDisk);
 		

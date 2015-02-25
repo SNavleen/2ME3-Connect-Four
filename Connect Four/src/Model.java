@@ -58,9 +58,9 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 		
 		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
 
-		view_call.gameScreen();
+		//view_call.gameScreen();
 		//view_call.developerScreen();
-		view_call.infoScreen();
+		//view_call.infoScreen();
 		view_call.titleScreen(); // call the title screen panel to display 
 		
 		card_layout.show (deck_panel,"TitlePanel"); // shows the first panel 
@@ -108,6 +108,11 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		Control call_control = new Control();
-		call_control.buttonFunction(e, panel, dev_mode);
+		try {
+			call_control.buttonFunction(e, panel, dev_mode);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	}
 }
