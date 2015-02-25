@@ -112,7 +112,6 @@ public class Control extends View{ // the control class determines what happens 
 	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode){
 		//View call_view = new View();
 		if (e.getActionCommand().equals("Start Game")){  // if start game is clicked, go to gamepanel
-			System.out.println("start game");
 			playerNameSet(panel);
 			//call_view.game_started = true;
 			//call_view.game_resume.setVisible(game_started);
@@ -120,25 +119,20 @@ public class Control extends View{ // the control class determines what happens 
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
 		else if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
-			System.out.println("info");
 			card_layout.show(deck_panel, "InfoPanel");
 		}
 		else if (e.getActionCommand().equals("Exit")){ 
-			System.out.println("exit");
 			int exit = JOptionPane.showConfirmDialog(main_frame, "Are you sure you want to close?", "", 0); // checks to see if the user really wants to close the window
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
 		else if (e.getActionCommand().equals("Main Menu")){ 
-			System.out.println("main");
 			//call_view.game_started = false;
 			card_layout.show(deck_panel, "TitlePanel");
 		}	
 		else if (e.getActionCommand().equals("Resume Game")){
-			System.out.println("resume game");
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
 		else if (e.getActionCommand().equals("New Game")){
-			System.out.println("new game");
 			try {
 				gameScreen();
 				panel = game_panel;
@@ -154,25 +148,21 @@ public class Control extends View{ // the control class determines what happens 
 		}
 		
 		else if (e.getActionCommand().equals("Developer Mode")){
-			System.out.println("dev");
 			try {
 				developerScreen();
-				dev_mode = true;
-				developer_mode = dev_mode;
+				Model.dev_mode = true;
+				//developer_mode = dev_mode;
 				card_layout.show(deck_panel, "DeveloperPanel");
 			} catch (Exception e1) {
 			}
 		}
 		else if (e.getActionCommand().equals("Blue Button")){
-			System.out.println("blue");
 			Control.mouseClick = 0;
 		}
 		else if (e.getActionCommand().equals("Red Button")){
-			System.out.println("red");
 			Control.mouseClick = 1;
 		}
 		else if (e.getActionCommand().equals("Start")){
-			System.out.println("start");
 			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
 			boolean piece_air = false;
 			if (piece_diff > 1){
@@ -235,8 +225,7 @@ public class Control extends View{ // the control class determines what happens 
 				setY(5);
 			else
 				setY(-5);
-			
-			if (dev_mode == false){
+			if (Model.dev_mode == false){
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
 					if(mouseClick%2==0){
 						Model.check_disk[Disk.getX()][Disk.getY()] = true;
