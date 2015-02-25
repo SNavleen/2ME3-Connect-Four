@@ -1,10 +1,11 @@
 // COMP SCI 2ME3 
+
 // Assignment 1
+// Hassaan Malik (1224997)
+// Katrine Rachitsky (1306314)
+// Trevor Rae (1324949)
 // Navleen Signh (1302228)
 // Paul Warnick (1300963)
-// Katrine Rachitsky (1306314)
-// Hassaan Malik (1224997)
-// Trevor Rae ()
 
 public class Disk { // ADT for each disk in the connect four board
 	
