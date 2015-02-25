@@ -27,6 +27,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 public class View extends Model{ // View class to create everything the user sees by using panels
 	
@@ -125,9 +126,9 @@ public class View extends Model{ // View class to create everything the user see
 		blueDisk.setBounds(0, 0, 95, 99);
 		redDisk.setBounds(798, 0, 95, 99);
 		
-		new_game.setLayout(new FlowLayout(FlowLayout.LEFT));
-		instructions_game.setLayout(new FlowLayout(FlowLayout.LEFT));
-		exit.setLayout(new FlowLayout(FlowLayout.LEFT));
+		new_game.setHorizontalAlignment(SwingConstants.LEFT);
+		instructions_game.setHorizontalAlignment(SwingConstants.LEFT);
+		exit.setHorizontalAlignment(SwingConstants.LEFT);
 		blueDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
 		redDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
@@ -177,10 +178,10 @@ public class View extends Model{ // View class to create everything the user see
 		redDisk.setBounds(798, 0, 95, 99);
 		devmode.setBounds(0, 520, 100, 40);
 		
-		redbutton.setLayout(new FlowLayout(FlowLayout.LEFT));
-		bluebutton.setLayout(new FlowLayout(FlowLayout.LEFT));
-		startbutton.setLayout(new FlowLayout(FlowLayout.LEFT));
-		reset.setLayout(new FlowLayout(FlowLayout.LEFT));
+		redbutton.setHorizontalAlignment(SwingConstants.LEFT);
+		bluebutton.setHorizontalAlignment(SwingConstants.LEFT);
+		startbutton.setHorizontalAlignment(SwingConstants.LEFT);
+		reset.setHorizontalAlignment(SwingConstants.LEFT);
 		blueDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
 		redDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
 		devmode.setLayout(new FlowLayout(FlowLayout.LEFT));
