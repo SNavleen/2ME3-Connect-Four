@@ -16,6 +16,8 @@
  * 4) 
 */
 
+import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Graphics; // jave imports for creating panels in a JFrame
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -64,6 +66,7 @@ public class View extends Model{ // View class to create everything the user see
 		title_panel.add(exit_title);
 		
 		deck_panel.add(title_panel, "TitlePanel"); // adds the panel to the deck of panels
+		//main_frame.setTitle("Connect Four (Title Screen)");
 	}
 	void infoScreen () throws IOException{ // info panel
 		final BufferedImage image = ImageIO.read(new File("Images/Instructions.png"));        
@@ -89,6 +92,7 @@ public class View extends Model{ // View class to create everything the user see
 		//game_resume.setVisible(game_started);
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
+		//main_frame.setTitle("Connect Four (Instruction Screen)");
 	}
 	
 	void gameScreen () throws IOException{ // panel for the actual game screen
@@ -121,6 +125,12 @@ public class View extends Model{ // View class to create everything the user see
 		blueDisk.setBounds(0, 0, 95, 99);
 		redDisk.setBounds(798, 0, 95, 99);
 		
+		new_game.setLayout(new FlowLayout(FlowLayout.LEFT));
+		instructions_game.setLayout(new FlowLayout(FlowLayout.LEFT));
+		exit.setLayout(new FlowLayout(FlowLayout.LEFT));
+		blueDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
+		redDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
 		game_panel.add(new_game);
 		game_panel.add(instructions_game);
 		game_panel.add(exit);
@@ -130,6 +140,7 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.addMouseListener(new Model(game_panel, developer_mode));
 		
 		deck_panel.add(game_panel, "GamePanel");
+		//main_frame.setTitle("Connect Four (Game Screen)");
 	}
 	void developerScreen () throws IOException{
 		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); 
@@ -150,7 +161,8 @@ public class View extends Model{ // View class to create everything the user see
 				reset = new JButton ("Reset");
 
 		JLabel blueDisk = new JLabel(blueimage),
-			   redDisk = new JLabel (redimage);
+			   redDisk = new JLabel (redimage),
+			   devmode = new JLabel ("Developer Mode");
 		
 		redbutton.addActionListener(new Model());
 		bluebutton.addActionListener(new Model());
@@ -163,6 +175,19 @@ public class View extends Model{ // View class to create everything the user see
 		reset.setBounds(798, 340, 120, 40);
 		blueDisk.setBounds(0, 0, 95, 99);
 		redDisk.setBounds(798, 0, 95, 99);
+		devmode.setBounds(0, 520, 100, 40);
+		
+		redbutton.setLayout(new FlowLayout(FlowLayout.LEFT));
+		bluebutton.setLayout(new FlowLayout(FlowLayout.LEFT));
+		startbutton.setLayout(new FlowLayout(FlowLayout.LEFT));
+		reset.setLayout(new FlowLayout(FlowLayout.LEFT));
+		blueDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
+		redDisk.setLayout(new FlowLayout(FlowLayout.LEFT));
+		devmode.setLayout(new FlowLayout(FlowLayout.LEFT));
+		
+		devmode.setOpaque(true);
+		devmode.setForeground(new Color (200, 0, 0));
+		devmode.setBackground(new Color (0, 0, 0, 50));
 		
 		dev_panel.add(redbutton);
 		dev_panel.add(bluebutton);
@@ -170,9 +195,11 @@ public class View extends Model{ // View class to create everything the user see
 		dev_panel.add(reset);
 		dev_panel.add(blueDisk);
 		dev_panel.add(redDisk);
+		dev_panel.add(devmode);
 		
 		//dev_mode = true;
 		dev_panel.addMouseListener(new Model(dev_panel, developer_mode));
 		deck_panel.add(dev_panel, "DeveloperPanel");
+		//main_frame.setTitle("Connect Four (Developer Screen)");
 	}
 }

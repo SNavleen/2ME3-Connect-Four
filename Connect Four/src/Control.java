@@ -219,8 +219,8 @@ public class Control extends View{ // the control class determines what happens 
 			Control.mouseClick = 1;
 		}
 		else if (e.getActionCommand().equals("Start")){
-			boolean piece_air = pieceAir();
-			boolean win_check = win();
+			boolean piece_air = pieceAir(),
+					win_check = win();
 			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
 			if (piece_diff > 1){
 				JOptionPane.showMessageDialog(main_frame,
@@ -250,17 +250,16 @@ public class Control extends View{ // the control class determines what happens 
 				for (int ix = 0; ix < 7; ix++){
 					for (int iy = 0; iy < 6; iy++){
 						if (Control.coordinates[ix][iy] == 1){
-							//Model.check_disk[ix][iy] = true;
 							blueDisk((ix)*99, (iy)*95, panel);
 						}
 						else if (Control.coordinates[ix][iy] == -1){
-							//Model.check_disk[ix][iy] = true;
 							redDisk((ix)*99, (iy)*95, panel);
 						}
-						//else
-						//Model.check_disk[ix][iy] = false;
 					}
 				}
+				if(Control.bluecount > Control.redcount) mouseClick = 1;
+				else if(Control.bluecount < Control.redcount) mouseClick = 0;
+				else mouseClick = rand.nextInt(2);
 			}
 		}
 	}
