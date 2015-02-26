@@ -15,12 +15,10 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
@@ -62,7 +60,6 @@ public class View extends Model{ // View class to create everything the user see
 		title_panel.add(exit_title);
 		
 		deck_panel.add(title_panel, "TitlePanel"); // adds the panel to the deck of panels
-		//main_frame.setTitle("Connect Four (Title Screen)");
 	}
 	
 	void infoScreen () throws IOException{ // info panel
@@ -86,10 +83,8 @@ public class View extends Model{ // View class to create everything the user see
 		info_panel.add(back_menu);
 		info_panel.add(game_resume);
 
-		//game_resume.setVisible(game_started);
 		
 		deck_panel.add(info_panel, "InfoPanel"); // adds to deck of panels
-		//main_frame.setTitle("Connect Four (Instruction Screen)");
 	}
 	
 	void gameScreen () throws IOException{ // panel for the actual game screen
@@ -138,7 +133,6 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.addMouseListener(new Model(game_panel, developer_mode));
 		
 		deck_panel.add(game_panel, "GamePanel");
-		//main_frame.setTitle("Connect Four (Game Screen)");
 	}
 	
 	void developerScreen () throws IOException{
@@ -201,9 +195,7 @@ public class View extends Model{ // View class to create everything the user see
 		dev_panel.add(redDisk);
 		dev_panel.add(devmode);
 		
-		//dev_mode = true;
 		dev_panel.addMouseListener(new Model(dev_panel, developer_mode));
 		deck_panel.add(dev_panel, "DeveloperPanel");
-		//main_frame.setTitle("Connect Four (Developer Screen)");
 	}
 }

@@ -12,13 +12,13 @@ public class Disk { // ADT for each disk in the connect four board
 	static int x; // x coordinate
 	static int y; // y coordinate
 
-	public Disk (){ } // default constructor if no arguments are entered // TODO do we need this? wouldn't it just error if no args are entered?
+	public Disk (){ } // default constructor if no arguments are entered
 	
 	public Disk(int x, int y){ // constructor using given arguments
 		this.x = x;
 		this.y = y;
 	}
-	public void setX (int x){ // sets the value of x // TODO we may not need this because pieces cannot move left or right only down
+	public void setX (int x){ // sets the value of x 
 		this.x = x;
 	}
 	public void setY (int y){ // sets the value of y

@@ -17,7 +17,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -58,9 +57,6 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 		
 		deck_panel.setLayout(card_layout); // sets the layout style of our window to Java's "Card Layout"
 
-		//view_call.gameScreen();
-		//view_call.developerScreen();
-		//view_call.infoScreen();
 		view_call.titleScreen(); // call the title screen panel to display 
 		
 		card_layout.show (deck_panel,"TitlePanel"); // shows the first panel 
@@ -77,25 +73,21 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -111,8 +103,6 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 		try {
 			call_control.buttonFunction(e, panel, dev_mode);
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
 		}
 	}
 }

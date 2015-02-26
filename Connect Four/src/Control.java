@@ -13,7 +13,6 @@ import java.awt.event.ActionEvent; // imports for user actions
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Random;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -100,13 +99,6 @@ public class Control extends View{ // the control class determines what happens 
 					    JOptionPane.WARNING_MESSAGE);
 				wrongFormat = true;				
 			}
-			
-			/*p1.setBounds(798, 110, 93, 40);
-			p1.setHorizontalAlignment(SwingConstants.CENTER);
-			p2.setBounds(3, 110, 93, 40);
-			p2.setHorizontalAlignment(SwingConstants.CENTER);
-			p1.setForeground(Color.red);
-			p2.setForeground(Color.blue);*/
 		}
 
 		p1.setBounds(3, 110, 93, 40);
@@ -215,48 +207,49 @@ public class Control extends View{ // the control class determines what happens 
 				gameScreen();
 				panel = game_panel;
 				playerNameSet(panel);
-				
-				if (mouseClick % 2 == 0){
-				JOptionPane.showMessageDialog(main_frame,
-					    "Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
-					    "First Move",
-					    JOptionPane.WARNING_MESSAGE);
-				}
-				
-				else{
-					JOptionPane.showMessageDialog(main_frame,
-						    "Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
-						    "First Move",
-						    JOptionPane.WARNING_MESSAGE);
-				}
-				
+
 				if (wrongFormat == false){
-					card_layout.show(deck_panel, "GamePanel"); 
 					for (int ix = 0; ix < 7; ix++){
 						for (int iy = 0; iy < 6; iy++){
 							check_disk[ix][iy] = false;
 							Control.coordinates[ix][iy] = 0;
 						}
 					}
+					card_layout.show(deck_panel, "GamePanel"); 
+					
+					if (mouseClick % 2 == 0){
+						JOptionPane.showMessageDialog(main_frame,
+								"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
+								"First Move",
+								JOptionPane.WARNING_MESSAGE);
+					}
+
+					else{
+						JOptionPane.showMessageDialog(main_frame,
+								"Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
+								"First Move",
+								JOptionPane.WARNING_MESSAGE);
+					}	
 				}
 				
 				else{
 					card_layout.show(deck_panel, "TitlePanel");
-				}
-				
+				}			
 		}
 		
 		else if (e.getActionCommand().equals("Developer Mode") || 
 				 e.getActionCommand().equals("Reset")){
 				developerScreen();
 				Model.dev_mode = true;
-				card_layout.show(deck_panel, "DeveloperPanel");
+				Control.redcount = 0;
+				Control.bluecount = 0;
 				for (int x = 0; x < 7; x++){
 					for (int y = 0; y < 6; y++){
 						Control.coordinates[x][y] = 0;
 						check_disk[x][y] = false;
 					}
 				}
+				card_layout.show(deck_panel, "DeveloperPanel");
 		}
 		else if (e.getActionCommand().equals("Select Blue")){
 			Control.mouseClick = 0;
@@ -268,23 +261,54 @@ public class Control extends View{ // the control class determines what happens 
 			boolean piece_air = pieceAir(),
 					win_check = win();
 			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
-			if (piece_diff > 1){
+			if (piece_diff > 1 && piece_air == true && win_check == true){
 				JOptionPane.showMessageDialog(main_frame,
-					    "Too many of one colour",
+					    "                    ERROR"+
+				        "\n1) Too many of one colour \n2) A piece is in the air \n3) One of the players has a Connect 4",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+			else if (piece_diff > 1 && piece_air == true){
+				JOptionPane.showMessageDialog(main_frame,
+					    "                    ERROR"+
+				        "\n1) Too many of one colour \n2) A piece is in the air ",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+			else if (piece_diff > 1 && win_check == true){
+				JOptionPane.showMessageDialog(main_frame,
+					    "                    ERROR"+
+				        "\n1) Too many of one colour \n2) One of the players has a Connect 4",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+			else if (piece_air == true && win_check == true){
+				JOptionPane.showMessageDialog(main_frame,
+					    "                    ERROR"+
+				        "\n1) A piece is in the air \n2) One of the players has a Connect 4",
+					    "Warning",
+					    JOptionPane.WARNING_MESSAGE);
+			}
+			else if (piece_diff > 1){
+				JOptionPane.showMessageDialog(main_frame,
+					    "                    ERROR"+
+					    "\n1) Too many of one colour",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
 
 			else if(piece_air == true){
 				JOptionPane.showMessageDialog(main_frame,
-					    "A piece is in the air",
+					    "                    ERROR"+
+					    "\n1) A piece is in the air",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
 			
 			else if (win_check == true){
 				JOptionPane.showMessageDialog(main_frame,
-					    "One of the players has a Connect 4",
+					    "                    ERROR"+
+					    "\n1) One of the players has a Connect 4",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
@@ -292,20 +316,6 @@ public class Control extends View{ // the control class determines what happens 
 				gameScreen();
 				panel = game_panel;
 				playerNameSet(panel);
-				
-				if (mouseClick % 2 == 0){
-					JOptionPane.showMessageDialog(main_frame,
-						    "Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
-						    "First Move",
-						    JOptionPane.WARNING_MESSAGE);
-					}
-					
-					else{
-						JOptionPane.showMessageDialog(main_frame,
-							    "Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
-							    "First Move",
-							    JOptionPane.WARNING_MESSAGE);
-					}
 				
 				if (wrongFormat == false){
 				card_layout.show(deck_panel, "GamePanel"); 
@@ -319,11 +329,26 @@ public class Control extends View{ // the control class determines what happens 
 							}
 						}
 					}
+					if (mouseClick % 2 == 0){
+						JOptionPane.showMessageDialog(main_frame,
+								"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
+								"First Move",
+								JOptionPane.WARNING_MESSAGE);
+					}
+
+					else{
+						JOptionPane.showMessageDialog(main_frame,
+								"Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
+								"First Move",
+								JOptionPane.WARNING_MESSAGE);
+					}
 				}
 				
 				else{
-					card_layout.show(deck_panel, "TitlePanel");
+					card_layout.show(deck_panel, "DeveloperPanel");
 				}
+				
+				
 				
 				if(Control.bluecount > Control.redcount) mouseClick = 1;
 				else if(Control.bluecount < Control.redcount) mouseClick = 0;
@@ -367,8 +392,6 @@ public class Control extends View{ // the control class determines what happens 
 				setY(5);
 			else
 				setY(-5);
-			
-			//System.out.println(Model.check_disk[Disk.getX()][Disk.getY()]);
 			
 			if (Model.dev_mode == false){
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
