@@ -417,10 +417,6 @@ public class Control extends View{ // the control class determines what happens 
 					}
 					mouseClick++;
 				}
-				if (win() == true){
-					JOptionPane.showMessageDialog(main_frame, winner + " has won!");
-					card_layout.show(deck_panel, "TitlePanel");
-				}
 			}
 			else{	
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
