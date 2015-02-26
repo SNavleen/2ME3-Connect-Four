@@ -24,7 +24,7 @@ import javax.swing.SwingConstants;
 public class View extends Model{ // View class to create everything the user sees by using panels
 	
 	JPanel game_panel; // the JPanel for the game screen
-	boolean developer_mode = false; // bool for checking if the user wants to play in dev mode
+	private boolean developer_mode = false; // bool for checking if the user wants to play in dev mode
 
 	@SuppressWarnings("serial")
 	void titleScreen () throws IOException{ // panel for the start screen (main menu with start, instructions and exit buttons)
