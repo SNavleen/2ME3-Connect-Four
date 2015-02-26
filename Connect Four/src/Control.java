@@ -7,129 +7,120 @@
 // Navleen Signh (1302228)
 // Paul Warnick (1300963)
 
-import java.awt.Color;
+import java.awt.Color;  // imports for user actions and JFrame components
 import java.awt.Font;
-import java.awt.event.ActionEvent; // imports for user actions
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-public class Control extends View{ // the control class determines what happens when clicks a button in one of the JPanels
+public class Control extends View{ // a class to determines what happens when the user clicks a button in one of the JPanels and also anything the user can do / edit during the run
 	
-	private static Random rand = new Random ();
-	private static int mouseClick = rand.nextInt(2),
-					   coordinates [][] = new int [7][6],
-					   bluecount = 0,
-					   redcount = 0;
+	private static Random rand = new Random (); // a random used for determining who moves first
+	private static int mouseClick = rand.nextInt(2), coordinates [][] = new int [7][6], bluecount = 0, redcount = 0; // ints throughout the program, mouseclick is for which player moves first, coordinates is the where the user clicks in a grid format and the counts determine how many moves each player has done
+	private String player1, player2; // strings for the player names
+	@SuppressWarnings("unused") // TODO temp to avoid warnings
+	private String winner; // string for the name of the player that wins TODO will be implemented fully in assignment 2
+	private boolean wrongFormat = false; // used to see if the users names are in the correct format
 	
-	private String player1, player2;
-	String winner;
-	boolean wrongFormat = false;
-	
-	private void blueDisk(int x, int y, JPanel panel) throws IOException{
-		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
-		JLabel blueDisk = new JLabel(blueimage);
-		blueDisk.setBounds(102+(x), 2+(y), 93, 93);
-		panel.add(blueDisk);	
-		if (Model.dev_mode == false){
-			card_layout.show(deck_panel, "GamePanel");
+	private void blueDisk(int x, int y, JPanel panel) throws IOException{ // method for placing a blue disk
+		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png"); // loads in the image
+		JLabel blueDisk = new JLabel(blueimage); // creates a label with the above image
+		blueDisk.setBounds(102+(x), 2+(y), 93, 93); // sets the location based on the arguements (which come from the players click)
+		panel.add(blueDisk); // adds the disk to the panel
+		
+		if (Model.dev_mode == false){ // below if statments determine if the user is in dev mode or not
+			card_layout.show(deck_panel, "GamePanel"); // shows on the actual game board
 		}
+		
 		else{
-			card_layout.show(deck_panel, "DeveloperPanel");
+			card_layout.show(deck_panel, "DeveloperPanel"); // shows on the dev mode board
 		}
-		Control.coordinates[x/99][y/95] = 1;
-		main_frame.repaint();
-		main_frame.validate();
+		
+		Control.coordinates[x/99][y/95] = 1; // updates the coordinates 1 at the appropriate place to show that a disk is in that position
+		main_frame.repaint(); // repaints the mainframe to update the board
+		main_frame.validate(); // insure that the frame has repainted correctly
 	}
 	
-	private void redDisk(int x, int y, JPanel panel) throws IOException{
+	private void redDisk(int x, int y, JPanel panel) throws IOException{ //  same as the above method but for the red disk
 		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
 		JLabel redDisk = new JLabel(redimage);
 		redDisk.setBounds(102+(x), 2+(y), 93, 93);
 		panel.add(redDisk);	
+		
 		if (Control.dev_mode == false){
 			card_layout.show(deck_panel, "GamePanel");
 		}
+		
 		else{
 			card_layout.show(deck_panel, "DeveloperPanel");
 		}
+		
 		Control.coordinates[x/99][y/95] = -1;
 		main_frame.repaint();
 		main_frame.validate();
 	}
 	
-	private void playerNameSet(JPanel panel){
+	private void playerNameSet(JPanel panel){ // method for setting the names of the players before the game starts
 		
-		JLabel p1 = new JLabel();
-		JLabel p2 = new JLabel();
+		JLabel p1 = new JLabel(); // label for player 1
+		JLabel p2 = new JLabel(); // player 2
 		
-		p1.setFont(new Font("Calibri", Font.ITALIC, 25));
+		p1.setFont(new Font("Calibri", Font.ITALIC, 25)); // sets the font and size of the labels 
 		p2.setFont(new Font("Calibri", Font.ITALIC, 25));
 		
-		if(mouseClick % 2 == 0){
-			player1 = JOptionPane.showInputDialog("Player "+ ((mouseClick % 2) + 1)+"'s Name: ");
-			player2 = JOptionPane.showInputDialog("Player "+ ((mouseClick % 2) + 2)+"'s Name: ");
-			p1.setText(player1);
-			p2.setText(player2);
-			
-			if ((p1.getText() == p2.getText()) || (p1.getText().length() < 1) || (p2.getText().length() < 1)){
-				JOptionPane.showMessageDialog(main_frame,
-					    "The players name is not in the correct format!",
-					    "Warning",
-					    JOptionPane.WARNING_MESSAGE);	
-				wrongFormat = true;
-			}
-			
-		}
-		else{
-			player1 = JOptionPane.showInputDialog("Player "+ ((mouseClick % 2))+" Name: ");
-			player2 = JOptionPane.showInputDialog("Player "+ ((mouseClick % 2) + 1)+" Name: ");
-			p1.setText(player1);
-			p2.setText(player2);
-			
-			if ((p1.getText() == p2.getText()) || (p1.getText().length() < 1) || (p2.getText().length() < 1)){
-				JOptionPane.showMessageDialog(main_frame,
-					    "The players name is not in the correct format!",
-					    "Warning",
-					    JOptionPane.WARNING_MESSAGE);
-				wrongFormat = true;				
-			}
+		player1 = JOptionPane.showInputDialog("Please enter Player 1's name: "); // pop up window that takes player 1's name
+		player2 = JOptionPane.showInputDialog("Please enter Player 2's name: "); //  same for player 2
+		p1.setText(player1); // sets the labels text to the text recieved above
+		p2.setText(player2); // same for p2
+		
+		if ((p1.getText().equals(p2.getText())) || (p1.getText().length() < 1) || (p2.getText().length() < 1) || (p1.getText() == " ") || (p2.getText() == " ")){ // simple error check to see if the user inputed a proper name. doesn't check all cases
+			JOptionPane.showMessageDialog(main_frame,
+				    "The players name is not in the correct format!",
+				    "Warning",
+				    JOptionPane.WARNING_MESSAGE); // gives an error pop up to tell the user the name was inputed incorrectly
+			wrongFormat = true; // if this is true, the program will go back to the title screen
 		}
 
-		p1.setBounds(3, 110, 93, 40);
-		p1.setHorizontalAlignment(SwingConstants.CENTER);
+		p1.setBounds(3, 110, 93, 40); // sets the location of the name label
+		p1.setHorizontalAlignment(SwingConstants.CENTER); // centers the text
 		p2.setBounds(798, 110, 93, 40);
 		p2.setHorizontalAlignment(SwingConstants.CENTER);
-		p2.setForeground(Color.red);
+		p2.setForeground(Color.red); // changes the colour
 		p1.setForeground(Color.blue);
 		
-		panel.add(p1);	
+		panel.add(p1); // adds to the game panel
 		panel.add(p2);	
 		
-		card_layout.show(deck_panel, "GamePanel");
-		main_frame.repaint();
-		main_frame.validate();
+		card_layout.show(deck_panel, "GamePanel"); // adds the panel to the deck
+		main_frame.repaint(); // repaints to show change
+		main_frame.validate(); // checks if properly repainted
 	}
 	
-	private boolean pieceAir (){
-		for (int x = 0; x < 7; x++){
-			for (int y = 0; y < 5; y++){
-				if (Control.coordinates[x][y] == 1 || Control.coordinates[x][y] == -1){
-					if ( Control.coordinates[x][y+1] == 0){
-						return true;
+	private boolean pieceAir (){ // method to check if a piece has been place floating in dev mode
+		for (int x = 0; x < 7; x++){ // runs through every position
+			for (int y = 0; y < 5; y++){ // except the bottom row 
+				if (Control.coordinates[x][y] == 1 || Control.coordinates[x][y] == -1){ //checks if a piece has been placed there
+					if ( Control.coordinates[x][y+1] == 0){ // if there is no piece below that piece
+						return true; // the method return true
 					}
 				}
 			}
 		}
-		return false;
+		return false; // other wise no pieces are floating and method returns false
 	}
 	
-	private boolean win (){
+	private boolean win (){ // TODO for Assignment 2
+		/* This method will be used to check if a player has won the game. It will be implemented in assignment 2, the reason we left it in the code is because we had it working but with a few bugs, and because it's not a requirement for Assignment 1
+		 * we ended up just deleting the actual win check part. The method is called throughout our code but doesn't actually do anything at the moment so instead of deleteing all the method calls we just left them as is and kept this method
+		*/
+		
 		int x_counter = 0,
 			y_counter = 0;
 		
@@ -186,45 +177,44 @@ public class Control extends View{ // the control class determines what happens 
 		return false;
 	}
 	
-	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{
-		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked, go to infopanel
+	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{ // the method determines the actions of each click on each button throughout the code
+		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked on the title screen, go to infopanel
 			infoScreen();
 			card_layout.show(deck_panel, "InfoPanel");
 		}
-		else if (e.getActionCommand().equals("Exit")){ 
+		else if (e.getActionCommand().equals("Exit")){ // if exit is clicked throughout the program, ask the user first, then close
 			int exit = JOptionPane.showConfirmDialog(main_frame, "Are you sure you want to close?", "", 0); // checks to see if the user really wants to close the window
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
-		else if (e.getActionCommand().equals("Main Menu")){ 
-			//call_view.game_started = false;
+		else if (e.getActionCommand().equals("Main Menu")){ // if user want to return to the main menu
 			card_layout.show(deck_panel, "TitlePanel");
 		}	
-		else if (e.getActionCommand().equals("Resume Game")){
+		else if (e.getActionCommand().equals("Resume Game")){ // resume game button on the info panel to return the player to the current game
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
-		else if (e.getActionCommand().equals("Start Game")||
+		else if (e.getActionCommand().equals("Start Game")|| // if the user wants to play a standard game with dev mode
 				 e.getActionCommand().equals("New Game")){
-				gameScreen();
+				gameScreen(); // calls the game
 				panel = game_panel;
-				playerNameSet(panel);
+				playerNameSet(panel); // asks player for there names
 
-				if (wrongFormat == false){
-					for (int ix = 0; ix < 7; ix++){
+				if (wrongFormat == false){ // checks if the formatting of the name is correct
+					for (int ix = 0; ix < 7; ix++){ // if so the board is set up
 						for (int iy = 0; iy < 6; iy++){
 							check_disk[ix][iy] = false;
 							Control.coordinates[ix][iy] = 0;
 						}
 					}
-					card_layout.show(deck_panel, "GamePanel"); 
+					card_layout.show(deck_panel, "GamePanel"); // shows the game panel
 					
-					if (mouseClick % 2 == 0){
+					if (mouseClick % 2 == 0){ // determines which player is going to move first
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
 								"First Move",
-								JOptionPane.WARNING_MESSAGE);
+								JOptionPane.WARNING_MESSAGE); // tells the players who is going to move first 
 					}
 
-					else{
+					else{ // if player 1 is not moving first
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
 								"First Move",
@@ -232,18 +222,18 @@ public class Control extends View{ // the control class determines what happens 
 					}	
 				}
 				
-				else{
+				else{ // if the names are in the wrong format return to main menu
 					card_layout.show(deck_panel, "TitlePanel");
 				}			
 		}
 		
-		else if (e.getActionCommand().equals("Developer Mode") || 
-				 e.getActionCommand().equals("Reset")){
+		else if (e.getActionCommand().equals("Developer Mode") ||
+				 e.getActionCommand().equals("Reset")){ // check if teh user want to use dev mode
 				developerScreen();
-				Model.dev_mode = true;
+				Model.dev_mode = true; // set to true so the system know the user is in dev mode
 				Control.redcount = 0;
 				Control.bluecount = 0;
-				for (int x = 0; x < 7; x++){
+				for (int x = 0; x < 7; x++){ // creates the board as normal
 					for (int y = 0; y < 6; y++){
 						Control.coordinates[x][y] = 0;
 						check_disk[x][y] = false;
@@ -251,45 +241,45 @@ public class Control extends View{ // the control class determines what happens 
 				}
 				card_layout.show(deck_panel, "DeveloperPanel");
 		}
-		else if (e.getActionCommand().equals("Select Blue")){
+		else if (e.getActionCommand().equals("Select Blue")){ // while in dev mode checks if user want to play blue disks (will place blue while selected)
 			Control.mouseClick = 0;
 		}
-		else if (e.getActionCommand().equals("Select Red")){
+		else if (e.getActionCommand().equals("Select Red")){ // same for red disk
 			Control.mouseClick = 1;
 		}
-		else if (e.getActionCommand().equals("Start Game ")){
-			boolean piece_air = pieceAir(),
-					win_check = win();
-			int piece_diff = Math.abs(Control.bluecount - Control.redcount);
-			if (piece_diff > 1 && piece_air == true && win_check == true){
+		else if (e.getActionCommand().equals("Start Game ")){ // in dev mode if user wants to start a game from the current state
+			boolean piece_air = pieceAir(), // checks if piece is in air
+					win_check = win(); // TODO for Assignment 2
+			int piece_diff = Math.abs(Control.bluecount - Control.redcount); // checks if the count of the piece is correct
+			if (piece_diff > 1 && piece_air == true && win_check == true){ // if all errors occur the program will list them
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 				        "\n1) Too many of one colour \n2) A piece is in the air \n3) One of the players has a Connect 4",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_diff > 1 && piece_air == true){
+			else if (piece_diff > 1 && piece_air == true){ // colours are uneven and piece are floating
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 				        "\n1) Too many of one colour \n2) A piece is in the air ",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_diff > 1 && win_check == true){
+			else if (piece_diff > 1 && win_check == true){ //if colours are uneven and a player has a winning combination
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 				        "\n1) Too many of one colour \n2) One of the players has a Connect 4",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_air == true && win_check == true){
+			else if (piece_air == true && win_check == true){ // if piece in air and a player has a winning combination
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 				        "\n1) A piece is in the air \n2) One of the players has a Connect 4",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_diff > 1){
+			else if (piece_diff > 1){ // if colours are uneven
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 					    "\n1) Too many of one colour",
@@ -297,7 +287,7 @@ public class Control extends View{ // the control class determines what happens 
 					    JOptionPane.WARNING_MESSAGE);
 			}
 
-			else if(piece_air == true){
+			else if(piece_air == true){ // if piece in air
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 					    "\n1) A piece is in the air",
@@ -305,19 +295,19 @@ public class Control extends View{ // the control class determines what happens 
 					    JOptionPane.WARNING_MESSAGE);
 			}
 			
-			else if (win_check == true){
+			else if (win_check == true){ // if player has winning combination
 				JOptionPane.showMessageDialog(main_frame,
 					    "                    ERROR"+
 					    "\n1) One of the players has a Connect 4",
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_diff == 1 ||piece_diff == 0 || piece_air == false ||	win_check == false) {
+			else if (piece_diff == 1 ||piece_diff == 0 || piece_air == false ||	win_check == false) { // if game state is correct start the game
 				gameScreen();
 				panel = game_panel;
-				playerNameSet(panel);
+				playerNameSet(panel); // check names
 				
-				if (wrongFormat == false){
+				if (wrongFormat == false){ // check if formates okay
 				card_layout.show(deck_panel, "GamePanel"); 
 					for (int ix = 0; ix < 7; ix++){
 						for (int iy = 0; iy < 6; iy++){
@@ -329,7 +319,7 @@ public class Control extends View{ // the control class determines what happens 
 							}
 						}
 					}
-					if (mouseClick % 2 == 0){
+					if (mouseClick % 2 == 0){ // tell the users who is playing first
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
 								"First Move",
@@ -344,24 +334,22 @@ public class Control extends View{ // the control class determines what happens 
 					}
 				}
 				
-				else{
-					card_layout.show(deck_panel, "DeveloperPanel");
-				}
+				else{ // if names are correct 
+					card_layout.show(deck_panel, "DeveloperPanel"); 
+				}				
 				
-				
-				
-				if(Control.bluecount > Control.redcount) mouseClick = 1;
-				else if(Control.bluecount < Control.redcount) mouseClick = 0;
+				if(Control.bluecount > Control.redcount) mouseClick = 1; // checks to see who goes first depending on the developer mode state
+				else if(Control.bluecount < Control.redcount) mouseClick = 0; // same 
 				else mouseClick = rand.nextInt(2);
 			}
 		}
 	}
 	
-	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){
+	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){ // used for determining location of mouse click
 		try{
-			int pointX = e.getX(), pointY = e.getY();
+			int pointX = e.getX(), pointY = e.getY(); // gets the X/Y grid coordinates
 			
-			if (pointX <= 199  && pointX >= 100)
+			if (pointX <= 199  && pointX >= 100)  // the below if statements to see where the mouse click was and return a grid coordinate depending on the click
 				setX(0);
 			else if (pointX <= 299  && pointX >= 200)
 				setX(1);
@@ -393,32 +381,32 @@ public class Control extends View{ // the control class determines what happens 
 			else
 				setY(-5);
 			
-			if (Model.dev_mode == false){
-				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
+			if (Model.dev_mode == false){ // if the game is not in dev mode
+				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){ // makes sure a disk is not in the position
 					Model.check_disk[Disk.getX()][Disk.getY()] = true;
 
-					for(int i = Disk.getY()+1; i < 6; i++){
+					for(int i = Disk.getY()+1; i < 6; i++){ // checking to see if a dish is in the position
 						if (Model.check_disk[Disk.getX()][i] == false){
 							Model.check_disk[Disk.getX()][Disk.getY()] = false;
 							setY(i);
 							Model.check_disk[Disk.getX()][Disk.getY()] = true;
 						}
-						else{
+						else{ // breaks if a disk is already there
 							break;
 						}
 					}
-					if(mouseClick%2==0){
+					if(mouseClick%2==0){ // places the actuall disk depending on whos turn it is
 						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
-						winner = "Blue Player";
+						winner = player1;
 					}
 					else{
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
-						winner = "Red Player";
+						winner = player2;
 					}
-					mouseClick++;
+					mouseClick++; // increments mouse click
 				}
 			}
-			else{	
+			else{ // if user is in dev mode, the same happens with different properties (disks don't fall)
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
 					Model.check_disk[Disk.getX()][Disk.getY()] = true;
 						
@@ -432,7 +420,8 @@ public class Control extends View{ // the control class determines what happens 
 					}
 				}
 			}
-		}catch(Exception error){
+		}
+		catch(Exception error){ // catch if there's an exception
 		}
 	}
 }
