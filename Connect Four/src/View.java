@@ -28,11 +28,12 @@ public class View extends Model{ // View class to create everything the user see
 
 	@SuppressWarnings("serial")
 	void titleScreen () throws IOException{ // panel for the start screen (main menu with start, instructions and exit buttons)
-		final BufferedImage image = ImageIO.read(new File("Images/StartScreen.png")); // loads in the start screen image      
+		final ImageIcon image = new ImageIcon (getClass().getResource("/StartScreen.png")); // loads in the start screen image      
 		JPanel title_panel = new JPanel() { // creates the title panel with proper sizes and the proper background image
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                //image.paintIcon(this, g, 0, 0);
+                g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), null);
             }
         };
         
@@ -64,11 +65,11 @@ public class View extends Model{ // View class to create everything the user see
 	@SuppressWarnings("serial")
 	void infoScreen () throws IOException{ // info panel that has a list of instructions on how to play connect four
 		JButton game_resume = new JButton("Resume Game"); // a button used in the instruction panel
-		final BufferedImage image = ImageIO.read(new File("Images/Instructions.png")); // load in the image that has the instructions on it
+		final ImageIcon image = new ImageIcon(getClass().getResource("/Instructions.png")); // load in the image that has the instructions on it
 		JPanel info_panel = new JPanel() { // creates the panel itself with proper size and background image
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), null);
             }
         };
         
@@ -90,14 +91,14 @@ public class View extends Model{ // View class to create everything the user see
 	
 	@SuppressWarnings("serial")
 	void gameScreen () throws IOException{ // panel for the actual game screen
-		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); // image for the yellow 7 x 6 board itself + beautiful (jake) har(d)wood finish
-		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png"); // loads in the picture for the blue disk
-		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png"); // same for the red disk
+		final ImageIcon image = new ImageIcon(getClass().getResource("/gameScreen.png")); // image for the yellow 7 x 6 board itself + beautiful (jake) har(d)wood finish
+		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the picture for the blue disk
+		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png")); // same for the red disk
 		
 		game_panel = new JPanel() { // creates the panel with proper size and image
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), null);
             }
         };
         
@@ -137,14 +138,14 @@ public class View extends Model{ // View class to create everything the user see
 	
 	@SuppressWarnings("serial")
 	void developerScreen () throws IOException{ // panel for dev mode that sets up the board in a slight different way than a normal game
-		final BufferedImage image = ImageIO.read(new File("Images/gameScreen.png")); // images are loaded in (same as game screen)
-		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png");
-		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		final ImageIcon image = new ImageIcon(getClass().getResource("/gameScreen.png")); // image for the yellow 7 x 6 board itself + beautiful (jake) har(d)wood finish
+		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the picture for the blue disk
+		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png")); // same for the red disk
 		
 		JPanel dev_panel = new JPanel() { // panel and image are set
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                g.drawImage(image, 0, 0, getWidth(), getHeight(), null);
+                g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), null);
             }
         };
         
