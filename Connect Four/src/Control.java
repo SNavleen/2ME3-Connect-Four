@@ -180,6 +180,65 @@ public class Control extends View{ // a class to determines what happens when th
 		return false;
 	}
 	
+	private boolean noMoreMoves (){
+		int x_counter = 0,
+				y_counter = 0;
+		boolean check_right;
+			
+			while(x_counter != 7){
+				while(y_counter != 6){
+					int total_pieces = 0,
+						piece = Control.coordinates[x_counter][y_counter];
+					if (piece == 1 || piece == -1){
+						if (x_counter <= 3){
+							for(int i = 0; i < 4; i++){
+								if(piece == Control.coordinates[x_counter+i][y_counter] || Control.coordinates[x_counter+i][y_counter] == 0) total_pieces++;
+								else break;
+							}
+						}
+						if (total_pieces == 4) {
+							check_right = false;
+							System.out.println("no mo");
+						}
+						total_pieces = 0;
+						/*if (y_counter <= 2){
+							for(int i = 0; i < 4; i++){
+								if(piece == Control.coordinates[x_counter][y_counter+i])total_pieces++;
+								else break;
+							}
+						}
+						if (total_pieces == 4) {
+							return true;
+						}
+						total_pieces = 0;
+						if (y_counter <= 2 && x_counter >= 3){
+							for(int i = 0; i < 4; i++){
+								if(piece == Control.coordinates[x_counter-i][y_counter+i])total_pieces++;
+								else break;
+							}
+						}
+						if (total_pieces == 4) {
+							return true;
+						}
+						total_pieces = 0;
+						if (y_counter <= 2 && x_counter <= 3){
+							for(int i = 0; i < 4; i++){
+								if(piece == Control.coordinates[x_counter+i][y_counter+i])total_pieces++;
+								else break;
+							}
+						}
+					}
+					if (total_pieces == 4) {
+						return true;
+					}*/}
+					y_counter++;
+				}
+				y_counter = 0;
+				x_counter++;
+			}
+			return false;
+	}
+	
 	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{ // the method determines the actions of each click on each button throughout the code
 		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked on the title screen, go to infopanel
 			infoScreen();
@@ -407,6 +466,7 @@ public class Control extends View{ // a class to determines what happens when th
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 						winner = player2name;
 					}
+					noMoreMoves();
 					mouseClick++; // increments mouse click
 				}
 				if (win() == true){
