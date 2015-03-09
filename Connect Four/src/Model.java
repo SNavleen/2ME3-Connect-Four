@@ -28,8 +28,6 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	private JPanel panel; // used in the creation of each panel
 	static boolean dev_mode; // used to determine if the game has to play in developer move or not
 	
-	static String player1name, player2name;
-	
 	static CardLayout card_layout  = new CardLayout(); // creates a new type CardLayout to determine how the panels are shown
 	static JPanel deck_panel = new JPanel();//,  // main panel in which all other panels are displayed
 	final static JFrame main_frame = new JFrame("Connect Four"); // makes a new JFrame type named "Connect Four" (This will be the name of the window)
