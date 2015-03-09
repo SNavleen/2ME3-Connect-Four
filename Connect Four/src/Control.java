@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Random;
-
-import javax.jws.WebParam.Mode;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,9 +24,11 @@ public class Control extends View{ // a class to determines what happens when th
 	private static Random rand = new Random (); // a random used for determining who moves first
 	private static int mouseClick = rand.nextInt(2), coordinates [][] = new int [7][6], bluecount = 0, redcount = 0; // ints throughout the program, mouseclick is for which player moves first, coordinates is the where the user clicks in a grid format and the counts determine how many moves each player has done
 	private String player1, player2; // strings for the player names
-	@SuppressWarnings("unused") // TODO temp to avoid warnings
 	private String winner; // string for the name of the player that wins TODO will be implemented fully in assignment 2
 	private boolean wrongFormat = false; // used to see if the users names are in the correct format
+	private static JLabel p1 = new JLabel(); // label for player 1
+	private static JLabel p2 = new JLabel(); // player 2
+	
 	
 	private void blueDisk(int x, int y, JPanel panel) throws IOException{ // method for placing a blue disk
 		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
@@ -70,9 +70,6 @@ public class Control extends View{ // a class to determines what happens when th
 	
 	private void playerNameSet(JPanel panel){ // method for setting the names of the players before the game starts
 		
-		JLabel p1 = new JLabel(); // label for player 1
-		JLabel p2 = new JLabel(); // player 2
-		
 		p1.setFont(new Font("Calibri", Font.ITALIC, 25)); // sets the font and size of the labels 
 		p2.setFont(new Font("Calibri", Font.ITALIC, 25));
 		
@@ -83,9 +80,9 @@ public class Control extends View{ // a class to determines what happens when th
 		p1.setText(player1); // sets the labels text to the text recieved above
 		p2.setText(player2); // same for p2
 		
-		if ((p1.getText().equals(p2.getText())) || (p1.getText().length() < 1) || (p2.getText().length() < 1) || (p1.getText() == " ") || (p2.getText() == " ")){ // simple error check to see if the user inputed a proper name. doesn't check all cases
+		if ((player1 == null) || (player2 == null) || (p1.getText().equals(p2.getText())) || (p1.getText().length() < 1) || (p2.getText().length() < 1) || (p1.getText().charAt(0) == ' ') || (p2.getText().charAt(0) == ' ')){ // simple error check to see if the user inputed a proper name. doesn't check all cases
 			JOptionPane.showMessageDialog(main_frame,
-				    "The players name is not in the correct format!",
+				    "A players name is not in the correct format!",
 				    "Warning",
 				    JOptionPane.WARNING_MESSAGE); // gives an error pop up to tell the user the name was inputed incorrectly
 			wrongFormat = true; // if this is true, the program will go back to the title screen
@@ -119,11 +116,7 @@ public class Control extends View{ // a class to determines what happens when th
 		return false; // other wise no pieces are floating and method returns false
 	}
 	
-	private boolean win (){ 
-		/* This method will be used to check if a player has won the game. It will be implemented in assignment 2, the reason we left it in the code is because we had it working but with a few bugs, and because it's not a requirement for Assignment 1
-		 * we ended up just deleting the actual win check part. The method is called throughout our code but doesn't actually do anything at the moment so instead of deleteing all the method calls we just left them as is and kept this method
-		*/
-		
+	private boolean win (){ // TODO
 		int x_counter = 0,
 			y_counter = 0;
 		
@@ -180,9 +173,9 @@ public class Control extends View{ // a class to determines what happens when th
 		return false;
 	}
 	
-	private boolean noMoreMoves (){
+	private boolean noMoreMoves (){ // TODO
 
-		int x_counter = Disk.getX(),
+		int x_counter = Disk.getX(), 
 			y_counter = Disk.getY(),
 			space_counter = 0;
 		
@@ -315,7 +308,7 @@ public class Control extends View{ // a class to determines what happens when th
 		else if (e.getActionCommand().equals("Resume Game") ){ // resume game button on the info panel to return the player to the current game
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
-		else if (e.getActionCommand().equals("Start Game")|| // if the user wants to play a standard game with dev mode
+		else if (e.getActionCommand().equals("Start Game") || // if the user wants to play a standard game with dev mode
 				 e.getActionCommand().equals("New Game") ||
 				 e.getActionCommand().equals("Resume Game")){
 				gameScreen(); // calls the game
@@ -332,6 +325,8 @@ public class Control extends View{ // a class to determines what happens when th
 					card_layout.show(deck_panel, "GamePanel"); // shows the game panel
 					
 					if (mouseClick % 2 == 0){ // determines which player is going to move first
+						p1.setOpaque(true); // sets label background
+						p1.setBackground(new Color (0, 0, 0, 50));
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
 								"First Move",
@@ -339,6 +334,8 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 
 					else{ // if player 1 is not moving first
+						p2.setOpaque(true); // sets label background
+						p2.setBackground(new Color (0, 0, 0, 50));
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
 								"First Move",
@@ -373,7 +370,7 @@ public class Control extends View{ // a class to determines what happens when th
 		}
 		else if (e.getActionCommand().equals("Start Game ")){ // in dev mode if user wants to start a game from the current state
 			boolean piece_air = pieceAir(), // checks if piece is in air
-					win_check = win(); // TODO for Assignment 2
+					win_check = win();
 			int piece_diff = Math.abs(Control.bluecount - Control.redcount); // checks if the count of the piece is correct
 			if (piece_diff > 1 && piece_air == true && win_check == true){ // if all errors occur the program will list them
 				JOptionPane.showMessageDialog(main_frame,
@@ -426,12 +423,12 @@ public class Control extends View{ // a class to determines what happens when th
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_diff == 1 ||piece_diff == 0 || piece_air == false ||	win_check == false) { // if game state is correct start the game
+			else if (piece_diff == 1 || piece_diff == 0 || piece_air == false || win_check == false) { // if game state is correct start the game
 				gameScreen();
 				panel = game_panel;
 				playerNameSet(panel); // check names
 				
-				if (wrongFormat == false){ // check if formates okay
+				if (wrongFormat == false){ // check if formats okay
 				card_layout.show(deck_panel, "GamePanel"); 
 					for (int ix = 0; ix < 7; ix++){
 						for (int iy = 0; iy < 6; iy++){
@@ -444,6 +441,8 @@ public class Control extends View{ // a class to determines what happens when th
 						}
 					}
 					if (mouseClick % 2 == 0){ // tell the users who is playing first
+						p1.setOpaque(true); // sets label background
+						p1.setBackground(new Color (0, 0, 0, 50));
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
 								"First Move",
@@ -451,6 +450,8 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 
 					else{
+						p2.setOpaque(true); // sets label background
+						p2.setBackground(new Color (0, 0, 0, 50));
 						JOptionPane.showMessageDialog(main_frame,
 								"Random selection has chosen " + player2 + " to move first. After this the turns will alternate.",
 								"First Move",
@@ -458,16 +459,19 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 				}
 				
-				else{ // if names are correct 
+				else{ // if names are incorrect 
 					card_layout.show(deck_panel, "DeveloperPanel"); 
 				}				
 				
 				if(Control.bluecount > Control.redcount) mouseClick = 1; // checks to see who goes first depending on the developer mode state
 				else if(Control.bluecount < Control.redcount) mouseClick = 0; // same 
-				else mouseClick = rand.nextInt(2);
+				else { // if the pieces are even in number than whoever has been randomly selected to go first will
+					if (mouseClick % 2 == 0) { mouseClick = 0; }
+					else { mouseClick = 1; }
+					}
+				}
 			}
 		}
-	}
 	
 	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){ // used for determining location of mouse click
 		try{
@@ -520,18 +524,25 @@ public class Control extends View{ // a class to determines what happens when th
 						}
 					}
 					if(mouseClick%2==0){ // places the actuall disk depending on whos turn it is
+						p1.setOpaque(false); // below three lines highlight which players turn it is
+						p2.setOpaque(true);
+						p2.setBackground(new Color (0, 0, 0, 50));
 						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 						winner = player1name;
 					}
 					else{
+						p2.setOpaque(false); // below three lines highlight which players turn it is
+						p1.setOpaque(true);
+						p1.setBackground(new Color (0, 0, 0, 50));
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 						winner = player2name;
 					}
 					noMoreMoves();
 					mouseClick++; // increments mouse click
 				}
-				if (win() == true){
-					JOptionPane.showMessageDialog(main_frame, winner + " has won!");
+				
+				if (win() == true){ // when a player has connect 4
+					JOptionPane.showMessageDialog(main_frame,  winner + " has connected 4 and won the game!"); // shows the winner
 					card_layout.show(deck_panel, "TitlePanel");
 					card_layout.removeLayoutComponent(panel);
 				}

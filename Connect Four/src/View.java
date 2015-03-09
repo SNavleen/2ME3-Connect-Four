@@ -10,11 +10,7 @@
 import java.awt.Color; // jave imports for creating panels in a JFrame
 import java.awt.Graphics;
 import java.awt.Insets;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -109,7 +105,8 @@ public class View extends Model{ // View class to create everything the user see
 				instructions_game = new JButton ("Instructions");
 
 		JLabel blueDisk = new JLabel(blueimage), // the disks are simply labels with pictures on top of them (here a label is created for each type of disk)
-			   redDisk = new JLabel (redimage);
+			   redDisk = new JLabel (redimage),
+			   playerVSplayermode = new JLabel ("PvP Mode"); // a label in the bottom left corner to show that the user is in player vs player mode
 		
 		mainmenu.addActionListener(new Model()); // adds listerners for the buttons
 		instructions_game.addActionListener(new Model());
@@ -124,12 +121,18 @@ public class View extends Model{ // View class to create everything the user see
 		
 		blueDisk.setBounds(0, 0, 95, 99); // sets the location of the blue and red disk in the top right/lef of the screen
 		redDisk.setBounds(798, 0, 95, 99);
+		playerVSplayermode.setBounds(1, 520, 96, 40);
+		playerVSplayermode.setHorizontalAlignment(SwingConstants.CENTER); // centres the text of the PvP label (defaulted to LEFT)
+		playerVSplayermode.setOpaque(true); // for esthetics 
+		playerVSplayermode.setForeground(new Color (200, 0, 0)); // colours
+		playerVSplayermode.setBackground(new Color (0, 0, 0, 50));
 		
 		game_panel.add(mainmenu); // adds all buttons and labels to the panel
 		game_panel.add(instructions_game);
 		game_panel.add(exit);
 		game_panel.add(blueDisk);
 		game_panel.add(redDisk);
+		game_panel.add(playerVSplayermode);
 		
 		game_panel.addMouseListener(new Model(game_panel, developer_mode)); // uses model and implements the mouse listeners
 		
