@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.Random;
 
+import javax.jws.WebParam.Mode;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -30,7 +31,7 @@ public class Control extends View{ // a class to determines what happens when th
 	private boolean wrongFormat = false; // used to see if the users names are in the correct format
 	
 	private void blueDisk(int x, int y, JPanel panel) throws IOException{ // method for placing a blue disk
-		final ImageIcon blueimage = new ImageIcon("Images/Bluedisk.png"); // loads in the image
+		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
 		JLabel blueDisk = new JLabel(blueimage); // creates a label with the above image
 		blueDisk.setBounds(102+(x), 2+(y), 93, 93); // sets the location based on the arguements (which come from the players click)
 		panel.add(blueDisk); // adds the disk to the panel
@@ -49,7 +50,7 @@ public class Control extends View{ // a class to determines what happens when th
 	}
 	
 	private void redDisk(int x, int y, JPanel panel) throws IOException{ //  same as the above method but for the red disk
-		final ImageIcon redimage = new ImageIcon("Images/Reddisk.png");
+		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));
 		JLabel redDisk = new JLabel(redimage);
 		redDisk.setBounds(102+(x), 2+(y), 93, 93);
 		panel.add(redDisk);	
@@ -77,6 +78,8 @@ public class Control extends View{ // a class to determines what happens when th
 		
 		player1 = JOptionPane.showInputDialog("Please enter Player 1's name: "); // pop up window that takes player 1's name
 		player2 = JOptionPane.showInputDialog("Please enter Player 2's name: "); //  same for player 2
+		Model.player1name = player1;
+		Model.player2name = player2;
 		p1.setText(player1); // sets the labels text to the text recieved above
 		p2.setText(player2); // same for p2
 		
@@ -116,7 +119,7 @@ public class Control extends View{ // a class to determines what happens when th
 		return false; // other wise no pieces are floating and method returns false
 	}
 	
-	private boolean win (){ // TODO for Assignment 2
+	private boolean win (){ 
 		/* This method will be used to check if a player has won the game. It will be implemented in assignment 2, the reason we left it in the code is because we had it working but with a few bugs, and because it's not a requirement for Assignment 1
 		 * we ended up just deleting the actual win check part. The method is called throughout our code but doesn't actually do anything at the moment so instead of deleteing all the method calls we just left them as is and kept this method
 		*/
@@ -177,6 +180,126 @@ public class Control extends View{ // a class to determines what happens when th
 		return false;
 	}
 	
+	private boolean noMoreMoves (){
+
+		int x_counter = Disk.getX(),
+			y_counter = Disk.getY(),
+			space_counter = 0;
+		
+		int piece = Control.coordinates[x_counter][y_counter];
+
+		if(piece == 1 || piece == -1){
+			try{
+				for(int i = 1; i < 4; i++){
+					int check_piece = Control.coordinates[x_counter-i][y_counter];
+					if( check_piece == piece || check_piece == 0){
+						space_counter ++;
+					}else break;
+				}
+			}catch(Exception e){
+			}
+			finally{
+				try{
+					for(int i = 1; i < 4; i++){
+						int check_piece = Control.coordinates[x_counter+i][y_counter];
+						if( check_piece == piece || check_piece == 0){
+							space_counter ++;
+						}else break;
+					}
+				}catch(Exception ee){
+				}
+				finally{
+					if(space_counter >= 3) {
+						return false;
+					}
+				}
+			}
+			
+			space_counter = 0;
+			try{
+				for(int i = 1; i < 4; i++){
+					int check_piece = Control.coordinates[x_counter][y_counter-i];
+					if( check_piece == piece || check_piece == 0){
+						space_counter ++;
+					}else break;
+				}
+			}catch(Exception e){
+			}
+			finally{
+				try{
+					for(int i = 1; i < 4; i++){
+						int check_piece = Control.coordinates[x_counter][y_counter+i];
+						if( check_piece == piece || check_piece == 0){
+							space_counter ++;
+						}else break;
+					}
+				}catch(Exception ee){
+				}
+				finally{
+					if(space_counter >= 3) {
+						return false;
+					}
+				}
+			}
+			
+			space_counter = 0;
+			try{
+				for(int i = 1; i < 4; i++){
+					int check_piece = Control.coordinates[x_counter-i][y_counter-i];
+					if( check_piece == piece || check_piece == 0){
+						space_counter ++;
+					}else break;
+				}
+			}catch(Exception e){
+			}
+			finally{
+				try{
+					for(int i = 1; i < 4; i++){
+						int check_piece = Control.coordinates[x_counter+i][y_counter+i];
+						if( check_piece == piece || check_piece == 0){
+							space_counter ++;
+						}else break;
+					}
+				}catch(Exception ee){
+				}
+				finally{
+					if(space_counter >= 3) {
+						return false;
+					}
+				}
+			}
+			
+			space_counter = 0;
+			try{
+				for(int i = 1; i < 4; i++){
+					int check_piece = Control.coordinates[x_counter-i][y_counter+i];
+					if( check_piece == piece || check_piece == 0){
+						space_counter ++;
+					}else break;
+				}
+			}catch(Exception e){
+			}
+			finally{
+				try{
+					for(int i = 1; i < 4; i++){
+						int check_piece = Control.coordinates[x_counter+i][y_counter-i];
+						if( check_piece == piece || check_piece == 0){
+							space_counter ++;
+						}else break;
+					}
+				}catch(Exception ee){
+				}
+				finally{
+					if(space_counter >= 3) {
+						return false;
+					}
+				}
+			}
+		}
+
+		return true;
+	}
+	
 	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{ // the method determines the actions of each click on each button throughout the code
 		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked on the title screen, go to infopanel
 			infoScreen();
@@ -189,11 +312,12 @@ public class Control extends View{ // a class to determines what happens when th
 		else if (e.getActionCommand().equals("Main Menu")){ // if user want to return to the main menu
 			card_layout.show(deck_panel, "TitlePanel");
 		}	
-		else if (e.getActionCommand().equals("Resume Game")){ // resume game button on the info panel to return the player to the current game
+		else if (e.getActionCommand().equals("Resume Game") ){ // resume game button on the info panel to return the player to the current game
 			card_layout.show(deck_panel, "GamePanel"); 
 		}
 		else if (e.getActionCommand().equals("Start Game")|| // if the user wants to play a standard game with dev mode
-				 e.getActionCommand().equals("New Game")){
+				 e.getActionCommand().equals("New Game") ||
+				 e.getActionCommand().equals("Resume Game")){
 				gameScreen(); // calls the game
 				panel = game_panel;
 				playerNameSet(panel); // asks player for there names
@@ -397,13 +521,19 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 					if(mouseClick%2==0){ // places the actuall disk depending on whos turn it is
 						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
-						winner = player1;
+						winner = player1name;
 					}
 					else{
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
-						winner = player2;
+						winner = player2name;
 					}
+					noMoreMoves();
 					mouseClick++; // increments mouse click
+				}
+				if (win() == true){
+					JOptionPane.showMessageDialog(main_frame, winner + " has won!");
+					card_layout.show(deck_panel, "TitlePanel");
+					card_layout.removeLayoutComponent(panel);
 				}
 			}
 			else{ // if user is in dev mode, the same happens with different properties (disks don't fall)
