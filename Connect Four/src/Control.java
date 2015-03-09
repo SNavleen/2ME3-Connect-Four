@@ -80,9 +80,9 @@ public class Control extends View{ // a class to determines what happens when th
 		p1.setText(player1); // sets the labels text to the text recieved above
 		p2.setText(player2); // same for p2
 		
-		if ((player1 == null) || (player2 == null) || (p1.getText().equals(p2.getText())) || (p1.getText().length() < 1) || (p2.getText().length() < 1) || (p1.getText().charAt(0) == ' ') || (p2.getText().charAt(0) == ' ')){ // simple error check to see if the user inputed a proper name. doesn't check all cases
+		if ((p1.getText().equals(p2.getText())) || (p1.getText().length() < 1) || (p2.getText().length() < 1) || (p1.getText() == " ") || (p2.getText() == " ")){ // simple error check to see if the user inputed a proper name. doesn't check all cases
 			JOptionPane.showMessageDialog(main_frame,
-				    "A players name is not in the correct format!",
+				    "The players name is not in the correct format!",
 				    "Warning",
 				    JOptionPane.WARNING_MESSAGE); // gives an error pop up to tell the user the name was inputed incorrectly
 			wrongFormat = true; // if this is true, the program will go back to the title screen
@@ -302,12 +302,12 @@ public class Control extends View{ // a class to determines what happens when th
 					    "Warning",
 					    JOptionPane.WARNING_MESSAGE);
 			}
-			else if (piece_diff == 1 || piece_diff == 0 || piece_air == false || win_check == false) { // if game state is correct start the game
+			else if (piece_diff == 1 ||piece_diff == 0 || piece_air == false ||	win_check == false) { // if game state is correct start the game
 				gameScreen();
 				panel = game_panel;
 				playerNameSet(panel); // check names
 				
-				if (wrongFormat == false){ // check if formats okay
+				if (wrongFormat == false){ // check if formates okay
 				card_layout.show(deck_panel, "GamePanel"); 
 					for (int ix = 0; ix < 7; ix++){
 						for (int iy = 0; iy < 6; iy++){
@@ -334,20 +334,16 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 				}
 				
-				else{ // if names are incorrect 
+				else{ // if names are correct 
 					card_layout.show(deck_panel, "DeveloperPanel"); 
 				}				
 				
 				if(Control.bluecount > Control.redcount) mouseClick = 1; // checks to see who goes first depending on the developer mode state
 				else if(Control.bluecount < Control.redcount) mouseClick = 0; // same 
-				else { // if the pieces are even in number than whoever has been randomly selected to go first will
-					if (mouseClick % 2 == 0) { mouseClick = 0; }
-					else { mouseClick = 1; }
-					}
-				}
+				else mouseClick = rand.nextInt(2);
 			}
 		}
-	
+	}
 	
 	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){ // used for determining location of mouse click
 		try{
