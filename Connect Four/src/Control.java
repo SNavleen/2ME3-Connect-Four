@@ -175,125 +175,132 @@ public class Control extends View{ // a class to determines what happens when th
 	
 	private boolean noMoreMoves (){ // A method to check if there are no more winning moves are possible // TODO
 
-		int x_counter = Disk.getX(), 
-			y_counter = Disk.getY(),
+		int x_counter = 0, 
+			y_counter = 0,
 			space_counter = 0,
 			total_counter = 0;
-		
-		int piece = Control.coordinates[x_counter][y_counter];
 
-		if(piece == 1 || piece == -1){
-			try{
-				for(int i = 1; i < 4; i++){
-					int check_piece = Control.coordinates[x_counter-i][y_counter];
-					if( check_piece == piece || check_piece == 0){
-						space_counter ++;
-					}else break;
-				}
-			}catch(Exception e){
-			}
-			finally{
-				try{
-					for(int i = 1; i < 4; i++){
-						int check_piece = Control.coordinates[x_counter+i][y_counter];
-						if( check_piece == piece || check_piece == 0){
-							space_counter ++;
-						}else break;
+		while(x_counter != 7){ // runs through the columns
+			while(y_counter != 6){ // runs through the rows
+				int piece = Control.coordinates[x_counter][y_counter];
+
+					try{
+						for(int i = 1; i < 4; i++){
+							int check_piece = Control.coordinates[x_counter-i][y_counter];
+							if( check_piece == piece || check_piece == 0){
+								space_counter ++;
+							}else break;
+						}
+					}catch(Exception e){
 					}
-				}catch(Exception ee){
-				}
-				finally{
-					if(space_counter >= 3) {
-						total_counter++;
+					finally{
+						try{
+							for(int i = 1; i < 4; i++){
+								int check_piece = Control.coordinates[x_counter+i][y_counter];
+								if( check_piece == piece || check_piece == 0){
+									space_counter ++;
+								}else break;
+							}
+						}catch(Exception ee){
+						}
+						finally{
+							if(space_counter >= 3) {
+								total_counter++;
+							}
+						}
 					}
-				}
-			}
-			
-			space_counter = 0;
-			try{
-				for(int i = 1; i < 4; i++){
-					int check_piece = Control.coordinates[x_counter][y_counter-i];
-					if( check_piece == piece || check_piece == 0){
-						space_counter ++;
-					}else break;
-				}
-			}catch(Exception e){
-			}
-			finally{
-				try{
-					for(int i = 1; i < 4; i++){
-						int check_piece = Control.coordinates[x_counter][y_counter+i];
-						if( check_piece == piece || check_piece == 0){
-							space_counter ++;
-						}else break;
+
+					space_counter = 0;
+					try{
+						for(int i = 1; i < 4; i++){
+							int check_piece = Control.coordinates[x_counter][y_counter-i];
+							if( check_piece == piece || check_piece == 0){
+								space_counter ++;
+							}else break;
+						}
+					}catch(Exception e){
 					}
-				}catch(Exception ee){
-				}
-				finally{
-					if(space_counter >= 3) {
-						total_counter++;
+					finally{
+						try{
+							for(int i = 1; i < 4; i++){
+								int check_piece = Control.coordinates[x_counter][y_counter+i];
+								if( check_piece == piece || check_piece == 0){
+									space_counter ++;
+								}else break;
+							}
+						}catch(Exception ee){
+						}
+						finally{
+							if(space_counter <= 3) {
+								total_counter++;
+							}
+						}
 					}
-				}
-			}
-			
-			space_counter = 0;
-			try{
-				for(int i = 1; i < 4; i++){
-					int check_piece = Control.coordinates[x_counter-i][y_counter-i];
-					if( check_piece == piece || check_piece == 0){
-						space_counter ++;
-					}else break;
-				}
-			}catch(Exception e){
-			}
-			finally{
-				try{
-					for(int i = 1; i < 4; i++){
-						int check_piece = Control.coordinates[x_counter+i][y_counter+i];
-						if( check_piece == piece || check_piece == 0){
-							space_counter ++;
-						}else break;
+
+					space_counter = 0;
+					try{
+						for(int i = 1; i < 4; i++){
+							int check_piece = Control.coordinates[x_counter-i][y_counter-i];
+							if( check_piece == piece || check_piece == 0){
+								space_counter ++;
+							}else break;
+						}
+					}catch(Exception e){
 					}
-				}catch(Exception ee){
-				}
-				finally{
-					if(space_counter >= 3) {
-						total_counter++;
+					finally{
+						try{
+							for(int i = 1; i < 4; i++){
+								int check_piece = Control.coordinates[x_counter+i][y_counter+i];
+								if( check_piece == piece || check_piece == 0){
+									space_counter ++;
+								}else break;
+							}
+						}catch(Exception ee){
+						}
+						finally{
+							if(space_counter <= 3) {
+								total_counter++;
+							}
+						}
 					}
-				}
-			}
-			
-			space_counter = 0;
-			try{
-				for(int i = 1; i < 4; i++){
-					int check_piece = Control.coordinates[x_counter-i][y_counter+i];
-					if( check_piece == piece || check_piece == 0){
-						space_counter ++;
-					}else break;
-				}
-			}catch(Exception e){
-			}
-			finally{
-				try{
-					for(int i = 1; i < 4; i++){
-						int check_piece = Control.coordinates[x_counter+i][y_counter-i];
-						if( check_piece == piece || check_piece == 0){
-							space_counter ++;
-						}else break;
+
+
+					space_counter = 0;
+					try{
+						for(int i = 1; i < 4; i++){
+							int check_piece = Control.coordinates[x_counter-i][y_counter+i];
+							if( check_piece == piece || check_piece == 0){
+								space_counter ++;
+							}else break;
+						}
+					}catch(Exception e){
 					}
-				}catch(Exception ee){
-				}
-				finally{
-					if(space_counter >= 3) {
-						total_counter++;
+					finally{
+						try{
+							for(int i = 1; i < 4; i++){
+								int check_piece = Control.coordinates[x_counter+i][y_counter-i];
+								if( check_piece == piece || check_piece == 0){
+									space_counter ++;
+								}else break;
+							}
+						}catch(Exception ee){
+						}
+						finally{
+							if(space_counter <= 3) {
+								total_counter++;
+							}
+						}
 					}
+					//System.out.println(total_counter);
+					if(total_counter == 0){
+						return true;
+					}
+
+					y_counter++; // moves down if none of the current rows had a win
 				}
+				y_counter = 0; // resets
+				x_counter++; // moves right to go through every board piece every time
 			}
-		}
-		System.out.println(total_counter);
-		if(total_counter == 0){
-			return true;
-		}
 		return false;
 	}
 	
