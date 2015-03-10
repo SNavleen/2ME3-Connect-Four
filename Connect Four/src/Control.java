@@ -24,7 +24,7 @@ public class Control extends View{ // a class to determines what happens when th
 	private static Random rand = new Random (); // a random used for determining who moves first
 	private static int mouseClick = rand.nextInt(2), coordinates [][] = new int [7][6], bluecount = 0, redcount = 0; // ints throughout the program, mouseclick is for which player moves first, coordinates is the where the user clicks in a grid format and the counts determine how many moves each player has done
 	private String player1, player2; // strings for the player names
-	private String winner; // string for the name of the player that wins TODO will be implemented fully in assignment 2
+	private String winner; // string for the name of the player that wins
 	private boolean wrongFormat = false; // used to see if the users names are in the correct format
 	private static JLabel p1 = new JLabel(); // label for player 1
 	private static JLabel p2 = new JLabel(); // player 2
@@ -116,68 +116,69 @@ public class Control extends View{ // a class to determines what happens when th
 		return false; // other wise no pieces are floating and method returns false
 	}
 	
-	private boolean win (){ // TODO
-		int x_counter = 0,
-			y_counter = 0;
+	private boolean win (){ // checks each row, column and diagonal of the board to determine if a winning combination has occurred, outputs true or false
+		int x_counter = 0, // used for checking x coordinates
+			y_counter = 0; // same for y
 		
-		while(x_counter != 7){
-			while(y_counter != 6){
-				int total_pieces = 0,
-					piece = Control.coordinates[x_counter][y_counter];
-				if (piece == 1 || piece == -1){
-					if (x_counter <= 3){
-						for(int i = 0; i < 4; i++){
-							if(piece == Control.coordinates[x_counter+i][y_counter]) total_pieces++;
-							else break;
+		while(x_counter != 7){ // runs through the columns
+			while(y_counter != 6){ // runs through the rows
+				int total_pieces = 0, // a count for the number of same type piece it counts in a row/column/diagonal, if the number reaches 4 then a win has occurred
+					piece = Control.coordinates[x_counter][y_counter]; // used for determining if a piece is in a location and if so the colour of that piece 
+				if (piece == 1 || piece == -1){ // piece will be in a -1 state, if the board coordinate is red, 0 state if there's no piece, and 1 if the piece is blue 
+					if (x_counter <= 3){ // checks if a horizontal win is still possible, no win to the right can occur in a row if x location is greater than 3
+						for(int i = 0; i < 4; i++){ // runs 4 times to check if there is a win
+							if(piece == Control.coordinates[x_counter+i][y_counter]) total_pieces++; // checks if the position to the right of the current one is the same colour (if one exists), if so add 1 to the total pieces count
+							else break; // if a win has not occurred the loop breaks
 						}
 					}
-					if (total_pieces == 4) {
+					if (total_pieces == 4) { // if a win has occured output true
 						return true;
 					}
-					total_pieces = 0;
-					if (y_counter <= 2){
-						for(int i = 0; i < 4; i++){
-							if(piece == Control.coordinates[x_counter][y_counter+i])total_pieces++;
-							else break;
+					total_pieces = 0; // reset the piece count to 0 
+					if (y_counter <= 2) { // checks for vertical wins, only runs 3 times because a win cannot occur if y is below 2
+						for(int i = 0; i < 4; i++) { // runs 4 times to check if a win has occurred
+							if(piece == Control.coordinates[x_counter][y_counter+i])total_pieces++; // same as above but changing y coordinate
+							else break; // break if not a win
 						}
 					}
-					if (total_pieces == 4) {
+					if (total_pieces == 4) { // if a win has occurred 
 						return true;
 					}
-					total_pieces = 0;
-					if (y_counter <= 2 && x_counter >= 3){
-						for(int i = 0; i < 4; i++){
-							if(piece == Control.coordinates[x_counter-i][y_counter+i])total_pieces++;
-							else break;
+					total_pieces = 0; // resets count
+					if (y_counter <= 2 && x_counter >= 3){ // checking for diagonal wins starting from the bottum left corner of the board
+						for(int i = 0; i < 4; i++){ // runs 4 times as always
+							if(piece == Control.coordinates[x_counter-i][y_counter+i])total_pieces++; // checks each postion to the top right of the current
+							else break; // breaks otherwise
 						}
 					}
-					if (total_pieces == 4) {
+					if (total_pieces == 4) { // if a win has occurred
 						return true;
 					}
-					total_pieces = 0;
-					if (y_counter <= 2 && x_counter <= 3){
+					total_pieces = 0; // reset count
+					if (y_counter <= 2 && x_counter <= 3){ // checks diagonal wins starting from the top left position
 						for(int i = 0; i < 4; i++){
-							if(piece == Control.coordinates[x_counter+i][y_counter+i])total_pieces++;
-							else break;
+							if(piece == Control.coordinates[x_counter+i][y_counter+i])total_pieces++; // moves left diagonally checking each position
+							else break; 
 						}
 					}
 				}
-				if (total_pieces == 4) {
+				if (total_pieces == 4) { // checks for win
 					return true;
 				}
-				y_counter++;
+				y_counter++; // moves down if none of the current rows had a win
 			}
-			y_counter = 0;
-			x_counter++;
+			y_counter = 0; // resets
+			x_counter++; // moves right to go through every board piece every time
 		}
-		return false;
+		return false; // no win has occurred
 	}
 	
-	private boolean noMoreMoves (){ // TODO
+	private boolean noMoreMoves (){ // A method to check if there are no more winning moves are possible // TODO
 
 		int x_counter = Disk.getX(), 
 			y_counter = Disk.getY(),
-			space_counter = 0;
+			space_counter = 0,
+			total_counter = 0;
 		
 		int piece = Control.coordinates[x_counter][y_counter];
 
@@ -203,7 +204,7 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 				finally{
 					if(space_counter >= 3) {
-						return false;
+						total_counter++;
 					}
 				}
 			}
@@ -230,7 +231,7 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 				finally{
 					if(space_counter >= 3) {
-						return false;
+						total_counter++;
 					}
 				}
 			}
@@ -257,7 +258,7 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 				finally{
 					if(space_counter >= 3) {
-						return false;
+						total_counter++;
 					}
 				}
 			}
@@ -284,13 +285,16 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 				finally{
 					if(space_counter >= 3) {
-						return false;
+						total_counter++;
 					}
 				}
 			}
 		}
-
-		return true;
+		System.out.println(total_counter);
+		if(total_counter == 0){
+			return true;
+		}
+		return false;
 	}
 	
 	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{ // the method determines the actions of each click on each button throughout the code
@@ -539,6 +543,13 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 					noMoreMoves();
 					mouseClick++; // increments mouse click
+				}
+				
+				if(noMoreMoves() == true){ // TODO
+					JOptionPane.showMessageDialog(main_frame, "No more winning combinations can be made. The game is a tie!");
+					card_layout.show(deck_panel, "TitlePanel");
+					card_layout.removeLayoutComponent(panel);
+					
 				}
 				
 				if (win() == true){ // when a player has connect 4
