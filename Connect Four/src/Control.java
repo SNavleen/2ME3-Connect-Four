@@ -176,12 +176,12 @@ public class Control extends View{ // a class to determines what happens when th
 	private boolean noMoreMoves (){ // A method to check if there are no more winning moves are possible // TODO
 
 		int x_counter = 0, 
-			y_counter = 0,
+			y_counter = 5,
 			space_counter = 0,
 			total_counter = 0;
 
 		while(x_counter != 7){ // runs through the columns
-			while(y_counter != 6){ // runs through the rows
+			while(y_counter != -1){ // runs through the rows
 				int piece = Control.coordinates[x_counter][y_counter];
 
 					try{
@@ -191,8 +191,7 @@ public class Control extends View{ // a class to determines what happens when th
 								space_counter ++;
 							}else break;
 						}
-					}catch(Exception e){
-					}
+					}catch(Exception ee){}
 					finally{
 						try{
 							for(int i = 1; i < 4; i++){
@@ -201,8 +200,32 @@ public class Control extends View{ // a class to determines what happens when th
 									space_counter ++;
 								}else break;
 							}
-						}catch(Exception ee){
+						}catch(Exception e){}
+						finally{
+							if(space_counter >= 3) {
+								total_counter++;
+							}
 						}
+					}
+					
+					space_counter = 0;
+					try{
+						for(int i = 1; i < 4; i++){
+							int check_piece = Control.coordinates[x_counter-i][y_counter-i];
+							if( check_piece == piece || check_piece == 0){
+								space_counter ++;
+							}else break;
+						}
+					}catch(Exception ee){}
+					finally{
+						try{
+							for(int i = 1; i < 4; i++){
+								int check_piece = Control.coordinates[x_counter+i][y_counter+i];
+								if( check_piece == piece || check_piece == 0){
+									space_counter ++;
+								}else break;
+							}
+						}catch(Exception e){}
 						finally{
 							if(space_counter >= 3) {
 								total_counter++;
@@ -213,68 +236,12 @@ public class Control extends View{ // a class to determines what happens when th
 					space_counter = 0;
 					try{
 						for(int i = 1; i < 4; i++){
-							int check_piece = Control.coordinates[x_counter][y_counter-i];
-							if( check_piece == piece || check_piece == 0){
-								space_counter ++;
-							}else break;
-						}
-					}catch(Exception e){
-					}
-					finally{
-						try{
-							for(int i = 1; i < 4; i++){
-								int check_piece = Control.coordinates[x_counter][y_counter+i];
-								if( check_piece == piece || check_piece == 0){
-									space_counter ++;
-								}else break;
-							}
-						}catch(Exception ee){
-						}
-						finally{
-							if(space_counter <= 3) {
-								total_counter++;
-							}
-						}
-					}
-
-					space_counter = 0;
-					try{
-						for(int i = 1; i < 4; i++){
-							int check_piece = Control.coordinates[x_counter-i][y_counter-i];
-							if( check_piece == piece || check_piece == 0){
-								space_counter ++;
-							}else break;
-						}
-					}catch(Exception e){
-					}
-					finally{
-						try{
-							for(int i = 1; i < 4; i++){
-								int check_piece = Control.coordinates[x_counter+i][y_counter+i];
-								if( check_piece == piece || check_piece == 0){
-									space_counter ++;
-								}else break;
-							}
-						}catch(Exception ee){
-						}
-						finally{
-							if(space_counter <= 3) {
-								total_counter++;
-							}
-						}
-					}
-
-
-					space_counter = 0;
-					try{
-						for(int i = 1; i < 4; i++){
 							int check_piece = Control.coordinates[x_counter-i][y_counter+i];
 							if( check_piece == piece || check_piece == 0){
 								space_counter ++;
 							}else break;
 						}
-					}catch(Exception e){
-					}
+					}catch(Exception ee){}
 					finally{
 						try{
 							for(int i = 1; i < 4; i++){
@@ -283,24 +250,22 @@ public class Control extends View{ // a class to determines what happens when th
 									space_counter ++;
 								}else break;
 							}
-						}catch(Exception ee){
-						}
+						}catch(Exception e){}
 						finally{
-							if(space_counter <= 3) {
+							if(space_counter >= 3) {
 								total_counter++;
 							}
 						}
-					}
-					//System.out.println(total_counter);
-					if(total_counter == 0){
-						return true;
-					}
+					}			
 
-					y_counter++; // moves down if none of the current rows had a win
+					y_counter--; // moves down if none of the current rows had a win
 				}
 				y_counter = 0; // resets
 				x_counter++; // moves right to go through every board piece every time
 			}
+		if(total_counter == 0){
+			return true;
+		}
 		return false;
 	}
 	
@@ -548,7 +513,6 @@ public class Control extends View{ // a class to determines what happens when th
 						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
 						winner = player2name;
 					}
-					noMoreMoves();
 					mouseClick++; // increments mouse click
 				}
 				
