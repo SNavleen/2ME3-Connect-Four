@@ -10,31 +10,47 @@
 import java.awt.Color;  // imports for user actions and JFrame components
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Random;
+import java.util.Scanner;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
 
 public class Control extends View{ // a class to determines what happens when the user clicks a button in one of the JPanels and also anything the user can do / edit during the run
 	
 	private static Random rand = new Random (); // a random used for determining who moves first
-	private static int mouseClick = rand.nextInt(2), coordinates [][] = new int [7][6], bluecount = 0, redcount = 0; // ints throughout the program, mouseclick is for which player moves first, coordinates is the where the user clicks in a grid format and the counts determine how many moves each player has done
+	private static int mouseClick = rand.nextInt(2), coordinates [][] = new int [7][6], bluecount = 0, redcount = 0, winpoints[][] = new int[4][2]; // ints throughout the program, mouseclick is for which player moves first, coordinates is the where the user clicks in a grid format and the counts determine how many moves each player has done
 	private String player1, player2; // strings for the player names
 	private String winner; // string for the name of the player that wins
 	private boolean wrongFormat = false; // used to see if the users names are in the correct format
 	private static JLabel p1 = new JLabel(); // label for player 1
 	private static JLabel p2 = new JLabel(); // player 2
+	//private JLabel blueDisk[][] = new JLabel [7][6], redDisk[][] = new JLabel [7][6];
 	
 	
-	private void blueDisk(int x, int y, JPanel panel) throws IOException{ // method for placing a blue disk
+	private void blueDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ // method for placing a blue disk
 		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
-		JLabel blueDisk = new JLabel(blueimage); // creates a label with the above image
-		blueDisk.setBounds(102+(x), 2+(y), 93, 93); // sets the location based on the arguements (which come from the players click)
-		panel.add(blueDisk); // adds the disk to the panel
+		final ImageIcon blueimagewin = new ImageIcon(getClass().getResource("/Reddisk.png")); // loads in the image
+		if(gamewin == true)
+			blueDisk[x/99][y/95].setIcon(blueimagewin);
+		else
+			blueDisk[x/99][y/95].setIcon(blueimage); // creates a label with the above image
+		
+		blueDisk[x/99][y/95].setBounds(102+(x), 2+(y), 93, 93); // sets the location based on the arguements (which come from the players click)
+		panel.add(blueDisk[x/99][y/95]); // adds the disk to the panel
 		
 		if (Model.dev_mode == false){ // below if statments determine if the user is in dev mode or not
 			card_layout.show(deck_panel, "GamePanel"); // shows on the actual game board
@@ -49,11 +65,15 @@ public class Control extends View{ // a class to determines what happens when th
 		main_frame.validate(); // insure that the frame has repainted correctly
 	}
 	
-	private void redDisk(int x, int y, JPanel panel) throws IOException{ //  same as the above method but for the red disk
-		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));
-		JLabel redDisk = new JLabel(redimage);
-		redDisk.setBounds(102+(x), 2+(y), 93, 93);
-		panel.add(redDisk);	
+	private void redDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ //  same as the above method but for the red disk
+		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));		
+		final ImageIcon redimagewin = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
+		if(gamewin == true)
+			blueDisk[x/99][y/95].setIcon(redimagewin);
+		else
+			redDisk[x/99][y/95].setIcon(redimage);
+		redDisk[x/99][y/95].setBounds(102+(x), 2+(y), 93, 93);
+		panel.add(redDisk[x/99][y/95]);	
 		
 		if (Control.dev_mode == false){
 			card_layout.show(deck_panel, "GamePanel");
@@ -87,7 +107,11 @@ public class Control extends View{ // a class to determines what happens when th
 				    JOptionPane.WARNING_MESSAGE); // gives an error pop up to tell the user the name was inputed incorrectly
 			wrongFormat = true; // if this is true, the program will go back to the title screen
 		}
+		nameOnScreen(panel);
 
+	}
+	
+	private void nameOnScreen(JPanel panel){
 		p1.setBounds(3, 110, 93, 40); // sets the location of the name label
 		p1.setHorizontalAlignment(SwingConstants.CENTER); // centers the text
 		p2.setBounds(798, 110, 93, 40);
@@ -100,7 +124,7 @@ public class Control extends View{ // a class to determines what happens when th
 		
 		card_layout.show(deck_panel, "GamePanel"); // adds the panel to the deck
 		main_frame.repaint(); // repaints to show change
-		main_frame.validate(); // checks if properly repainted
+		main_frame.validate(); // checks if properly repainted	
 	}
 	
 	private boolean pieceAir (){ // method to check if a piece has been place floating in dev mode
@@ -124,6 +148,8 @@ public class Control extends View{ // a class to determines what happens when th
 			while(y_counter != 6){ // runs through the rows
 				int total_pieces = 0, // a count for the number of same type piece it counts in a row/column/diagonal, if the number reaches 4 then a win has occurred
 					piece = Control.coordinates[x_counter][y_counter]; // used for determining if a piece is in a location and if so the colour of that piece 
+				
+				
 				if (piece == 1 || piece == -1){ // piece will be in a -1 state, if the board coordinate is red, 0 state if there's no piece, and 1 if the piece is blue 
 					if (x_counter <= 3){ // checks if a horizontal win is still possible, no win to the right can occur in a row if x location is greater than 3
 						for(int i = 0; i < 4; i++){ // runs 4 times to check if there is a win
@@ -132,6 +158,10 @@ public class Control extends View{ // a class to determines what happens when th
 						}
 					}
 					if (total_pieces == 4) { // if a win has occured output true
+						for (int i = 0; i < 4; i++){
+							winpoints[i][0] = x_counter + i;
+							winpoints[i][1] = y_counter;
+						}
 						return true;
 					}
 					total_pieces = 0; // reset the piece count to 0 
@@ -142,6 +172,10 @@ public class Control extends View{ // a class to determines what happens when th
 						}
 					}
 					if (total_pieces == 4) { // if a win has occurred 
+						for (int i = 0; i < 4; i++){
+							winpoints[i][0] = x_counter;
+							winpoints[i][1] = y_counter + i;
+						}
 						return true;
 					}
 					total_pieces = 0; // resets count
@@ -152,6 +186,10 @@ public class Control extends View{ // a class to determines what happens when th
 						}
 					}
 					if (total_pieces == 4) { // if a win has occurred
+						for (int i = 0; i < 4; i++){
+							winpoints[i][0] = x_counter - i;
+							winpoints[i][1] = y_counter + i;
+						}
 						return true;
 					}
 					total_pieces = 0; // reset count
@@ -163,6 +201,10 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 				}
 				if (total_pieces == 4) { // checks for win
+					for (int i = 0; i < 4; i++){
+						winpoints[i][0] = x_counter + i;
+						winpoints[i][1] = y_counter + i;
+					}
 					return true;
 				}
 				y_counter++; // moves down if none of the current rows had a win
@@ -173,7 +215,7 @@ public class Control extends View{ // a class to determines what happens when th
 		return false; // no win has occurred
 	}
 	
-	private boolean noMoreMoves (){ // A method to check if there are no more winning moves are possible // TODO
+	private boolean noMoreMoves (){ // A method to check if there are no more winning moves are possible
 
 		int x_counter = 0, 
 			y_counter = 5,
@@ -202,6 +244,7 @@ public class Control extends View{ // a class to determines what happens when th
 							}
 						}catch(Exception e){}
 						finally{
+							//System.out.println("x:  "+space_counter);
 							if(space_counter >= 3) {
 								total_counter++;
 							}
@@ -227,6 +270,7 @@ public class Control extends View{ // a class to determines what happens when th
 							}
 						}catch(Exception e){}
 						finally{
+							//System.out.println("left corner:  "+space_counter);
 							if(space_counter >= 3) {
 								total_counter++;
 							}
@@ -252,24 +296,66 @@ public class Control extends View{ // a class to determines what happens when th
 							}
 						}catch(Exception e){}
 						finally{
+							//System.out.println("right corner:  "+space_counter);
 							if(space_counter >= 3) {
 								total_counter++;
 							}
 						}
-					}			
-
+					}
+					
+					space_counter = 0;
 					y_counter--; // moves down if none of the current rows had a win
 				}
 				y_counter = 0; // resets
 				x_counter++; // moves right to go through every board piece every time
 			}
+		//System.out.println("Total:  "+total_counter);
 		if(total_counter == 0){
 			return true;
 		}
 		return false;
 	}
 	
-	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws IOException{ // the method determines the actions of each click on each button throughout the code
+	private void saveGame(String savename, String player1, String player2) throws Exception{
+		int x_counter = 0, // used for checking x coordinates
+				y_counter = 0; // same for y
+			PrintWriter printer = new PrintWriter("Saves/"+savename+".navleen");
+			printer.println(mouseClick);
+			printer.println("Player 1:"+player1);
+			printer.println("Player 2:"+player2);
+			while(y_counter != 6){ // runs through the columns
+				while(x_counter != 7){ // runs through the rows
+					int piece = Control.coordinates[x_counter][y_counter]; // used for determining if a piece is in a location and if so the colour of that piece 
+					printer.write(piece+" ");
+					x_counter++; // moves down if none of the current rows had a win
+				}
+				printer.println();
+				x_counter = 0; // resets
+				y_counter++; // moves right to go through every board piece every time
+			}
+			printer.close();
+	}
+	
+	private int[][] loadGame(BufferedReader read)throws Exception{
+		int [][] cood = new int [7][6];
+		String s = read.readLine();
+		int y_count = 0;
+		while(s != null){
+			String[] getpieces = s.split(" ");
+			for (int x = 0; x < getpieces.length; x++){
+				cood[x][y_count] = Integer.parseInt(getpieces[x]);
+				if(Integer.parseInt(getpieces[x]) == 1 || Integer.parseInt(getpieces[x]) == -1)
+					View.check_disk[x][y_count] = true;
+				else
+					View.check_disk[x][y_count] = false;
+			}
+			y_count++;
+			s = read.readLine();
+		}
+		return(cood);
+	}
+	
+	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws Exception{ // the method determines the actions of each click on each button throughout the code
 		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked on the title screen, go to infopanel
 			infoScreen();
 			card_layout.show(deck_panel, "InfoPanel");
@@ -279,10 +365,78 @@ public class Control extends View{ // a class to determines what happens when th
 			if (exit == 0){ System.exit (0); }// if so the window closes
 		}
 		else if (e.getActionCommand().equals("Main Menu")){ // if user want to return to the main menu
-			card_layout.show(deck_panel, "TitlePanel");
+			card_layout.show(deck_panel, "TitlePanel");		
+			for (int iy = 0; iy < 6; iy++){
+				for (int ix = 0; ix < 7; ix++){
+					Control.coordinates[ix][iy] = 0;
+					View.check_disk[ix][iy] = false;
+				}
+			}
 		}	
+		else if(e.getActionCommand().equals("Save Game")){
+			String savename = JOptionPane.showInputDialog("Enter what file you want to save it in: "); 
+			saveGame(savename, Control.player1name, Control.player2name);
+		}
 		else if (e.getActionCommand().equals("Resume Game") ){ // resume game button on the info panel to return the player to the current game
 			card_layout.show(deck_panel, "GamePanel"); 
+		}
+		else if (e.getActionCommand().equals("Load Game")){
+			File[] listgames = new File ("Saves").listFiles();
+			try{
+				String gamepicked = JOptionPane.showInputDialog(null, "Pick a game to load.",
+																"Load Game", JOptionPane.DEFAULT_OPTION,
+																null, listgames, listgames[0].toString()).toString();
+				BufferedReader read = new BufferedReader(new FileReader(gamepicked));
+				mouseClick = Integer.parseInt(read.readLine());
+				String [] player_1 = read.readLine().split(":");
+				player1 = player_1[1];
+				String [] player_2 = read.readLine().split(":");
+				player2 = player_2[1];
+				player1name = player1;
+				player2name = player2;
+				
+				Control.coordinates = loadGame(read);
+				
+				gameScreen();
+				p1.setFont(new Font("Calibri", Font.ITALIC, 25)); // sets the font and size of the labels 
+				p2.setFont(new Font("Calibri", Font.ITALIC, 25));
+				p1.setText(player1); // sets the labels text to the text recieved above
+				p2.setText(player2); // same for p2
+				nameOnScreen(game_panel);
+				//card_layout.show(deck_panel, "GamePanel"); 
+				
+				for (int iy = 0; iy < 6; iy++){
+					for (int ix = 0; ix < 7; ix++){
+						if (Control.coordinates[ix][iy] == 1){
+							blueDisk((ix)*99, (iy)*95, game_panel, false);
+						}
+						else if (Control.coordinates[ix][iy] == -1){
+							redDisk((ix)*99, (iy)*95, game_panel, false);
+						}
+					}
+				}
+				if (mouseClick % 2 == 0){ // tell the users who is playing first
+					p1.setOpaque(true); // sets label background
+					p1.setBackground(new Color (0, 0, 0, 50));
+					JOptionPane.showMessageDialog(main_frame,
+							player1 + " is moveing first.",
+							"Move",
+							JOptionPane.WARNING_MESSAGE);
+				}
+
+				else{
+					p2.setOpaque(true); // sets label background
+					p2.setBackground(new Color (0, 0, 0, 50));
+					JOptionPane.showMessageDialog(main_frame,
+							player2 + " is moveing first.",
+							"Move",
+							JOptionPane.WARNING_MESSAGE);
+				}
+
+			}catch(Exception ee){
+				JOptionPane.showMessageDialog(null, ee);
+			}
+				
 		}
 		else if (e.getActionCommand().equals("Start Game") || // if the user wants to play a standard game with dev mode
 				 e.getActionCommand().equals("New Game") ||
@@ -409,10 +563,10 @@ public class Control extends View{ // a class to determines what happens when th
 					for (int ix = 0; ix < 7; ix++){
 						for (int iy = 0; iy < 6; iy++){
 							if (Control.coordinates[ix][iy] == 1){
-								blueDisk((ix)*99, (iy)*95, panel);
+								blueDisk((ix)*99, (iy)*95, panel, false);
 							}
 							else if (Control.coordinates[ix][iy] == -1){
-								redDisk((ix)*99, (iy)*95, panel);
+								redDisk((ix)*99, (iy)*95, panel, false);
 							}
 						}
 					}
@@ -452,7 +606,7 @@ public class Control extends View{ // a class to determines what happens when th
 	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){ // used for determining location of mouse click
 		try{
 			int pointX = e.getX(), pointY = e.getY(); // gets the X/Y grid coordinates
-			
+
 			if (pointX <= 199  && pointX >= 100)  // the below if statements to see where the mouse click was and return a grid coordinate depending on the click
 				setX(0);
 			else if (pointX <= 299  && pointX >= 200)
@@ -503,20 +657,20 @@ public class Control extends View{ // a class to determines what happens when th
 						p1.setOpaque(false); // below three lines highlight which players turn it is
 						p2.setOpaque(true);
 						p2.setBackground(new Color (0, 0, 0, 50));
-						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel, false);
 						winner = player1name;
 					}
 					else{
 						p2.setOpaque(false); // below three lines highlight which players turn it is
 						p1.setOpaque(true);
 						p1.setBackground(new Color (0, 0, 0, 50));
-						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						redDisk((Disk.getX())*99, (Disk.getY())*95, panel, false);
 						winner = player2name;
 					}
 					mouseClick++; // increments mouse click
 				}
 				
-				if(noMoreMoves() == true){ // TODO
+				if(noMoreMoves() == true){
 					JOptionPane.showMessageDialog(main_frame, "No more winning combinations can be made. The game is a tie!");
 					card_layout.show(deck_panel, "TitlePanel");
 					card_layout.removeLayoutComponent(panel);
@@ -524,8 +678,21 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 				
 				if (win() == true){ // when a player has connect 4
+					mouseClick--;
+					for (int i = 0; i < 4; i++){
+						if(mouseClick%2==0) // places the actuall disk depending on whos turn it is
+							blueDisk(winpoints[i][0]*99, winpoints[i][1]*95, panel, true);
+						else
+							redDisk(winpoints[i][0]*99, winpoints[i][1]*95, panel, true);
+					}
 					JOptionPane.showMessageDialog(main_frame,  winner + " has connected 4 and won the game!"); // shows the winner
 					card_layout.show(deck_panel, "TitlePanel");
+					for (int iy = 0; iy < 6; iy++){
+						for (int ix = 0; ix < 7; ix++){
+							Control.coordinates[ix][iy] = 0;
+							View.check_disk[ix][iy] = false;
+						}
+					}
 					card_layout.removeLayoutComponent(panel);
 				}
 			}
@@ -534,11 +701,11 @@ public class Control extends View{ // a class to determines what happens when th
 					Model.check_disk[Disk.getX()][Disk.getY()] = true;
 						
 					if(mouseClick == 0){
-						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel, false);
 						Control.bluecount++;
 					}
 					else if (mouseClick == 1){
-						redDisk((Disk.getX())*99, (Disk.getY())*95, panel);
+						redDisk((Disk.getX())*99, (Disk.getY())*95, panel, false);
 						Control.redcount++;
 					}
 				}

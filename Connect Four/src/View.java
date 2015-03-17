@@ -38,22 +38,26 @@ public class View extends Model{ // View class to create everything the user see
 		JButton start_game = new JButton("Start Game"), // buttons for title screen
 				instructions_title = new JButton("Instructions"), 
 				exit_title = new JButton("Exit"),
-				developer = new JButton ("Developer Mode");
+				developer = new JButton ("Developer Mode"),
+				loadgame = new JButton ("Load Game");
 		
 		start_game.addActionListener(new Model(game_panel, developer_mode)); // listers for all the buttons, checking if the user clicks a certain button
 		instructions_title.addActionListener(new Control());
 		developer.addActionListener(new Model(game_panel, developer_mode));
 		exit_title.addActionListener(new Model());
+		loadgame.addActionListener(new Model(game_panel, developer_mode));
 		
-		start_game.setBounds(183, 500, 125, 40); // sets where the button goes as well as the height and width (on the start screen all are located in a line on the bottom of the screen)
-		instructions_title.setBounds(318, 500, 125, 40);
-		developer.setBounds(453, 500, 125, 40);
-		exit_title.setBounds(588, 500, 125, 40);
+		start_game.setBounds(113, 500, 125, 40); // sets where the button goes as well as the height and width (on the start screen all are located in a line on the bottom of the screen)
+		instructions_title.setBounds(248, 500, 125, 40);
+		developer.setBounds(383, 500, 125, 40);
+		exit_title.setBounds(518, 500, 125, 40);
+		loadgame.setBounds(653, 500, 125, 40);
 		
 		title_panel.add(start_game); // puts the button on the screen
 		title_panel.add(instructions_title);	
 		title_panel.add(developer);
 		title_panel.add(exit_title);
+		title_panel.add(loadgame);
 		
 		deck_panel.add(title_panel, "TitlePanel"); // adds the panel to the deck of panels
 	}
@@ -102,7 +106,8 @@ public class View extends Model{ // View class to create everything the user see
 		
 		JButton mainmenu = new JButton ("Main Menu"), // buttons for game board
 				exit = new JButton("Exit"),
-				instructions_game = new JButton ("Instructions");
+				instructions_game = new JButton ("Instructions"),
+				save = new JButton("Save Game");
 
 		JLabel blueDisk = new JLabel(blueimage), // the disks are simply labels with pictures on top of them (here a label is created for each type of disk)
 			   redDisk = new JLabel (redimage),
@@ -110,7 +115,8 @@ public class View extends Model{ // View class to create everything the user see
 		
 		mainmenu.addActionListener(new Model()); // adds listerners for the buttons
 		instructions_game.addActionListener(new Model());
-		exit.addActionListener(new Model());	
+		exit.addActionListener(new Model());
+		save.addActionListener(new Model());
 		
 		mainmenu.setBounds(798, 380, 93, 40); // sets the locations of the buttons
 		mainmenu.setMargin(new Insets(0,0,0,0)); // limits the amount of "padding" on the buttons so the text of the button does not get cut off
@@ -118,6 +124,8 @@ public class View extends Model{ // View class to create everything the user see
 		instructions_game.setMargin(new Insets(0,0,0,0));
 		exit.setBounds(798, 500, 93, 40);
 		exit.setMargin(new Insets(0,0,0,0));
+		save.setBounds(798, 320, 93, 40);
+		save.setMargin(new Insets(0,0,0,0));
 		
 		blueDisk.setBounds(0, 0, 95, 99); // sets the location of the blue and red disk in the top right/lef of the screen
 		redDisk.setBounds(798, 0, 95, 99);
@@ -130,6 +138,7 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.add(mainmenu); // adds all buttons and labels to the panel
 		game_panel.add(instructions_game);
 		game_panel.add(exit);
+		game_panel.add(save);
 		game_panel.add(blueDisk);
 		game_panel.add(redDisk);
 		game_panel.add(playerVSplayermode);

@@ -17,7 +17,10 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+
+import javax.jws.WebParam.Mode;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Model extends Disk implements ActionListener, MouseListener { // Model class that sets up the JFrame as a window to play connect four in
@@ -29,7 +32,7 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	static boolean dev_mode; // used to determine if the game has to play in developer move or not
 	
 	static String player1name, player2name;
-	
+	static JLabel blueDisk[][] = new JLabel [7][6], redDisk[][] = new JLabel [7][6];
 	static CardLayout card_layout  = new CardLayout(); // creates a new type CardLayout to determine how the panels are shown
 	static JPanel deck_panel = new JPanel();//,  // main panel in which all other panels are displayed
 	final static JFrame main_frame = new JFrame("Connect Four"); // makes a new JFrame type named "Connect Four" (This will be the name of the window)
@@ -51,6 +54,13 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	}
 	
 	public static void main(String [] args) throws IOException{ // calls all methods to create the JFrame
+		
+		for(int x = 0; x < 7; x++){
+			for(int y = 0; y < 6; y++){
+				blueDisk[x][y] = new JLabel();
+				redDisk[x][y] = new JLabel();
+			}
+		}
 		
 		Model model_call = new Model(); // allows model to be called in main (static function) without being static
 		View view_call = new View(); // same as above 
@@ -101,7 +111,7 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 			call_control.buttonFunction(e, panel, dev_mode); // calls control and starts the game
 		} 
 		
-		catch (IOException e1) { // catch an error
+		catch (Exception e1) { // catch an error
 		}
 	}
 }
