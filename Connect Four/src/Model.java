@@ -17,8 +17,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
-
-import javax.jws.WebParam.Mode;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;

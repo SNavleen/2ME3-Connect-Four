@@ -28,7 +28,6 @@ public class View extends Model{ // View class to create everything the user see
 		JPanel title_panel = new JPanel() { // creates the title panel with proper sizes and the proper background image
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
-                //image.paintIcon(this, g, 0, 0);
                 g.drawImage(image.getImage(), 0, 0, getWidth(), getHeight(), null);
             }
         };
@@ -48,10 +47,10 @@ public class View extends Model{ // View class to create everything the user see
 		loadgame.addActionListener(new Model(game_panel, developer_mode));
 		
 		start_game.setBounds(113, 500, 125, 40); // sets where the button goes as well as the height and width (on the start screen all are located in a line on the bottom of the screen)
-		instructions_title.setBounds(248, 500, 125, 40);
-		developer.setBounds(383, 500, 125, 40);
-		exit_title.setBounds(518, 500, 125, 40);
-		loadgame.setBounds(653, 500, 125, 40);
+		instructions_title.setBounds(383, 500, 125, 40);
+		developer.setBounds(518, 500, 125, 40);
+		exit_title.setBounds(653, 500, 125, 40);
+		loadgame.setBounds(248, 500, 125, 40);
 		
 		title_panel.add(start_game); // puts the button on the screen
 		title_panel.add(instructions_title);	
@@ -113,7 +112,7 @@ public class View extends Model{ // View class to create everything the user see
 			   redDisk = new JLabel (redimage),
 			   playerVSplayermode = new JLabel ("PvP Mode"); // a label in the bottom left corner to show that the user is in player vs player mode
 		
-		mainmenu.addActionListener(new Model()); // adds listerners for the buttons
+		mainmenu.addActionListener(new Model()); // adds listeners for the buttons
 		instructions_game.addActionListener(new Model());
 		exit.addActionListener(new Model());
 		save.addActionListener(new Model());
@@ -127,10 +126,10 @@ public class View extends Model{ // View class to create everything the user see
 		save.setBounds(798, 320, 93, 40);
 		save.setMargin(new Insets(0,0,0,0));
 		
-		blueDisk.setBounds(0, 0, 95, 99); // sets the location of the blue and red disk in the top right/lef of the screen
+		blueDisk.setBounds(0, 0, 95, 99); // sets the location of the blue and red disk in the top right/left of the screen
 		redDisk.setBounds(798, 0, 95, 99);
 		playerVSplayermode.setBounds(1, 520, 96, 40);
-		playerVSplayermode.setHorizontalAlignment(SwingConstants.CENTER); // centres the text of the PvP label (defaulted to LEFT)
+		playerVSplayermode.setHorizontalAlignment(SwingConstants.CENTER); // centers the text of the PvP label (defaulted to LEFT)
 		playerVSplayermode.setOpaque(true); // for esthetics 
 		playerVSplayermode.setForeground(new Color (200, 0, 0)); // colours
 		playerVSplayermode.setBackground(new Color (0, 0, 0, 50));
@@ -150,7 +149,7 @@ public class View extends Model{ // View class to create everything the user see
 	
 	@SuppressWarnings("serial")
 	void developerScreen () throws IOException{ // panel for dev mode that sets up the board in a slight different way than a normal game
-		final ImageIcon image = new ImageIcon(getClass().getResource("/gameScreen.png")); // image for the yellow 7 x 6 board itself + beautiful (jake) har(d)wood finish
+		final ImageIcon image = new ImageIcon(getClass().getResource("/gameScreen.png")); // image for the yellow 7 x 6 board itself
 		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the picture for the blue disk
 		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png")); // same for the red disk
 		
@@ -191,7 +190,7 @@ public class View extends Model{ // View class to create everything the user see
 		blueDisk.setBounds(0, 0, 95, 99);
 		redDisk.setBounds(798, 0, 95, 99);
 		devmode.setBounds(1, 520, 96, 40);
-		devmode.setHorizontalAlignment(SwingConstants.CENTER); // centres the text of the dev mode label (defaulted to LEFT)
+		devmode.setHorizontalAlignment(SwingConstants.CENTER); // Centers the text of the dev mode label (defaulted to LEFT)
 		devmode.setOpaque(true); // for esthetics 
 		devmode.setForeground(new Color (200, 0, 0)); // colours
 		devmode.setBackground(new Color (0, 0, 0, 50));
