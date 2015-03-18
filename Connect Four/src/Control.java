@@ -43,7 +43,7 @@ public class Control extends View{ // a class to determines what happens when th
 	
 	private void blueDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ // method for placing a blue disk
 		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
-		final ImageIcon blueimagewin = new ImageIcon(getClass().getResource("/Reddisk.png")); // loads in the image
+		final ImageIcon blueimagewin = new ImageIcon(getClass().getResource("/BlueWin.png")); // loads in the image
 		if(gamewin == true)
 			blueDisk[x/99][y/95].setIcon(blueimagewin);
 		else
@@ -67,7 +67,7 @@ public class Control extends View{ // a class to determines what happens when th
 	
 	private void redDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ //  same as the above method but for the red disk
 		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));		
-		final ImageIcon redimagewin = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
+		final ImageIcon redimagewin = new ImageIcon(getClass().getResource("/RedWin.png")); // loads in the image
 		if(gamewin == true)
 			blueDisk[x/99][y/95].setIcon(redimagewin);
 		else
