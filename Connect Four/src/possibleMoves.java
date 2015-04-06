@@ -21,9 +21,6 @@ public class possibleMoves{
 	//}
 	 public void go() throws IOException {
 	     	int bo[][] = new int [6][7];
-	     	//int rowcount =0;
-	     	//int colcount = 0;
-	     	System.out.println("Test");
 	     	int c[] = new int [7];
 		 	int switcher[][] = Control.getCoordinates();
 		 	for (int x = 0; x<7;x++){
@@ -32,7 +29,6 @@ public class possibleMoves{
 		 		}
 		 		
 		 	}
-	       // System.out.println(switcher[0][0]+"c0");
 
 		 	
 		 	
@@ -70,220 +66,112 @@ public class possibleMoves{
 	            
 	            
 	            if ((col>=3) 
-	                && (bo[row][col-1] == me)
-	                && (bo[row][col-2] == me)
-	                && (bo[row][col-3] == me))
-	                h[i]=h[i]+16;
-	            //right
-	            if ((col<=3) 
-	                && (bo[row][col+1] == me)
-	                && (bo[row][col+2] == me)
-	                && (bo[row][col+3] == me))
-	                h[i]=h[i]+16;
-	            //check y direction
-	            if ((row<=2) 
-	                && (bo[row+1][col] == me)
-	                && (bo[row+2][col] == me)
-	                && (bo[row+3][col] == me))
-	                h[i]=h[i]+16;
-	            //check left diagonal
-	            if ((col>=3) && (row<=2)
-	                && (bo[row+1][col-1] == me)
-	                && (bo[row+2][col-2] == me)
-	                && (bo[row+3][col-3] == me))
-	                h[i]=h[i]+16;
-	            
-	            if ((col<=3) && (row<=2)
-	                && (bo[row+1][col+1] == me)
-	                && (bo[row+2][col+2] == me)
-	                && (bo[row+3][col+3] == me))
-	                h[i]=h[i]+16;
-	            
-	            if ((col>=3) && (row>=3)
-	                && (bo[row-1][col-1] == me)
-	                && (bo[row-2][col-2] == me)
-	                && (bo[row-3][col-3] == me))
-	                h[i]=h[i]+16;
-	            
-	            if ((col<=3) && (row>=3)
-	                && (bo[row-1][col+1] == me)
-	                && (bo[row-2][col+2] == me)
-	                && (bo[row-3][col+3] == me))
-	                h[i]=h[i]+16;
-	            
-	            if ((col>=2) 
-	                && (bo[row][col-1] == me)
-	                && (bo[row][col-2] == me))
-	                h[i]=h[i]+4;
-	            //right
-	            if ((col<=4) 
-	                && (bo[row][col+1] == me)
-	                && (bo[row][col+2] == me))
-	                h[i]=h[i]+4;
-	            //check y direction
-	            if ((row<=3) 
-	                && (bo[row+1][col] == me)
-	                && (bo[row+2][col] == me))
-	                h[i]=h[i]+4;
-	            //check left diagonal
-	            if ((col>=2) && (row<=3)
-	                && (bo[row+1][col-1] == me)
-	                && (bo[row+2][col-2] == me))
-	                h[i]=h[i]+4;
-	            
-	            if ((col<=4) && (row<=3)
-	                && (bo[row+1][col+1] == me)
-	                && (bo[row+2][col+2] == me))
-	                h[i]=h[i]+4;
-	            
-	            if ((col>=2) && (row>=2)
-	                && (bo[row-1][col-1] == me)
-	                && (bo[row-2][col-2] == me))
-	                h[i]=h[i]+4;
-	            
-	            if ((col<=4) && (row>=2)
-	                && (bo[row-1][col+1] == me)
-	                && (bo[row-2][col+2] == me))
-	                h[i]=h[i]+4;
-	            
-	            if ((col>=1) 
-	                && (bo[row][col-1] == me))
-	                h[i]=h[i]+2;
-	            //right
-	            
-	            if ((col<=5) 
-	                && (bo[row][col+1] == me))
-	                h[i]=h[i]+2;
-	            //check y direction
-	            if ((row<=4) 
-	                && (bo[row+1][col] == me))
-	                h[i]=h[i]+2;
-	            //check left diagonal
-	            if ((col>=1) && (row<=4)
-	                && (bo[row+1][col-1] == me))
-	                h[i]=h[i]+2;
-	            
-	            if ((col<=5) && (row<=4)
-	                && (bo[row+1][col+1] == me))
-	                h[i]=h[i]+2;
-	            
-	            if ((col>=1) && (row>=1)
-	                && (bo[row-1][col-1] == me))
-	                h[i]=h[i]+2;
-	            
-	            if ((col<=5) && (row>=1)
-	                && (bo[row-1][col+1] == me))
-	                h[i]=h[i]+2;
-	            
-	            //check x direction.
-	            //left
-	            if ((col>=3) 
-	                && (bo[row][col-1] == oppo)
-	                && (bo[row][col-2] == oppo)
-	                && (bo[row][col-3] == oppo))
-	                h[i]=h[i]+8;
-	            //right
-	            if ((col<=3) 
-	                && (bo[row][col+1] == oppo)
-	                && (bo[row][col+2] == oppo)
-	                && (bo[row][col+3] == oppo))
-	                h[i]=h[i]+8;
-	            //check y direction
-	            if ((row<=2) 
-	                && (bo[row+1][col] == oppo)
-	                && (bo[row+2][col] == oppo)
-	                && (bo[row+3][col] == oppo))
-	                h[i]=h[i]+8;
-	            //check left diagonal
-	            if ((col>=3) && (row<=2)
-	                && (bo[row+1][col-1] == oppo)
-	                && (bo[row+2][col-2] == oppo)
-	                && (bo[row+3][col-3] == oppo))
-	                h[i]=h[i]+8;
-	            
-	            if ((col<=3) && (row<=2)
-	                && (bo[row+1][col+1] == oppo)
-	                && (bo[row+2][col+2] == oppo)
-	                && (bo[row+3][col+3] == oppo))
-	                h[i]=h[i]+8;
-	            
-	            if ((col>=3) && (row>=3)
-	                && (bo[row-1][col-1] == oppo)
-	                && (bo[row-2][col-2] == oppo)
-	                && (bo[row-3][col-3] == oppo))
-	                h[i]=h[i]+8;
-	            
-	            if ((col<=3) && (row>=3)
-	                && (bo[row-1][col+1] == oppo)
-	                && (bo[row-2][col+2] == oppo)
-	                && (bo[row-3][col+3] == oppo))
-	                h[i]=h[i]+8;
-	            
-	            if ((col>=2) 
-	                && (bo[row][col-1] == oppo)
-	                && (bo[row][col-2] == oppo))
-	                h[i]=h[i]+4;
-	            //right
-	            if ((col<=4) 
-	                && (bo[row][col+1] == oppo)
-	                && (bo[row][col+2] == oppo))
-	                h[i]=h[i]+4;
-	            //check y direction
-	            if ((row<=3) 
-	                && (bo[row+1][col] == oppo)
-	                && (bo[row+2][col] == oppo))
-	                h[i]=h[i]+4;
-	            //check left diagonal
-	            if ((col>=2) && (row<=3)
-	                && (bo[row+1][col-1] == oppo)
-	                && (bo[row+2][col-2] == oppo))
-	                h[i]=h[i]+4;
-	            
-	            if ((col<=4) && (row<=3)
-	                && (bo[row+1][col+1] == oppo)
-	                && (bo[row+2][col+2] == oppo))
-	                h[i]=h[i]+4;
-	            
-	            if ((col>=2) && (row>=2)
-	                && (bo[row-1][col-1] == oppo)
-	                && (bo[row-2][col-2] == oppo))
-	                h[i]=h[i]+4;
-	            
-	            if ((col<=4) && (row>=2)
-	                && (bo[row-1][col+1] == oppo)
-	                && (bo[row-2][col+2] == oppo))
-	                h[i]=h[i]+4;
-	            
-	            if ((col>=1) 
-	                && (bo[row][col-1] == oppo))
-	                h[i]=h[i]+2;
-	            //right
-	            
-	            if ((col<=5) 
-	                && (bo[row][col+1] == oppo))
-	                h[i]=h[i]+2;
-	            //check y direction
-	            if ((row<=4) 
-	                && (bo[row+1][col] == oppo))
-	                h[i]=h[i]+2;
-	            //check left diagonal
-	            if ((col>=1) && (row<=4)
-	                && (bo[row+1][col-1] == oppo))
-	                h[i]=h[i]+2;
-	            
-	            if ((col<=5) && (row<=4)
-	                && (bo[row+1][col+1] == oppo))
-	                h[i]=h[i]+2;
-	            
-	            if ((col>=1) && (row>=1)
-	                && (bo[row-1][col-1] == oppo))
-	                h[i]=h[i]+2;
-	            
-	            if ((col<=5) && (row>=1)
-	                && (bo[row-1][col+1] == oppo))
-	                h[i]=h[i]+2;            
-	          }              
-	        }
+	                    && (bo[row][col-1] == oppo)
+	                    && (bo[row][col-2] == oppo)
+	                    && (bo[row][col-3] == oppo))
+	                    h[i]=h[i]+8;
+	                //right
+	                if ((col<=3) 
+	                    && (bo[row][col+1] == oppo)
+	                    && (bo[row][col+2] == oppo)
+	                    && (bo[row][col+3] == oppo))
+	                    h[i]=h[i]+8;
+	                //check y direction
+	                if ((row<=2) 
+	                    && (bo[row+1][col] == oppo)
+	                    && (bo[row+2][col] == oppo)
+	                    && (bo[row+3][col] == oppo))
+	                    h[i]=h[i]+8;
+	                //check left diagonal
+	                if ((col>=3) && (row<=2)
+	                    && (bo[row+1][col-1] == oppo)
+	                    && (bo[row+2][col-2] == oppo)
+	                    && (bo[row+3][col-3] == oppo))
+	                    h[i]=h[i]+8;
+	                
+	                if ((col<=3) && (row<=2)
+	                    && (bo[row+1][col+1] == oppo)
+	                    && (bo[row+2][col+2] == oppo)
+	                    && (bo[row+3][col+3] == oppo))
+	                    h[i]=h[i]+8;
+	                
+	                if ((col>=3) && (row>=3)
+	                    && (bo[row-1][col-1] == oppo)
+	                    && (bo[row-2][col-2] == oppo)
+	                    && (bo[row-3][col-3] == oppo))
+	                    h[i]=h[i]+8;
+	                
+	                if ((col<=3) && (row>=3)
+	                    && (bo[row-1][col+1] == oppo)
+	                    && (bo[row-2][col+2] == oppo)
+	                    && (bo[row-3][col+3] == oppo))
+	                    h[i]=h[i]+8;
+	                
+	                if ((col>=2) 
+	                    && (bo[row][col-1] == oppo)
+	                    && (bo[row][col-2] == oppo))
+	                    h[i]=h[i]+4;
+	                //right
+	                if ((col<=4) 
+	                    && (bo[row][col+1] == oppo)
+	                    && (bo[row][col+2] == oppo))
+	                    h[i]=h[i]+4;
+	                //check y direction
+	                if ((row<=3) 
+	                    && (bo[row+1][col] == oppo)
+	                    && (bo[row+2][col] == oppo))
+	                    h[i]=h[i]+4;
+	                //check left diagonal
+	                if ((col>=2) && (row<=3)
+	                    && (bo[row+1][col-1] == oppo)
+	                    && (bo[row+2][col-2] == oppo))
+	                    h[i]=h[i]+4;
+	                
+	                if ((col<=4) && (row<=3)
+	                    && (bo[row+1][col+1] == oppo)
+	                    && (bo[row+2][col+2] == oppo))
+	                    h[i]=h[i]+4;
+	                
+	                if ((col>=2) && (row>=2)
+	                    && (bo[row-1][col-1] == oppo)
+	                    && (bo[row-2][col-2] == oppo))
+	                    h[i]=h[i]+4;
+	                
+	                if ((col<=4) && (row>=2)
+	                    && (bo[row-1][col+1] == oppo)
+	                    && (bo[row-2][col+2] == oppo))
+	                    h[i]=h[i]+4;
+	                
+	                if ((col>=1) 
+	                    && (bo[row][col-1] == oppo))
+	                    h[i]=h[i]+2;
+	                //right
+	                
+	                if ((col<=5) 
+	                    && (bo[row][col+1] == oppo))
+	                    h[i]=h[i]+2;
+	                //check y direction
+	                if ((row<=4) 
+	                    && (bo[row+1][col] == oppo))
+	                    h[i]=h[i]+2;
+	                //check left diagonal
+	                if ((col>=1) && (row<=4)
+	                    && (bo[row+1][col-1] == oppo))
+	                    h[i]=h[i]+2;
+	                
+	                if ((col<=5) && (row<=4)
+	                    && (bo[row+1][col+1] == oppo))
+	                    h[i]=h[i]+2;
+	                
+	                if ((col>=1) && (row>=1)
+	                    && (bo[row-1][col-1] == oppo))
+	                    h[i]=h[i]+2;
+	                
+	                if ((col<=5) && (row>=1)
+	                    && (bo[row-1][col+1] == oppo))
+	                    h[i]=h[i]+2;   
+	              }              
+	            }
 	        int max = 0;
 	        int mm = 3;
 	        int sum = 0;
@@ -315,6 +203,7 @@ public class possibleMoves{
 	        System.out.println(mm+"chosen move");
 	        Control test = new Control();
 	        test.redDisk(mm*99, c[mm]*95,this.panel, false);
+	        Control.check_disk[mm][c[mm]]=true;
 	       // b.Move(mm,3,b);
 	       // System.out.print(b + "21312321312");
 	        
