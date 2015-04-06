@@ -33,16 +33,6 @@ public class Control extends View{ // a class to determines what happens when th
 	private boolean wrongFormat = false; // used to see if the users names are in the correct format
 	private static JLabel p1 = new JLabel(); // label for player 1
 	private static JLabel p2 = new JLabel(); // player 2
-	//possibleMoves player3 = new possibleMoves();
-	//public static JPanel panel;
-/*    public int[][] loc = new int[6][7];
-    public  int next_player=3;
-    public int[] cols = new int[7];
-    public int m_x=0;
-    public int m_y=0;
-    public boolean out = true;
-    public String movelist = "test";*/
-    //currentBoard b = new currentBoard();
 	public static int[][] getCoordinates(){
 		return coordinates;
 		
@@ -112,17 +102,7 @@ public class Control extends View{ // a class to determines what happens when th
 			wrongFormat = true; // if this is true, the program will go back to the title screen
 		}
 		nameOnScreen(panel);
-/*	    currentBoard b = new currentBoard();
-	    b.movelist="";
-	    b.loc= new int [6][7];
-	    b.clear();
-	    b.next_player =2;
-	    b.cols = new int [7];
-	    b.m_x = 0;
-	    b.m_y=0;*/
-	   
-	    
-	    
+
 	}
 	
 	private void playerNameSet(JPanel panel){ // method for setting the names of the players before the game starts
@@ -482,7 +462,7 @@ public class Control extends View{ // a class to determines what happens when th
 			}catch(Exception ee){} // Nothing happens if the user decides not to load a file
 				
 		}
-		else if(e.getActionCommand().equals("Single Player Game")){
+		else if(e.getActionCommand().equals("Single Player")){
 			gameScreen();
 			panel = game_panel;
 			Model.single_player = true;
@@ -765,7 +745,7 @@ public class Control extends View{ // a class to determines what happens when th
 							card_layout.removeLayoutComponent(panel);
 						}
 						
-						p2.setOpaque(false); // below three lines highlight which players turn it is
+						p2.setOpaque(false); //after the user places his piece the AI takes over and will automaticaly place one right away then wait for user to click again
 						p1.setOpaque(true);
 						p1.setBackground(new Color (0, 0, 0, 100));
 						player3.AI();
@@ -773,9 +753,9 @@ public class Control extends View{ // a class to determines what happens when th
 							for (int n = 0; n < 4; n++){
 
 									redDisk(winpoints[n][0]*99, winpoints[n][1]*95, panel, true);
-									winner = "the computer has won you suck dickkkkkkk baddie";
+									winner = "YOU LOSE";
 									}
-							JOptionPane.showMessageDialog(main_frame,  winner + " has connected 4 and won the game!"); // shows the winner
+							JOptionPane.showMessageDialog(main_frame,  winner ); // shows the winner
 							card_layout.show(deck_panel, "TitlePanel");
 							for (int iy = 0; iy < 6; iy++){
 								for (int ix = 0; ix < 7; ix++){

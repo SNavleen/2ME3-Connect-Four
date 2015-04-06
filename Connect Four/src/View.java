@@ -35,7 +35,7 @@ public class View extends Model{ // View class to create everything the user see
 		title_panel.setLayout(null); // sets the layout to null so certain buttons can have a set bounds instead of the java default
 		
 		JButton start_game = new JButton("Start Game"), // buttons for title screen
-				single_player = new JButton("Single Player Game"), 
+				single_player = new JButton("Single Player"), 
 
 				instructions_title = new JButton("Instructions"), 
 				exit_title = new JButton("Exit"),
@@ -49,12 +49,12 @@ public class View extends Model{ // View class to create everything the user see
 		exit_title.addActionListener(new Model());
 		loadgame.addActionListener(new Model(game_panel, developer_mode,single_player2));
 		
-		start_game.setBounds(113, 500, 125, 40); // sets where the button goes as well as the height and width (on the start screen all are located in a line on the bottom of the screen)
-		single_player.setBounds(100,100,100,100);
-		instructions_title.setBounds(383, 500, 125, 40);
-		developer.setBounds(518, 500, 125, 40);
-		exit_title.setBounds(653, 500, 125, 40);
-		loadgame.setBounds(248, 500, 125, 40);
+		 start_game.setBounds(43, 500, 125, 40); // sets where the button goes as well as the height and width (on the start screen all are located in a line on the bottom of the screen)
+		  single_player.setBounds(183, 500, 130, 40);
+		  loadgame.setBounds(323, 500, 125, 40);
+		  instructions_title.setBounds(458, 500, 125, 40);
+		  developer.setBounds(593, 500, 125, 40);
+		  exit_title.setBounds(728, 500, 125, 40);
 		
 		title_panel.add(start_game); // puts the button on the screen
 		title_panel.add(single_player); // puts the button on the screen
