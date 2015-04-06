@@ -32,28 +32,29 @@ public class possibleMoves{
 		 		}
 		 		
 		 	}
-	        System.out.println(switcher[0][0]+"c0");
+	       // System.out.println(switcher[0][0]+"c0");
 
 		 	
 		 	
-		 	for(int i =0; i <6;i++){
-		 		for(int j=0;j<7;j++){
-			 		if (bo[i][j]==0 || bo[i][j]==0){
-			 			c[i]=i;
+		 	for(int i =0; i <7;i++){
+		 		for(int j=0;j<6;j++){
+			 		if (bo[j][i]==0){
+			 			c[i]=j;
+			 			break;
 			 		}
 
 		 		}
 		 	}
-	        System.out.println(c[0]+"c0");
+/*	        System.out.println(c[0]+"c0");
 	        System.out.println(c[1]+"c1");
 	        System.out.println(c[2]+"c2"); 
 	        System.out.println(c[3]+"c3");
 	        System.out.println(c[4]+"c4");
 	        System.out.println(c[5]+"c5");
-	        System.out.println(c[6]+"c6");
+	        System.out.println(c[6]+"c6");*/
 		 
-	        int me = -1;
-	        int oppo = 1;
+	        int me = 1;
+	        int oppo = -1;
 	        
 	        int[] h= new int[7];
 	        for (int i = 0; i < 7; i++){
@@ -290,16 +291,26 @@ public class possibleMoves{
 	            if (h[i]>max) {max=h[i]; mm=i;}
 	            sum= sum+h[i];
 	        }
-	        int[][] tester = Control.getCoordinates();
+		 	System.out.println(max+"max");
+		 	System.out.println(h[0]+"0");
+		 	System.out.println(h[1]+"1");
+		 	System.out.println(h[2]+"2");
+		 	System.out.println(h[3]+"3");
+		 	System.out.println(h[4]+"4");
+		 	System.out.println(h[5]+"5");
+		 	System.out.println(h[6]+"6");
+		 	System.out.println(sum+"sum");
+
 		 	for(int i =0; i <7;i++){
 		 		for(int j=0;j<6;j++){
-			 		if (tester[i][j]==1 || bo[i][j]==-1){
-			 			c[i]=j-1;
+			 		if (bo[j][i]==0){
+			 			c[i]=Math.abs(j-5);
+			 			break;
 			 		}
 
 		 		}
 		 	}
-		 
+		 	
 	        if (sum==0) mm = (int) (Math.random()*7);
 	        System.out.println(mm+"chosen move");
 	        Control test = new Control();

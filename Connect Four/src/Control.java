@@ -143,9 +143,7 @@ public class Control extends View{ // a class to determines what happens when th
 		nameOnScreen(panel);
 
 	}
-	private void MinMaxDecision(){
-		
-	}
+
 	private void nameOnScreen(JPanel panel){
 		p1.setBounds(3, 110, 93, 40); // sets the location of the name label
 		p1.setHorizontalAlignment(SwingConstants.CENTER); // centers the text
@@ -493,7 +491,8 @@ public class Control extends View{ // a class to determines what happens when th
 					}
 				}
 				card_layout.show(deck_panel, "GamePanel"); // shows the game panel
-				
+				possibleMoves player3 = new possibleMoves(panel);
+
 				if (mouseClick % 2 == 0){ // determines which player is going to move first
 					p1.setOpaque(true); // sets label background
 					p1.setBackground(new Color (0, 0, 0, 100));
@@ -512,9 +511,7 @@ public class Control extends View{ // a class to determines what happens when th
 							"Random selection has chosen the computer to move first. After this the turns will alternate.",
 							"First Move",
 							JOptionPane.WARNING_MESSAGE);
-						//possibleMoves player2 = new possibleMoves();
-						//player2.go("");
-						//player2.Move(0, null);
+							player3.go();
 
 				}	
 			}
@@ -688,29 +685,7 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 			}
 		}
-	public void redDisk2(int x, int y, JPanel panel, boolean gamewin) throws IOException{ //  same as the above method but for the red disk
-		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));		
-		final ImageIcon redimagewin = new ImageIcon(getClass().getResource("/RedWin.png")); // loads in the image
-		if(gamewin == true) // checks if the game has been won, used for changing the disk labels to show which combination has won
-			redDisk[x/99][y/95].setIcon(redimagewin); // same as above with over writing the appropriate labels 
-		else
-			redDisk[x/99][y/95].setIcon(redimage);
-		redDisk[x/99][y/95].setBounds(102+(x), 2+(y), 93, 93);
-		panel.add(redDisk[x/99][y/95]);	
-		
-		if (Control.dev_mode == false){
-			card_layout.show(deck_panel, "GamePanel");
-		}
-		
-		else{
-			card_layout.show(deck_panel, "DeveloperPanel");
-		}
-		
-		Control.coordinates[x/99][y/95] = -1;
-		main_frame.repaint();
-		main_frame.validate();
-		
-	}
+
 
 
 	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model, boolean single_player){ // used for determining location of mouse click
@@ -750,7 +725,6 @@ public class Control extends View{ // a class to determines what happens when th
 				setY(-5);
 			
 			if (Model.single_player == true){
-				//possibleMoves player3 = new possibleMoves(panel);
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){ // makes sure a disk is not in the position
 					Model.check_disk[Disk.getX()][Disk.getY()] = true;
 
@@ -763,24 +737,58 @@ public class Control extends View{ // a class to determines what happens when th
 						else{ // breaks if a disk is already there
 							break;
 						}
+					
 					}
-					if(mouseClick%2==0){ // places the actual disk depending on who's turn it is
 						p1.setOpaque(false); // below three lines highlight which players turn it is
 						p2.setOpaque(true);
 						p2.setBackground(new Color (0, 0, 0, 100));
 						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel, false);
-						//winner = player1name;
-						mouseClick++;
+						if (win() == true){ // when a player has connect 4
 
-					}
-					else{
+							for (int j = 0; j < 4; j++){
+									winner = player1name;
+									blueDisk(winpoints[j][0]*99, winpoints[j][1]*95, panel, true);
+
+								}
+							JOptionPane.showMessageDialog(main_frame,  winner + " has connected 4 and won the game!"); // shows the winner
+							card_layout.show(deck_panel, "TitlePanel");
+							for (int iy = 0; iy < 6; iy++){
+								for (int ix = 0; ix < 7; ix++){
+									Control.coordinates[ix][iy] = 0;
+									View.check_disk[ix][iy] = false;
+								}
+							}
+							card_layout.removeLayoutComponent(panel);
+						}
+						
 						p2.setOpaque(false); // below three lines highlight which players turn it is
 						p1.setOpaque(true);
 						p1.setBackground(new Color (0, 0, 0, 100));
-						mouseClick++;
 						player3.go();
-					}
-					//mouseClick++; // increments mouse click
+						if (win() == true){ // when a player has connect 4
+							for (int n = 0; n < 4; n++){
+
+									redDisk(winpoints[n][0]*99, winpoints[n][1]*95, panel, true);
+									winner = "the computer has won you suck dickkkkkkk baddie";
+									}
+							JOptionPane.showMessageDialog(main_frame,  winner + " has connected 4 and won the game!"); // shows the winner
+							card_layout.show(deck_panel, "TitlePanel");
+							for (int iy = 0; iy < 6; iy++){
+								for (int ix = 0; ix < 7; ix++){
+									Control.coordinates[ix][iy] = 0;
+									View.check_disk[ix][iy] = false;
+								}
+							}
+							card_layout.removeLayoutComponent(panel);
+						}
+					
+				}
+
+				if(noMoreMoves() == true){ // checking each time if the game is a draw
+					JOptionPane.showMessageDialog(main_frame, "No more winning combinations can be made. The game is a draw!");
+					card_layout.show(deck_panel, "TitlePanel");
+					card_layout.removeLayoutComponent(panel);
+					
 				}
 			}
 			else if (Model.dev_mode == false&&single_player == false){ // if the game is not in dev mode
