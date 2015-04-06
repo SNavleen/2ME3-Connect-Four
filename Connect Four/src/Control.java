@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Random;
+
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -32,8 +33,20 @@ public class Control extends View{ // a class to determines what happens when th
 	private boolean wrongFormat = false; // used to see if the users names are in the correct format
 	private static JLabel p1 = new JLabel(); // label for player 1
 	private static JLabel p2 = new JLabel(); // player 2
-	
-	
+	//possibleMoves player3 = new possibleMoves();
+	//public static JPanel panel;
+/*    public int[][] loc = new int[6][7];
+    public  int next_player=3;
+    public int[] cols = new int[7];
+    public int m_x=0;
+    public int m_y=0;
+    public boolean out = true;
+    public String movelist = "test";*/
+    //currentBoard b = new currentBoard();
+	public static int[][] getCoordinates(){
+		return coordinates;
+		
+	}
 	private void blueDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ // method for placing a blue disk
 		final ImageIcon blueimage = new ImageIcon(getClass().getResource("/Bluedisk.png")); // loads in the image
 		final ImageIcon blueimagewin = new ImageIcon(getClass().getResource("/BlueWin.png")); // loads in the image
@@ -58,7 +71,7 @@ public class Control extends View{ // a class to determines what happens when th
 		main_frame.validate(); // insure that the frame has repainted correctly
 	}
 	
-	private void redDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ //  same as the above method but for the red disk
+	public void redDisk(int x, int y, JPanel panel, boolean gamewin) throws IOException{ //  same as the above method but for the red disk
 		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));		
 		final ImageIcon redimagewin = new ImageIcon(getClass().getResource("/RedWin.png")); // loads in the image
 		if(gamewin == true) // checks if the game has been won, used for changing the disk labels to show which combination has won
@@ -79,6 +92,33 @@ public class Control extends View{ // a class to determines what happens when th
 		Control.coordinates[x/99][y/95] = -1;
 		main_frame.repaint();
 		main_frame.validate();
+	}
+	private void singlePlayerNameSet(JPanel panel){
+		p1.setFont(new Font("Calibri", Font.ITALIC, 25));
+		player1 = JOptionPane.showInputDialog("Please enter Player 1's name: ");
+		Model.player1name = player1;
+		Model.player2name = player2;
+		p2.setText("Computer");
+		p1.setText(player1);
+		if ((player1 == null) || (p1.getText().length() < 1) || (p1.getText().charAt(0) == ' ')) { // simple error check to see if the user inputed a proper name. doesn't check all cases
+			JOptionPane.showMessageDialog(main_frame,
+				    "A players name is not in the correct format!",
+				    "Warning",
+				    JOptionPane.WARNING_MESSAGE); // gives an error pop up to tell the user the name was inputed incorrectly
+			wrongFormat = true; // if this is true, the program will go back to the title screen
+		}
+		nameOnScreen(panel);
+/*	    currentBoard b = new currentBoard();
+	    b.movelist="";
+	    b.loc= new int [6][7];
+	    b.clear();
+	    b.next_player =2;
+	    b.cols = new int [7];
+	    b.m_x = 0;
+	    b.m_y=0;*/
+	   
+	    
+	    
 	}
 	
 	private void playerNameSet(JPanel panel){ // method for setting the names of the players before the game starts
@@ -103,7 +143,9 @@ public class Control extends View{ // a class to determines what happens when th
 		nameOnScreen(panel);
 
 	}
-	
+	private void MinMaxDecision(){
+		
+	}
 	private void nameOnScreen(JPanel panel){
 		p1.setBounds(3, 110, 93, 40); // sets the location of the name label
 		p1.setHorizontalAlignment(SwingConstants.CENTER); // centers the text
@@ -132,6 +174,10 @@ public class Control extends View{ // a class to determines what happens when th
 		}
 		return false; // other wise no pieces are floating and method returns false
 	}
+
+		
+		
+		
 	
 	private boolean win (){ // checks each row, column and diagonal of the board to determine if a winning combination has occurred, outputs true or false
 		int x_counter = 0, // used for checking x coordinates
@@ -347,8 +393,10 @@ public class Control extends View{ // a class to determines what happens when th
 		}
 		return(cood); // returns the array
 	}
+
+    
 	
-	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode) throws Exception{ // the method determines the actions of each click on each button throughout the code
+	void buttonFunction(ActionEvent e, JPanel panel, boolean dev_mode, boolean single_player) throws Exception{ // the method determines the actions of each click on each button throughout the code
 		if (e.getActionCommand().equals("Instructions")){ // if instructions is clicked on the title screen, go to infopanel
 			infoScreen();
 			card_layout.show(deck_panel, "InfoPanel");
@@ -431,6 +479,50 @@ public class Control extends View{ // a class to determines what happens when th
 
 			}catch(Exception ee){} // Nothing happens if the user decides not to load a file
 				
+		}
+		else if(e.getActionCommand().equals("Single Player Game")){
+			gameScreen();
+			panel = game_panel;
+			Model.single_player = true;
+			singlePlayerNameSet(panel);
+			if (wrongFormat == false){ // checks if the formatting of the name is correct
+				for (int ix = 0; ix < 7; ix++){ // if so the board is set up
+					for (int iy = 0; iy < 6; iy++){
+						check_disk[ix][iy] = false;
+						Control.coordinates[ix][iy] = 0;
+					}
+				}
+				card_layout.show(deck_panel, "GamePanel"); // shows the game panel
+				
+				if (mouseClick % 2 == 0){ // determines which player is going to move first
+					p1.setOpaque(true); // sets label background
+					p1.setBackground(new Color (0, 0, 0, 100));
+					JOptionPane.showMessageDialog(main_frame,
+							"Random selection has chosen " + player1 + " to move first. After this the turns will alternate.",
+							"First Move",
+							JOptionPane.WARNING_MESSAGE); // tells the players who is going to move first 
+
+
+				}
+
+				else{ // if player 1 is not moving first
+					p2.setOpaque(true); // sets label background
+					p2.setBackground(new Color (0, 0, 0, 100));
+					JOptionPane.showMessageDialog(main_frame,
+							"Random selection has chosen the computer to move first. After this the turns will alternate.",
+							"First Move",
+							JOptionPane.WARNING_MESSAGE);
+						//possibleMoves player2 = new possibleMoves();
+						//player2.go("");
+						//player2.Move(0, null);
+
+				}	
+			}
+			
+			else{ // if the names are in the wrong format return to main menu
+				card_layout.show(deck_panel, "TitlePanel");
+			}	
+
 		}
 		else if (e.getActionCommand().equals("Start Game") || // if the user wants to play a standard game with dev mode
 				 e.getActionCommand().equals("New Game") ||
@@ -596,11 +688,35 @@ public class Control extends View{ // a class to determines what happens when th
 				}
 			}
 		}
-	
-	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model){ // used for determining location of mouse click
+	public void redDisk2(int x, int y, JPanel panel, boolean gamewin) throws IOException{ //  same as the above method but for the red disk
+		final ImageIcon redimage = new ImageIcon(getClass().getResource("/Reddisk.png"));		
+		final ImageIcon redimagewin = new ImageIcon(getClass().getResource("/RedWin.png")); // loads in the image
+		if(gamewin == true) // checks if the game has been won, used for changing the disk labels to show which combination has won
+			redDisk[x/99][y/95].setIcon(redimagewin); // same as above with over writing the appropriate labels 
+		else
+			redDisk[x/99][y/95].setIcon(redimage);
+		redDisk[x/99][y/95].setBounds(102+(x), 2+(y), 93, 93);
+		panel.add(redDisk[x/99][y/95]);	
+		
+		if (Control.dev_mode == false){
+			card_layout.show(deck_panel, "GamePanel");
+		}
+		
+		else{
+			card_layout.show(deck_panel, "DeveloperPanel");
+		}
+		
+		Control.coordinates[x/99][y/95] = -1;
+		main_frame.repaint();
+		main_frame.validate();
+		
+	}
+
+
+	void mouseFunction(MouseEvent e, JPanel panel, boolean dev_model, boolean single_player){ // used for determining location of mouse click
 		try{
 			int pointX = e.getX(), pointY = e.getY(); // gets the X/Y grid coordinates
-
+			possibleMoves player3 = new possibleMoves(panel);
 			if (pointX <= 199  && pointX >= 100)  // the below if statements to see where the mouse click was and return a grid coordinate depending on the click
 				setX(0);
 			else if (pointX <= 299  && pointX >= 200)
@@ -633,11 +749,45 @@ public class Control extends View{ // a class to determines what happens when th
 			else
 				setY(-5);
 			
-			if (Model.dev_mode == false){ // if the game is not in dev mode
+			if (Model.single_player == true){
+				//possibleMoves player3 = new possibleMoves(panel);
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){ // makes sure a disk is not in the position
 					Model.check_disk[Disk.getX()][Disk.getY()] = true;
 
-					for(int i = Disk.getY()+1; i < 6; i++){ // checking to see if a dish is in the position
+					for(int i = Disk.getY()+1; i < 6; i++){ // checking to see if a disk is in the position
+						if (Model.check_disk[Disk.getX()][i] == false){
+							Model.check_disk[Disk.getX()][Disk.getY()] = false;
+							setY(i);
+							Model.check_disk[Disk.getX()][Disk.getY()] = true;
+						}
+						else{ // breaks if a disk is already there
+							break;
+						}
+					}
+					if(mouseClick%2==0){ // places the actual disk depending on who's turn it is
+						p1.setOpaque(false); // below three lines highlight which players turn it is
+						p2.setOpaque(true);
+						p2.setBackground(new Color (0, 0, 0, 100));
+						blueDisk((Disk.getX())*99, (Disk.getY())*95, panel, false);
+						//winner = player1name;
+						mouseClick++;
+
+					}
+					else{
+						p2.setOpaque(false); // below three lines highlight which players turn it is
+						p1.setOpaque(true);
+						p1.setBackground(new Color (0, 0, 0, 100));
+						mouseClick++;
+						player3.go();
+					}
+					//mouseClick++; // increments mouse click
+				}
+			}
+			else if (Model.dev_mode == false&&single_player == false){ // if the game is not in dev mode
+				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){ // makes sure a disk is not in the position
+					Model.check_disk[Disk.getX()][Disk.getY()] = true;
+
+					for(int i = Disk.getY()+1; i < 6; i++){ // checking to see if a disk is in the position
 						if (Model.check_disk[Disk.getX()][i] == false){
 							Model.check_disk[Disk.getX()][Disk.getY()] = false;
 							setY(i);
@@ -690,7 +840,7 @@ public class Control extends View{ // a class to determines what happens when th
 					card_layout.removeLayoutComponent(panel);
 				}
 			}
-			else{ // if user is in dev mode, the same happens with different properties (disks don't fall)
+			else if(dev_model == true&& single_player==false){ // if user is in dev mode, the same happens with different properties (disks don't fall)
 				if(Model.check_disk[Disk.getX()][Disk.getY()] != true){
 					Model.check_disk[Disk.getX()][Disk.getY()] = true;
 						

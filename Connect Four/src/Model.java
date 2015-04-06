@@ -17,6 +17,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -26,8 +27,12 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	private Dimension screen = Toolkit.getDefaultToolkit ().getScreenSize (); // used for finding the dimensions of the users screen
 	private int screen_width = screen.width, screen_height = screen.height; // creates ints for the width and the height
 
-	private JPanel panel; // used in the creation of each panel
+	public JPanel panel; // used in the creation of each panel
 	static boolean dev_mode; // used to determine if the game has to play in developer move or not
+	static boolean single_player; 
+	
+
+
 	
 	static String player1name, player2name;
 	static JLabel blueDisk[][] = new JLabel [7][6], redDisk[][] = new JLabel [7][6];
@@ -40,9 +45,10 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	Model(){ // intializes model so it can be used through the class without being static
 	}
 	
-	Model(JPanel board_panel, boolean developermode){ // used so the program can follow an MVC style 
+	Model(JPanel board_panel, boolean developermode, boolean singleplayer){ // used so the program can follow an MVC style 
 		this.panel = board_panel; // allows it to be used
 		Model.dev_mode = developermode;
+		Model.single_player = singleplayer; 
 	}
 	
 	private void createFrame (JFrame main_frame){ // method to create the actual window with the specified dimensions
@@ -99,14 +105,14 @@ public class Model extends Disk implements ActionListener, MouseListener { // Mo
 	@Override
 	public void mouseReleased(MouseEvent e) { // method to run when the mouse click is released
 		Control call_control = new Control(); // calls the control method which uses view to create the game
-		call_control.mouseFunction(e, panel, dev_mode); // ensure the mouse listeneres and all mouse functions will run when the game is starting
+		call_control.mouseFunction(e, panel, dev_mode,single_player); // ensure the mouse listeneres and all mouse functions will run when the game is starting
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) { // runs if a buttons is used 
 		Control call_control = new Control(); // used in calling the windows
 		try { // try just in case so no runtime errors occur
-			call_control.buttonFunction(e, panel, dev_mode); // calls control and starts the game
+			call_control.buttonFunction(e, panel, dev_mode,single_player); // calls control and starts the game
 		} 
 		
 		catch (Exception e1) { // catch an error

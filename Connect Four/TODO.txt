@@ -1,0 +1,12 @@
+TODO : LIST
+
+1) Add functionality to game board (array of Disks)
+2) Add mouselistener to determine where to place disk
+3) Setup game screen by adding buttons to game screen, also setting up which player plays first (random) (including info page that uses the same methods as start screen button)
+4) Add instructions page + return buttons (completed by hassaan and nalveen)
+5) Add "Setup Board" option, so disks can be placed anywhere, then once start game is pressed errors are checked for, if no errors are found the game will start. also check that there is no win.
+
+
+Optional : 
+- Add sounds
+ 

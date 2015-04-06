@@ -21,7 +21,7 @@ public class View extends Model{ // View class to create everything the user see
 	
 	JPanel game_panel; // the JPanel for the game screen
 	private boolean developer_mode = false; // bool for checking if the user wants to play in dev mode
-
+	private boolean single_player2 = false;
 	@SuppressWarnings("serial")
 	void titleScreen () throws IOException{ // panel for the start screen (main menu with start, instructions and exit buttons)
 		final ImageIcon image = new ImageIcon (getClass().getResource("/StartScreen.png")); // loads in the start screen image      
@@ -35,24 +35,29 @@ public class View extends Model{ // View class to create everything the user see
 		title_panel.setLayout(null); // sets the layout to null so certain buttons can have a set bounds instead of the java default
 		
 		JButton start_game = new JButton("Start Game"), // buttons for title screen
+				single_player = new JButton("Single Player Game"), 
+
 				instructions_title = new JButton("Instructions"), 
 				exit_title = new JButton("Exit"),
 				developer = new JButton ("Developer Mode"),
 				loadgame = new JButton ("Load Game");
 		
-		start_game.addActionListener(new Model(game_panel, developer_mode)); // listers for all the buttons, checking if the user clicks a certain button
+		start_game.addActionListener(new Model(game_panel, developer_mode, single_player2)); // listers for all the buttons, checking if the user clicks a certain button
+		single_player.addActionListener(new Model(game_panel, developer_mode, single_player2));
 		instructions_title.addActionListener(new Control());
-		developer.addActionListener(new Model(game_panel, developer_mode));
+		developer.addActionListener(new Model(game_panel, developer_mode,single_player2));
 		exit_title.addActionListener(new Model());
-		loadgame.addActionListener(new Model(game_panel, developer_mode));
+		loadgame.addActionListener(new Model(game_panel, developer_mode,single_player2));
 		
 		start_game.setBounds(113, 500, 125, 40); // sets where the button goes as well as the height and width (on the start screen all are located in a line on the bottom of the screen)
+		single_player.setBounds(100,100,100,100);
 		instructions_title.setBounds(383, 500, 125, 40);
 		developer.setBounds(518, 500, 125, 40);
 		exit_title.setBounds(653, 500, 125, 40);
 		loadgame.setBounds(248, 500, 125, 40);
 		
 		title_panel.add(start_game); // puts the button on the screen
+		title_panel.add(single_player); // puts the button on the screen
 		title_panel.add(instructions_title);	
 		title_panel.add(developer);
 		title_panel.add(exit_title);
@@ -77,7 +82,7 @@ public class View extends Model{ // View class to create everything the user see
 		JButton back_menu = new JButton("Main Menu"); // creates a button for returning to the main menu
 		
 		back_menu.addActionListener(new Model()); // add a lister for it ^
-		game_resume.addActionListener(new Model(info_panel, developer_mode)); // lister for resume game 
+		game_resume.addActionListener(new Model(info_panel, developer_mode,single_player2)); // lister for resume game 
 		
 		back_menu.setBounds(900-175 , 25, 150, 40); // sets the positions
 		game_resume.setBounds(25 , 25, 150, 40);
@@ -142,7 +147,7 @@ public class View extends Model{ // View class to create everything the user see
 		game_panel.add(redDisk);
 		game_panel.add(playerVSplayermode);
 		
-		game_panel.addMouseListener(new Model(game_panel, developer_mode)); // uses model and implements the mouse listeners
+		game_panel.addMouseListener(new Model(game_panel, developer_mode,single_player2)); // uses model and implements the mouse listeners
 		
 		deck_panel.add(game_panel, "GamePanel"); // adds the game panel to the deck panel
 	}
@@ -204,7 +209,7 @@ public class View extends Model{ // View class to create everything the user see
 		dev_panel.add(redDisk);
 		dev_panel.add(devmode);
 		
-		dev_panel.addMouseListener(new Model(dev_panel, developer_mode)); // uses models listener methods
+		dev_panel.addMouseListener(new Model(dev_panel, developer_mode,single_player2)); // uses models listener methods
 		
 		deck_panel.add(dev_panel, "DeveloperPanel"); // adds to deck panel
 	}
