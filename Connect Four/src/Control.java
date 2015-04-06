@@ -67,6 +67,8 @@ public class Control extends View{ // a class to determines what happens when th
 		}
 		
 		Control.coordinates[x/99][y/95] = 1; // updates the coordinates 1 at the appropriate place to show that a disk is in that position
+		Control.check_disk[x/99][y/95]=true;
+
 		main_frame.repaint(); // repaints the mainframe to update the board
 		main_frame.validate(); // insure that the frame has repainted correctly
 	}
@@ -90,6 +92,8 @@ public class Control extends View{ // a class to determines what happens when th
 		}
 		
 		Control.coordinates[x/99][y/95] = -1;
+		Control.check_disk[x/99][y/95]=true;
+
 		main_frame.repaint();
 		main_frame.validate();
 	}
@@ -511,7 +515,7 @@ public class Control extends View{ // a class to determines what happens when th
 							"Random selection has chosen the computer to move first. After this the turns will alternate.",
 							"First Move",
 							JOptionPane.WARNING_MESSAGE);
-							player3.go();
+							player3.AI();
 
 				}	
 			}
@@ -764,7 +768,7 @@ public class Control extends View{ // a class to determines what happens when th
 						p2.setOpaque(false); // below three lines highlight which players turn it is
 						p1.setOpaque(true);
 						p1.setBackground(new Color (0, 0, 0, 100));
-						player3.go();
+						player3.AI();
 						if (win() == true){ // when a player has connect 4
 							for (int n = 0; n < 4; n++){
 
